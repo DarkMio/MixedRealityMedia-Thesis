@@ -67,6 +67,10 @@
 	bibstyle=alphabetic,%
 ]{cleanthesis}
 
+\usepackage{todonotes}
+\usepackage{listings}
+
+
 \hypersetup{					% setup the hyperref-package options
 	pdftitle={\thesisTitle},	% 	- title (PDF meta)
 	pdfsubject={\thesisSubject},% 	- subject (PDF meta)
@@ -118,12 +122,12 @@
 \setcounter{page}{1}			% set page counter
 \pagestyle{maincontentstyle} 	% fancy header and footer
 
-\input{content/chapter-introduction} % INCLUDE: introduction
-\input{content/chapter-related-work} % INCLUDE: related work
-\input{content/chapter-system}	% INCLUDE: system
+\input{content/chapter-introduction}
+\input{content/chapter-extending-reality}
+\input{content/chapter-system-setup}
 % \input{content/chapter-concepts} % INCLUDE: concepts
 % \input{content/chapter-conclusion} % INCLUDE: conclusion
-% \cleardoublepage
+\cleardoublepage
 
 % --------------------------
 % Back matter
@@ -134,7 +138,7 @@
 \setlength{\biblabelsep}{0pt}
 \setlength{\bibitemsep}{0.5\baselineskip plus 0.5\baselineskip}
 \printbibliography[nottype=online]
-\printbibliography[heading=subbibliography,title={Webseiten},type=online,prefixnumbers={@}]
+\printbibliography[heading=subbibliography,title={Websites},type=online,prefixnumbers={@}]
 }
 \cleardoublepage
 
