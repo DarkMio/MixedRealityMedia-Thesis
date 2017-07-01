@@ -1,0 +1,30 @@
+% !TEX root = ../thesis-example.tex
+%
+\chapter{From Video to Mixed Reality}
+\label{chap:video2mr}
+
+\todo[inline]{Needs better sourcing.}
+
+To achieve a real time rendering environment, as previously mentioned, there 
+are two main production cycles. The one discussed in this thesis resolves this 
+problem by staying inside on application with multiple render cycles per frame. 
+\newline
+The first and foremost render cycle is the stereoscopic output of the Vive HMD, 
+which has a set framerate of either 45 or 90 frames per second. It is important 
+to have a consistent performance, otherwise the experience for the actor with 
+the HMD will have a terrible experience.
+\newline
+The secondary render cycle has to be done on the same frame, which is a virtual 
+camera inside the virtual scene and the relative position of the real world HMD 
+and real world camera. Since the SteamVR library for the HTC Vive already 
+exposes a normalized, synchronized tracking, it is easily possible to position 
+the virtual camera at an accurate location.
+
+The following chapter describes the techniques used to transform motion video 
+inside a greenscreen into a mixed reality image. As brief overview, the steps 
+required are performed in referential order from the motion video from the 
+camera feed. This is different to the render order but gives a better 
+understanding of the techniques used to achieve mixed reality imagery.
+
+\include{content/chapter-video2mr-chromakey}   % Chroma Key Section
+\include{content/chapter-video2mr-bufferdelay} % Render Buffer Swapper

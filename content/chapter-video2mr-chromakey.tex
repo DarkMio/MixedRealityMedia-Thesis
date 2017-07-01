@@ -1,0 +1,240 @@
+\section{Chroma Key}
+
+Beginning from the camera, the video signal travels through the Inogeni 
+converter and is accessible with the system API for webcams. 
+(See figure \ref{fig:system-components})
+
+The initial step is to remove the green background from the image, which should 
+be greenscreen. For a reference green, there has to be a color picked 
+manually in the material editor of Unity - this was made easy by a checkbox to 
+show raw output from the camera. Then a middle-ground green can be 
+picked. This is an important setup step, since lightning situations can vary 
+greatly and minor differences in light setups can have a great effect on the 
+outcome of visible green background captured by the camera.
+\newline
+\subsection{Euclidean RGB Difference}
+Assuming a source pixel color $C_S$ and a reference color $C_R$ we can 
+calculate the euclidean distance between these colors.
+\eq{eq:euclidianrgb}{
+	distance = \sqrt{(C_RR - C_SR)^2 + (C_RG - C_SG)^2 + (C_RB - C_SB)^2}
+}
+
+This is a computationally very low cost and works well enough for tell a 
+difference between two separate colors. It fails to accommodate for colors that 
+are perceived as different, but are tinted by the reference colors. Since the 
+greenscreen will never achieve 0\% reflectivity, some residue of the background 
+color will mix with the filmed actors.
+
+An extreme example case is used for comparing these chroma keying variants:
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/Comparison_Example.png}
+	\caption{Comparison Image - sRGB Output}
+	\label{fig:chroma:color}
+\end{figure}
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/Comparison_RGB_color.png}
+	\caption{Chroma Keying by using euclidean RGB distance}
+	\label{fig:chroma:euclidean:rgb}
+\end{figure}
+
+\subsection{Euclidean YCgCo Difference}
+
+YCgCo stands for Luminance (Y), chrominance green (Cg) and chrominance orange 
+(Co) and helps decorrelating color spaces. Since it is a fast, lossless color 
+transformation it is used in example for H.264 video encoding. The two 
+chrominance channels are then split into green to magenta and orange to blue 
+color values and allow for a more accurate distance calculation between two 
+colors.
+\newline
+Transforming any arbitrary RGB color to YCgCo can done with a single matrix 
+multiplication:
+
+\eq{eq:ycgco:transformation}{
+	\begin{bmatrix}
+		Y \\
+		Cg \\
+		Co \\
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		 \frac{1}{4} && \frac{1}{2} &&  \frac{1}{4} \\
+		-\frac{1}{4} && \frac{1}{2} && -\frac{1}{4} \\
+		 \frac{1}{2} && 0           && -\frac{1}{2}
+	\end{bmatrix}
+	*
+	\begin{bmatrix}
+		R \\
+		G \\
+		B 
+	\end{bmatrix}
+}
+
+Given two colors, one from the video source $C_S$ and a reference color $C_R$ 
+it is now possible to calculate the euclidean distance on the two chrominance 
+channels:
+
+\eq{eq:ycgco:euclidean}{
+	distance = \sqrt{(C_RCg - C_SCg)^2 + (C_RCo - C_SCo)^2}
+}
+
+Since the increased decorrelation, the result is more accurate and shows less 
+artifacting on unwanted pixels.
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/Comparison_YCgCo_color.png}
+	\caption{Chroma Keying by using euclidean RGB distance}
+	\label{fig:chroma:euclidean:ycgco}
+\end{figure}
+
+\subsection{Euclidean Lab Difference}
+The International Color Consortium (ICC) defined 1976 \textit{Lab $\Delta$E} as 
+a standard way of calculating color differences with \textit{Lab} colors. The 
+final distance calculation is the linear euclidean distance as with all other 
+models, but accommodates for perceived color differences.
+
+\todo[inline]{this is very rough and only contains equations currently used}
+
+sRGB conversion to linear RGB in respect of energy per channel:
+
+\eq{chroma:inversecompanding}{
+	v \in \{r, g, b\} \land V \in \{R, G, B\}
+}
+
+where: 
+
+\eq{chroma:inverseRGBcompanding}{
+	v = \\
+	\begin{cases}
+		V / 12.92                   & \quad \text{if } V \leq 0.0405 \\
+		((V + 0.055) / 1.055)^{2.4} & \quad \text{otherwise}
+	\end{cases}
+}
+
+from there l
+
+\eq{chroma:conversioncalc}{
+	\begin{bmatrix}
+		X\\
+		Y\\
+		Z\\
+	\end{bmatrix}
+		=
+	\begin{bmatrix}
+		M
+	\end{bmatrix}
+	\begin{bmatrix}
+		R\\
+		G\\
+		B\\
+	\end{bmatrix}
+}
+
+where:
+
+\eq{chroma:rgbmatrix}{
+	\begin{bmatrix}
+		M
+	\end{bmatrix}
+		=
+	\begin{bmatrix}
+		R X_r && G X_g && B X_b \\
+		R Y_r && G Y_g && B Y_b \\
+		R Z_r && G Z_g && B Z_b
+	\end{bmatrix}
+}
+
+
+\eq{chroma:xyzmatrix}{
+		\begin{bmatrix}
+		X\\
+		Y\\
+		Z\\
+	\end{bmatrix}
+	\begin{bmatrix}
+		M
+	\end{bmatrix}
+	=
+	\begin{pmatrix}
+		X_r / Y_r && X_g / Y_g && X_b / Y_g \\
+		1 && 1 && 1 \\
+		\frac{1-X_r-Y_r}{Y_r} && \frac{1-X_g-Y_g}{Y_g} && \frac{1-X_b-Y_b}{Y_b}
+	\end{pmatrix}
+}
+
+Where $\begin{bmatrix}M\end{bmatrix}$ for RGB D65 is:
+
+\eq{chroma:sRGBD65}{
+	\begin{bmatrix}
+		0.4124564 && 0.3575761 && 0.1804375 \\
+		0.2126729 && 0.7151522 && 0.0721750 \\
+		0.0193339 && 0.1191920 && 0.9503041 \\
+	\end{bmatrix}
+}
+
+Based on a reference white $U_r \in \{X_r, Y_r, Z_r\}$:
+
+\eq{chroma:xyz2lab:defines}{
+	U \in \{X, Y, Z\} \land W \in \{L, a, b\}
+}
+
+\eq{chroma:xyz2lab:epsilon}{
+	\epsilon = 0.008856 \land \kappa = 903.3
+}
+
+where:
+
+\eq{chroma:xyz2lab:ref}{
+	w_r = \frac{U}{U_r}
+}
+
+\eq{chroma:xyz2lab:channel}{
+	f(w) = \\
+	\begin{cases}
+		\sqrt[3]{w_r}      & \quad \text{if } U > \epsilon \\
+		\frac{\kappa w_r + 16}{116} & \quad \text{otherwise}
+	\end{cases}
+}
+
+
+\eq{chroma:xyz2lab:conversion}{
+	\begin{bmatrix}
+		L \\
+		a \\
+		b \\
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		116 f_y - 16 \\
+		500 (f_x - f_y) \\
+		200 (f_y - f_z)
+	\end{bmatrix}
+}
+
+With this conversion from sRGB to linear RGB to XYZ to Lab we can now calculate 
+the euclidian linear distance between two colors $C_1$ and $C_2$, which already 
+have been converted to Lab:
+
+\eq{chroma:cie76:distance}{
+	\Delta E = \sqrt{(C_2L - C_1L)^2 + (C_2a - C_1a)^2 + (C_2b - C_1b)^2}
+}
+
+These values are rated by their perceptive difference \cite{mokrzycki:2012}:
+
+\begin{tabular}{l | l}
+	0.0 \dots 0.5 & the difference is unnoticeable \\
+	0.5 \dots 1.0 & the difference is only noticed by an experienced observer \\
+	1.0 \dots 2.0 & the difference is also noticed by an unexperienced observer 
+	\\
+	2.0 \dots 4.0 & the difference is clearly noticeable \\
+	4.0 \dots 5.0 & fundamental color difference  \\
+	> 5.0 		  & gives the impression that these are two different 
+	colors        
+\end{tabular}
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/Comparison_DeltaE_color.png}
+	\caption{Chroma Keying by using euclidean RGB distance}
+	\label{fig:chroma:euclidean:rgb}
+\end{figure}
