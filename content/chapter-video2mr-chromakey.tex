@@ -12,11 +12,42 @@ picked. This is an important setup step, since lightning situations can vary
 greatly and minor differences in light setups can have a great effect on the 
 outcome of visible green background captured by the camera.
 \newline
+An extreme example case is used for comparing these chroma keying variants:
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/Comparison_Example.png}
+	\caption{Comparison Image\cite{vimeo:shia:2015} - sRGB Output}
+	\label{fig:chroma:color}
+\end{figure}
+
+\subsection{Initial Assumption}
+
+Each RGB color can be represented as a discrete 3-Vector of (red, green, blue) 
+values in range of [0, 1]. The composition between two colors can be summarized 
+as equation as following, where a foreground image $F$ and a background 
+image $B$ - $\alpha_B$ is assumed to be $1$:
+
+\eq{eq:chroma:assumption:alpha:1}{
+	I(x, y) = \alpha(x,y) F(x, y) + (1 - \alpha(x, y)) B(x, y)
+}
+
+This matting equation has to be generalized, where $\protect\alpha$ is a value 
+between [0, 1] on fore- and background, yielding a total Alpha of $\alpha_T$ as 
+following:
+
+\eq{eq:chroma:assumption:alpha:weak}{
+	\alpha_T = \alpha_B * (1 - \alpha_F) \\
+}
+
+\eq{eq:chroma:assumption:alpha:cont}{
+	I(x, y) = (1 - \alpha_T)F(x, y) + \alpha_T B(x, y)
+}
+
 \subsection{Euclidean RGB Difference}
 Assuming a source pixel color $C_S$ and a reference color $C_R$ we can 
 calculate the euclidean distance between these colors.
 \eq{eq:euclidianrgb}{
-	distance = \sqrt{(C_RR - C_SR)^2 + (C_RG - C_SG)^2 + (C_RB - C_SB)^2}
+	\alpha = \sqrt{(C_RR - C_SR)^2 + (C_RG - C_SG)^2 + (C_RB - C_SB)^2}
 }
 
 This is a computationally very low cost and works well enough for tell a 
@@ -24,14 +55,6 @@ difference between two separate colors. It fails to accommodate for colors that
 are perceived as different, but are tinted by the reference colors. Since the 
 greenscreen will never achieve 0\% reflectivity, some residue of the background 
 color will mix with the filmed actors.
-
-An extreme example case is used for comparing these chroma keying variants:
-
-\begin{figure}[htb]
-	\includegraphics[width=\textwidth]{_raw_resources/Comparison_Example.png}
-	\caption{Comparison Image - sRGB Output}
-	\label{fig:chroma:color}
-\end{figure}
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/Comparison_RGB_color.png}
@@ -76,7 +99,7 @@ it is now possible to calculate the euclidean distance on the two chrominance
 channels:
 
 \eq{eq:ycgco:euclidean}{
-	distance = \sqrt{(C_RCg - C_SCg)^2 + (C_RCo - C_SCo)^2}
+	\alpha = \sqrt{(C_RCg - C_SCg)^2 + (C_RCo - C_SCo)^2}
 }
 
 Since the increased decorrelation, the result is more accurate and shows less 
@@ -84,7 +107,7 @@ artifacting on unwanted pixels.
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/Comparison_YCgCo_color.png}
-	\caption{Chroma Keying by using euclidean RGB distance}
+	\caption{Chroma Keying by using euclidean YCgCo distance}
 	\label{fig:chroma:euclidean:ycgco}
 \end{figure}
 
@@ -233,8 +256,29 @@ These values are rated by their perceptive difference \cite{mokrzycki:2012}:
 	colors        
 \end{tabular}
 
+Now it's possible to map alpha values for each pixel based on $\Delta$E 
+distances between $m, n$ by clamping and biasing $\Delta$E:
+
+\eq{chroma:cie76:clamp}{
+	f({\Delta E}) = x = \frac{\Delta E - n}{m - n}
+}
+
+\eq{chroma:cie76:min/max}{
+	\alpha_{\Delta E} =
+	\begin{cases}
+		n        & \quad \text{if } x \leq n \\
+		x        & \quad \text{if } n \leq x \leq m \\
+		m        & \quad \text{if } m \leq x
+	\end{cases}
+}
+
+\eq{chroma:cie76:mapping}{
+	\alpha(I(x, y)) = 3\Delta E^2 - 2\Delta E^3
+}
+
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/Comparison_DeltaE_color.png}
-	\caption{Chroma Keying by using euclidean RGB distance}
+	\caption{Chroma Keying by using $\protect\Delta $E distance}
 	\label{fig:chroma:euclidean:rgb}
 \end{figure}
+

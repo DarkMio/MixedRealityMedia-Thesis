@@ -688,3 +688,11 @@
 \def\@eq#1{\begin{equation*}#1 \end{equation*}}
 \def\@@eq#1#2{\begin{equation}\label{#1}#2 \end{equation}}
 \makeatother
+
+%inline code listing:
+\definecolor{code-red}{cmyk}{0, 0.075, 0.043, 0.027}
+\newcommand{\code}[1]{
+	\colorbox{code-red}{
+		\texttt{#1}
+	}
+}

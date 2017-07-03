@@ -79,10 +79,28 @@ angles changes the projection parameters to noticeable effects, it was
 necessary to build a mount for the camera to keep controller and video 
 equipment transformation in sync, I built a mount that fits on tripod 
 attachment points and keeps the controller locked in the same position.
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/ViveStrap-Mount.png}
+	\caption{Camera mount for a HTC Vive controller}
+	\label{fig:system:camera-mount}
+\end{figure}
 \todo[inline]{add example for incorrect projection and model of mount}
 
 \section{Software}
 
 The software of choice is Unity3D, which is free for students, non-profit 
-organizations and small studios. It provides a \todo[inline]{interrupted 
-writing}
+organizations and small studios. It provides an easy introduction to game / 3D 
+engine programming and has a huge development community. While it is not the 
+technologically most advanced engine, its fairly easy usage and fast 
+development cycles make it a great tool for a bachelor thesis.
+\newline
+Thankfully, the high abstraction of system APIs means that cross-platform 
+development only needs a single code base and makes excruciating tasks like 
+webcam access simple - so much so that it boils down to one line of code.
+\newline
+It's weaknesses is usually API documentation and - on the downside, too - high 
+abstraction levels from most APIs. In example, Unity relies on its own shading 
+language which cross-compiles to HLSL, OpenGL and WebGL - this leads to 
+problems in framebuffer management, which cannot be controlled well inside the 
+engine.
