@@ -53,8 +53,9 @@ framebuffer for the operation described further in.
 The Ingoeni 4K2USB3 converter is a standalone box that allows to receive any 
 HDMI source and converts it as external webcam video feed. It's advantage is by 
 the arbitrary choice of video cameras and a very simple integration with any 
-software. With the help of the converter box it's possible to request a webcam 
-as video resource and process that video feed as a texture on the GPU. 
+software through the systems provided webcam API. With the help of the 
+converter box it's possible to request a webcam as video resource and process 
+that video feed as a texture on the GPU.
 
 \subsection{Panasonic GH2 Systemcamera}
 This camera provides a direct video feed via HDMI with low latency. It can 
@@ -104,3 +105,13 @@ abstraction levels from most APIs. In example, Unity relies on its own shading
 language which cross-compiles to HLSL, OpenGL and WebGL - this leads to 
 problems in framebuffer management, which cannot be controlled well inside the 
 engine.
+
+
+The software discussed in this thesis integrates and depends additionally on 
+SteamVR, which is a library integrated with Unity, providing the necessary 
+tracking data in the engine. SteamVR is developed by Valve, the software is 
+available for free on Steam, the complementary library is hosted on GitHub. As 
+of writing this thesis, SteamVR is available for Windows and Mac OS X and this 
+software works on both systems. 
+\newline
+There are no further dependencies or external libraries used.

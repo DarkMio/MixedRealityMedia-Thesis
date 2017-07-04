@@ -1,3 +1,5 @@
+% !TEX root = ../thesis-example.tex
+%
 \section{Camera Offsets}
 
 After rather simple integration of the keyed video signal into the scene, where 
@@ -99,4 +101,86 @@ data for this algorithm:
 	}
 \end{lstlisting}
 
+\todo[inline]{this code listing is the wrong one :( - also I am missing 
+representative material why we need to mitigate the latency mitigation}
+
+\subsection{Double Access Ringbuffer}
+
+To spare memory overhead it is possible to reuse previously allocated 
+framebuffers. For the final composited image it is necessary that the oldest 
+framebuffer is displayed while a new buffer is written into (see Figure 
+\ref{fig:offsets:ringbuffer}).
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=.5\textwidth]{gfx/ringbuffer_schematics.png}
+	\caption{Schema of an the ringbuffer}
+	\label{fig:offsets:ringbuffer}
+\end{figure}
+
+To accommodate for that behavior we have to simply write into the current index 
+and display the frame of the next index. After that we increment by one. This 
+way we’re overwriting the oldest seen framebuffer and show the one written 
+after it.
+
+\begin{lstlisting}
+class DoubleAccessRingBuffer<T> {
+	public int bufferSize;
+	private List<T> buffers;
+	private int index;
+	
+	public DelayedRingBuffer(int bufferSize) {
+		this.bufferSize = bufferSize;
+		index = 0;
+		buffers = new List<long>();
+		RebuildBuffers();
+	}
+	
+	public T[] Next(T writeTo, T display) {
+		index %= buffers.Count;
+		T writeTo = buffers[index];
+		T display = buffers[
+			(index + 1) % buffers.Count
+		];
+		if(bufferSize != buffers.Count) {
+			RebuildBuffers();
+		}
+		index++;
+		return new T[]{writeTo, display};
+	}
+	
+	void RebuildBuffers() {
+		buffers.RemoveAll(_ => true);
+		for(int i = 0; i < bufferSize; i++) {
+			buffers.Add(new T());
+		}
+	}
+}
+\end{lstlisting}
+
+\todo[inline]{Needs "real" pseudo code, rather than implementation}
+
+
 \section{Mitigating Frame Jitter}
+
+An additional step, that can be handled by the same algorithm, is the 
+mitigation of frame jittering. Since the native framerate of the HMD is higher 
+than the frames produced by the video feed, there will be noticeable small 
+jitters of virtual camera movement, which are not present on the source video 
+material. The HTC Vive Controller are very good at picking up minuscule 
+changes in motion, which are instantly translated to the transform of the 
+camera rig.
+\newline
+To minimize the effect, it is possible to overwrite framebuffers for as long as 
+one duration of a video frame and then swap out these buffers. The headset 
+recommends to run it at 90fps - mistimings are no issue either, since it 
+results in non noticeable errors in virtual projections while the display frame 
+stability and visual performance is unaffected. Thus it is possible to write 
+less than three times into a framebuffer, which is mitigated again by 
+displaying the final result later - the final image is therefore unaffected.
+
+\todo[inline]{
+	That is a bunch of words while not getting to the point.
+	\newline
+	also needs then lstlisting when the code further up is modified
+}

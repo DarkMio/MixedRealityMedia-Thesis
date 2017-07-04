@@ -95,18 +95,34 @@ experiencing.
 \newline
 An additional extension is to dynamically track the camer position, allowing 
 for dynamic camera movement and a freely moving actor. 
-\section{Relevance \& Challenges}
-\label{sec:intro:relevance}
 
-\begin{my_list}
-	\item Komplette Produktionsworkflow
-	\item Chroma Keying
-	\item Bildreproduktion
-	\item Latencymitigation
-	\item Tracking
-\end{my_list}
+\section{Challenges \& Scope}
+\label{sec:intro:challenges}
 
-Probably should be called Relevance \& Scope.
+This thesis discusses the development and usage of a mixed reality setup inside 
+a single PC and a single application.
+\newline
+It will highlight the core motion video production for mixed reality, as it 
+differs from other MR setups, by staying inside the programs boundaries, 
+integrating natively with the engine and the ability to mitigate the effects on 
+different round trip times from the video feed. 
+\newline
+As core aspect will be chroma keying in real time rendering discussed, as well 
+as image reproduction from the chroma result. In detail there will be a 
+discourse of layered image composition as result of fore- and background of the 
+VR actor.
+\newline
+Another throughout discussion will be over latency mitigation and alternative 
+solutions to reproduce an accurate mixed reality image.
+\todo[inline]{camera tracking solution is currently missing.}
+
+Outside of the scope of this thesis will be greenscreen compositing, as it is 
+used as tool - the same goes for video matting, which would require its own 
+research to allow for accurate realtime results with little to none user 
+configuration. 
+
+\todo[inline]{add the paper about realtime video matting on Nvidia Quattros}
+
 
 \section{Results}
 \label{sec:intro:results}
