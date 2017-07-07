@@ -73,6 +73,7 @@
 \usepackage{mathtools}
 \usepackage{subcaption}
 \usepackage{cleveref}
+\usepackage[toc]{appendix}
 
 
 \hypersetup{					% setup the hyperref-package options
@@ -86,6 +87,12 @@
 	bookmarksnumbered=true,		%
 	bookmarksopen=true			%
 }
+
+% Glossaries needs to be after hyperref to enable linking.
+\usepackage[toc]{glossaries} 
+
+\makeglossaries
+\input{content/appendix} % actually is a glossary, sorry.
 
 % **************************************************
 % Document CONTENT
@@ -133,6 +140,14 @@
 % \input{content/chapter-concepts} % INCLUDE: concepts
 % \input{content/chapter-conclusion} % INCLUDE: conclusion
 \cleardoublepage
+
+\begin{appendix}
+	\printglossary[type=\acronymtype]
+	
+	\printglossary[type=main]
+	\cleardoublepage
+\end{appendix}
+
 
 % --------------------------
 % Back matter

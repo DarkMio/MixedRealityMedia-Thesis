@@ -1,3 +1,5 @@
+% !TEX root = ../thesis-example.tex
+%
 \section{Virtual projection parameters from real world camera}
 
 To produce a virtual projection there are four unkowns to solve for:
@@ -23,6 +25,12 @@ discussed earlier, with $C$ as camera position and $H$ as HMD position:
 \eq{eq:zsort:distance}{
 	Z = \sqrt{(C_X + H_X)^2 + (C_Y + H_Y)^2 + (C_Z + H_Z)^2}
 }
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/composition/Composition-Z-Distance.png}
+	\caption{Distance correlation}
+	\label{fig:projection:distance}
+\end{figure}
 
 Another important projection parameter is the field of view. Most production 
 cameras only declare a focal length on lenses - which makes sense in that 

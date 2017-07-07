@@ -1,0 +1,50 @@
+% !TEX root = ../thesis-example.tex
+%
+
+\newglossaryentry{computer}{
+	name={computer},
+	description={we tricked a rock into thinking by putting lightning into it.},
+	plural={computers}}
+
+\newglossaryentry{framebuffer}{
+	name={framebuffer},
+	description={It usually contains ARGB data of each remaining fragment. It 
+	can, however, contain any form of data, including fragment vector depth, 
+	depth-normals, normals and so on.},
+	plural={framebuffers}
+}
+
+\newglossaryentry{fragment}{
+	name={Fragment},
+	description={It is a rasterized pixel of a vertex (usually a triangle).}
+	plural={fragments}
+}
+
+\newglossaryentry{head mounted display}{
+	name={Head Mounted Display},
+	description={A general term for display solutions mounting on the users 
+	head. Recent examples with spatial tracking are HTC Vive, Oculus Rift and 
+	Microsoft HoloLens. Untracked examples are Google Glasses or to an extend 
+	Google Cardboard.},
+	plural={Head Mounted Displays}
+}
+
+\newglossaryentry{6dofg}{
+	name={6DOF},
+	description={Describes free movement of a rigid body in 
+		three-dimensional space - specifically forward/backward (surge), 
+		up/down (heave), left/right (sway) translations, combined with changed 
+		of rotations around all three axis. \textbf{may need wikipedia cite}
+	}
+}
+
+\newglossaryentry{6dof}{
+	type=\acronymtype,
+	name={6DOF},
+	description={Six Degrees of Freedom (6DOF) \glsadd{6dofg}},
+	see=[Glossary:]{6dofg}
+}
+
+\newacronym{6DOF}{6DOF}{Six Degrees of Freedom}
+
+\newacronym[longplural={Frames per Second}]{acr:fps}{fps}{frames per second}
