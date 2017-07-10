@@ -1,0 +1,44 @@
+% !TEX root = ../thesis-example.tex
+%
+\section{Additional Coloring Operations}
+
+Finally we have created the best possible recreation of a VR actor inside the 
+virtual reality scene. Now we can follow up with post effects on the video feed 
+to fit it to a better degree into the environment. This can be done with 
+regular coloring operations, like hue rotation, brightness, contrast and 
+saturation procedures on the video alone.
+
+\subsection{Color spill removal \& Recoloring}
+
+The green box as background spills - so to say - its green color on to the 
+actor to a certain degree. With proper lightning setups it is possible to 
+mitigate its effects but color retouching is always a necessity. \textbf{YCgCo} 
+is, again, good enough to perform this color operation, thanks to its color 
+decoupling properties. By splitting a RGB image into YCgCo $C_{Input}$ (see 
+equation \eqref{eq:ycgco:transformation}) and then shifting towards the 
+anti-color of the key color $C_{Key}$ for a factor weight $W \in [0, 1]$:
+
+\eq{eq:retouch:spill:1}{
+	R = \frac{C_{Key Cg, Co} \cdot C_{Input Cg, Co}}{C_{Key Cg, Co} \cdot 
+	C_{Key Cg, Co}}
+}
+
+\eq{eq:retouch:spill:2}{
+	\begin{bmatrix}
+		Y  \\
+		Cg \\
+		Co \\
+	\end{bmatrix}
+	= 
+	\begin{bmatrix}
+		Y \\
+		C_{Key Cg} * (R + 0.5) * W \\
+		C_{Key Co} * (R + 0.5) * W
+	\end{bmatrix}
+}
+
+\todo[inline]{"proper lightning setup" would be something for the appendix}
+
+\subsection{Brightness, Contrast and Saturation}
+
+ghi
