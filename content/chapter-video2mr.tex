@@ -1,3 +1,4 @@
+% !TeX spellcheck = en_US
 % !TEX root = ../thesis-example.tex
 %
 \chapter{From Video to Mixed Reality}
@@ -7,24 +8,37 @@
 
 To achieve a real time rendering environment, as previously mentioned, there 
 are two main production cycles. The one discussed in this thesis resolves this 
-problem by staying inside on application with multiple render cycles per frame. 
+problem by staying inside on application with multiple render cycles per frame, 
+the other will be briefly mentioned in related work. 
 \newline
 The first and foremost render cycle is the stereoscopic output of the Vive HMD, 
-which has a set framerate of either 45 or 90 frames per second. It is important 
-to have a consistent performance, otherwise the experience for the actor with 
-the HMD will have a terrible experience.
+which has a set framerate of either 45 or 90 frames per second - this is a hard 
+limitation by the providing library, which stalls Unitys' rendering if a render 
+cycle is above 11ms. It is important  to have a consistent performance, 
+otherwise the experience for an actor with the HMD will be terrible. This will 
+influence a mixed reality composition, since framerate targets should be 
+evaluated early in production cycle to fit the work environment. Since the 
+render pipeline is mostly affected by GPU performance, high fidelity graphics 
+can be achieved with later iterations of graphical hardware. Also recent 
+history has shown that there are a lot of performance gains with virtual 
+reality graphic pipelines.
 \newline
-The secondary render cycle has to be done on the same frame, which is a virtual 
-camera inside the virtual scene and the relative position of the real world HMD 
-and real world camera. Since the SteamVR library for the HTC Vive already 
-exposes a normalized, synchronized tracking, it is easily possible to position 
-the virtual camera at an accurate location.
+After rendering a stereoscopic image to the HMD another, secondary render cycle 
+has to be done on the same frame, which is an in-engine camera inside the 
+virtual scene and the relative position of the real world HMD and real world 
+camera. Since the SteamVR library for the HTC Vive already exposes a 
+normalized, synchronized tracking, it is easily possible to position the 
+in-engine camera at an accurate location. This positional and rotational data 
+is achieved by strapping a HTC Vive Controller (or HTC Vive Tracker) to the 
+real world camera and adding another transform to the in-engine render camera 
+to allow for an offset, which is yielded to the difference between sensor 
+location of the video capturing device and the tracking anchor of a controller.
 
 The following chapter describes the techniques used to transform motion video 
 inside a greenscreen into a mixed reality image. As brief overview, the steps 
-required are performed in referential order from the motion video from the 
-camera feed. This is different to the render order but gives a better 
-understanding of the techniques used to achieve mixed reality imagery.
+required are performed in sequential order from the motion video feed. This is 
+different to the actual render order but gives a better understanding of the 
+techniques used to achieve a mixed reality imagery.
 
 \input{content/chapter-video2mr-chromakey}        % Chroma Key Section
 \input{content/chapter-video2mr-bufferdelay}      % Render Buffer Swapper

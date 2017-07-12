@@ -1,21 +1,26 @@
+% !TeX spellcheck = en_US
 % !TEX root = ../thesis-example.tex
 %
 \section{Chroma Key}
 \label{sec:chromakey}
 
 Beginning from the camera, the video signal travels through the Inogeni 
-converter and is accessible with the system API for webcams. 
+converter and is accessible with the systems API for webcams. 
 (See figure \ref{fig:system-components})
 
-The initial step is to remove the green background from the image, which should 
-be greenscreen. For a reference green, there has to be a color picked 
-manually in the material editor of Unity - this was made easy by a checkbox to 
-show raw output from the camera. Then a middle-ground green can be 
-picked. This is an important setup step, since lightning situations can vary 
-greatly and minor differences in light setups can have a great effect on the 
-outcome of visible green background captured by the camera.
+The initial step is to remove the green (or blue) background from the image, 
+which should be either a green (or blue) box, in this case it is a greenscreen. 
+Other literature usually refers to it as "pulling a video matte" or "chroma 
+keying". For a reference green, there has to be a color picked manually in the 
+material editor of Unity - this was made easy by a checkbox to show raw output 
+from the camera. Then a middle-ground green can be picked. This is an important 
+setup step, since lightning situations can vary greatly and minor differences 
+in light setups can have a great effect on the outcome of visible green 
+background captured by the camera.
 \newline
-An extreme example case is used for comparing these chroma keying variants:
+An extreme example case is used for comparing these chroma keying variants, 
+which shows high motion blue due to a low shutter speed and fast movement of 
+the depicted actor:
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/Comparison_Example.png}
@@ -26,21 +31,25 @@ An extreme example case is used for comparing these chroma keying variants:
 \subsection{Initial Assumption}
 
 Each RGB color can be represented as a discrete 3-Vector of (red, green, blue) 
-values in range of [0, 1]. The composition between two colors can be summarized 
-as equation as following, where a foreground image $F$ and a background 
-image $B$ - $\alpha_B$ is assumed to be $1$:
+values in range of $[0, 1]$\footnote{Software RGBA color representations 
+usually take 8bit per color channel and map between $[0, 255]$ - graphic 
+computing usually maps between $[0, 1]$}. An interpolation between two colors 
+can be summarized as matting equation as following, where a foreground image 
+$C_F$ and a background image $C_B$ - $\alpha_B$ is assumed to be $1$:
 
 \eq{eq:chroma:assumption:alpha:1}{
-	I(x, y) = \alpha(x,y) F(x, y) + (1 - \alpha(x, y)) B(x, y)
+	I(x, y) = \alpha(x,y) C_F(x, y) + (1 - \alpha(x, y)) C_B(x, y)
 }
 
-This matting equation has to be generalized, where $\protect\alpha$ is a value 
-between [0, 1] on fore- and background, yielding a total Alpha of $\alpha_T$ as 
-following:
+This matting equation has to be generalized for a later step, where 
+$\protect\alpha$ is a value between [0, 1] on fore- and background, yielding a 
+total Alpha of $\alpha_T$ as following:
 
 \eq{eq:chroma:assumption:alpha:weak}{
 	\alpha_T = \alpha_B * (1 - \alpha_F) \\
 }
+
+thus:
 
 \eq{eq:chroma:assumption:alpha:cont}{
 	I(x, y) = (1 - \alpha_T)F(x, y) + \alpha_T B(x, y)
@@ -53,11 +62,13 @@ calculate the euclidean distance between these colors.
 	\alpha = \sqrt{(C_RR - C_SR)^2 + (C_RG - C_SG)^2 + (C_RB - C_SB)^2}
 }
 
-This is a computationally very low cost and works well enough for tell a 
+This is computationally very low cost and works well enough for tell a 
 difference between two separate colors. It fails to accommodate for colors that 
 are perceived as different, but are tinted by the reference colors. Since the 
-greenscreen will never achieve 0\% reflectivity, some residue of the background 
-color will mix with the filmed actors.
+greenscreen material will never achieve 0\% reflectivity, some color will spill 
+onto the filmed actor and will therefore generate unwanted chroma-keying 
+artifacts, most noticeable on semi-glossy reflection of skin or color tints on 
+white clothing.
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/Comparison_RGB_color.png}
@@ -67,15 +78,16 @@ color will mix with the filmed actors.
 
 \subsection{Euclidean YCgCo Difference}
 
-YCgCo stands for Luminance (Y), chrominance green (Cg) and chrominance orange 
-(Co) and helps decorrelating color spaces. Since it is a fast, lossless color 
-transformation it is used in example for H.264 video encoding. The two 
-chrominance channels are then split into green to magenta and orange to blue 
-color values and allow for a more accurate distance calculation between two 
-colors.
+YCgCo gets its name for Luminance (Y), chrominance green (Cg) and chrominance 
+orange (Co) and helps decorrelating color spaces by splitting color-lightness 
+from color chrominances. Since it is a fast, lossless color transformation it 
+is used in example for H.264 video encoding and other image compression 
+techniques. The two chrominance channels are then split into green to magenta 
+and orange to blue color channels and allow for a more accurate distance 
+calculation between two colors.
 \newline
-Transforming any arbitrary RGB color to YCgCo can done with a single matrix 
-multiplication:
+Transforming any RGB color to YCgCo can done with a single matrix  
+multiplication, which is - again - a very low-cost computation on a GPU:
 
 \eq{eq:ycgco:transformation}{
 	\begin{bmatrix}
@@ -106,7 +118,8 @@ channels:
 }
 
 Since the increased decorrelation, the result is more accurate and shows less 
-artifacting on unwanted pixels.
+artifacting on target pixels, allowing for a more accurate matte pulling, less 
+green edges and a more continuous image of an actor.
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/Comparison_YCgCo_color.png}
@@ -116,9 +129,16 @@ artifacting on unwanted pixels.
 
 \subsection{Euclidean Lab Difference}
 The International Color Consortium (ICC) defined 1976 \textit{Lab $\Delta$E} as 
-a standard way of calculating color differences with \textit{Lab} colors. The 
-final distance calculation is the linear euclidean distance as with all other 
-models, but accommodates for perceived color differences.
+a standard model of calculating color differences with \textit{Lab} colors. The 
+final distance calculation is, too, a linear euclidean distance as with all 
+other models, but accommodates for perceived color differences. It is a more 
+expensive computation wise and needs in implementation code branches, which 
+will both be evaluated by the GPU before using either branching code path.
+
+Since any given RGB color has to be converted to  the Lab color model a 
+reference white has to be used to accommodate for different color models. 
+Luckily the given webcam signal defaults to sRGB D65 and does not need a 
+configurable reference matrix based on a given color model.
 
 \todo[inline]{this is very rough and only contains equations currently used}
 
@@ -138,7 +158,7 @@ where:
 	\end{cases}
 }
 
-from there l
+from there and RGB to XYZ conversion can be done by:
 
 \eq{chroma:conversioncalc}{
 	\begin{bmatrix}
@@ -278,6 +298,11 @@ distances between $m, n$ by clamping and biasing $\Delta$E:
 \eq{chroma:cie76:mapping}{
 	\alpha(I(x, y)) = 3\Delta E^2 - 2\Delta E^3
 }
+
+With that we receive a more natural matte with nearly no green edges, 
+continuous actor imagery. Motion blur is hard to account for and is even with 
+professional video matting hardware, extensive post production or intrinsic 
+frame matting hard to remove without very rough image results.
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/Comparison_DeltaE_color.png}
