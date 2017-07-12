@@ -1,0 +1,204 @@
+\chapter{HLSL / GLSL Implementation of a Mixed Reality Shader}
+
+\todo[inline]{idk if this is needed or nah, but here it is:}
+
+To conclude: after building up a render pipeline that synchronizes engine 
+frames with camera frame times most of the complicated work can be done in one 
+single fragment shader step. It is an example of a masked Composition with 
+blurry chroma key lookup. This shader is written in HLSL but is convertible 
+to GLSL and its language subsets like WebGL and OpenGL ES - assuming a variety 
+of shader constraints given before:
+
+\todo[inline]{reference mask composition blur lookup}
+
+\begin{my_list}
+	\item \_BackTexture: Back (Full-Length) Camera Render Texture
+	\item \_FrontTexture: Front Camera Render Texture
+	\item \_WebcamTexture: Video Feed Texture
+	\item \_WebcamMask: Stencil Mask Texture, default white 1x1
+	\item \_LightTexture: Light Reproduction Texture, default white 1x1
+	\item \_TargetColor: RGBA Color
+	\item \_Threshold: Lower Chroma Key Cutoff, factor $\in [0, 5]$
+	\item \_Tolerance: Upper Chroma Key Cutoff, factor $\in [0, 5]$
+	\item \_SpillRemoval: Factor $\in [0, 1]$
+	\item \_Hue: Factor $\in (-\pi, \pi]$
+	\item \_Saturation: Factor $\in [0, 1]$
+	\item \_Brightness: Factor $\in [0, 1]$
+	\item \_Contrast: Factor $\in [0, 1]$
+\end{my_list}
+
+\begin{lstlisting}
+	fixed4 frag(v2f i){
+		# Sampling:
+		fixed4 webCol = tex2D(_WebcamTexture, i.uv);
+		fixed4 back = tex2D(_BackTexture, i.uv);
+		fixed4 front = tex2D(_FrontTexture, i.uv);
+		fixed4 webMask = tex2D(_WebcamMask, i.uv);
+		fixed4 light = tex2D(_LightTex, i.uv);
+		back.a = front.a;
+		webCol.a = 1 - webMask.a;
+		webCol.a = ChromaMin(
+			i.uv,
+			_BackTexture_TexelSize,
+			_WebcamTex,
+			_TargetColor
+		);
+		// final color touch ups
+		webCol.rgb = spillRemoval(
+			webCol.rgb,
+			_TargetColor.rgb,
+			_SpillRemoval
+		);
+		// brightness:
+		webCol.rgb = saturate(
+			webCol.rgb + _Brightness
+		);
+		webCol.rgb = satureate(
+			(webCol.rgb - 0.5f) *
+			_Contrast + 0.5f
+		);
+		half l = dot(
+			rgb, half4(0.2126, 0.7152, 0.0722)
+		);
+		webCol.rgb = saturate(
+			lerp(l, rgb, _Saturation)
+		);
+		return mixCol(back, webCol * light);
+	}
+	float ChromaMin(
+		float2 uv,
+		float4 texelSize,
+		sampler2D tex,
+		float4 targetColor) {
+		float4 delta =
+			texelSize.xyxy *
+			float4(-0.5, -0.5, 0.5, 0.5);
+		float alpha = 
+			chromaKey(
+				tex2D(tex, uv + delta.xy),
+				targetColor
+			);
+		alpha = min(
+			alpha,
+			chromaKey(tex2D(tex, uv + delta.zy),
+			targetColor)
+		);
+		alpha = min(
+			alpha,
+			chromaKey(tex2D(tex, uv + delta.xw),
+			targetColor)
+		);
+		alpha = min(
+			alpha,
+			chromaKey(tex2D(tex, uv + delta.zw),
+			targetColor)
+		);
+		return alpha;
+	}
+	
+	float chromaKey(float4 col, float4 targetColor) {
+		if(col.a == 0) {
+			return 0;
+		}
+		float d2 = deltaE_CIE76_sRGB(
+			col.xyz,
+			targetColor.xyz
+		) / 100;
+		d2 = smoothstep(
+			_Threshold,
+			(_Threshold + _Tolerance),
+			d2
+		); // blend in min/max range
+		return col.a * d2;
+	}
+	float deltaE_CIE76_sRGB(float3 srgb, float3 ref) {
+		float3 refCol = float3(
+			0.95047f,
+			1.00f,
+			1.08883f
+		);
+		srgb = XYZ2LAB(sRGB2XYZ(srgb), refCol);
+		ref = XYZ2LAB(sRGB2XYZ(ref), refCol);
+		return deltaE_CIE76(srgb, ref);    
+	}
+	float cnRGB2XYZ(float val) {
+		if(val > 0.04045) {
+			return pow(
+				(val + 0.055) / 1.055, 2.4
+			);
+		}
+		return val / 12.92;
+	}
+	float3 cnRGB2XYZ(float3 rgb) {
+		return float3(
+			cnRGB2XYZ(rgb.r),
+			cnRGB2XYZ(rgb.g),
+			cnRGB2XYZ(rgb.b));
+	}
+	float3 sRGB2XYZ(float3 rgb) {
+		rgb = cnRGB2XYZ(rgb);
+		float3x3 mat = float3x3(
+			0.4124564, 0.3575761, 0.1804375,
+			0.2126729, 0.7151522, 0.0721750,
+			0.0193339, 0.1191920, 0.9503041
+		);
+		return mul(mat, rgb);
+	}
+	float cnXYZ2LAB(float val) {
+		if(val > 0.008856f) {
+			return pow(val, 1.0f / 3.0f);
+		}
+		return 7.787f * val + 0.137931f;
+	}
+	float3 cnXYZ2LAB(float3 rgb) {
+		return float3(
+			cnXYZ2LAB(rgb.r),
+			cnXYZ2LAB(rgb.g),
+			cnXYZ2LAB(rgb.b)
+		);
+	}
+	float3 XYZ2LAB(float3 xyz, float3 refCol) {
+		xyz = xyz / refCol;
+		xyz = cnXYZ2LAB(xyz);
+		return float3(
+			(116.0f *  xyz.y) - 16.0f,
+			500.0f * (xyz.x  - xyz.y),
+			200.0f * (xyz.y  - xyz.z)
+		);
+	}
+	float deltaE_CIE76(float3 lab1, float3 lab2) {
+		return sqrt(
+			pow(lab2.x - lab1.x, 2) +
+			pow(lab2.y - lab1.y, 2) +
+			pow(lab2.z - lab1.z, 2)
+		);
+	}
+	float3 spillRemoval(
+		float3 rgb,
+		float3 targetColor,
+		float weight) {
+		float2 target =
+			rgb2ycgco(targetColor.rgb).yz;
+		float3 ycgco = rgb2ycgco(rgb);
+		float remainder =
+			dot(target, ycgco.yz) /
+			dot(target, target);
+		ycgco.yz -=
+			target * (remainder + 0.5) * weight;
+		return ycgco2rgb(ycgco);
+	}
+	float3 rgb2ycgco(float3 col) {
+		return float3(
+		0.25 * col.r + 0.50 * col.g + 0.25 * col.b,
+		-0.25 * col.r + 0.50 * col.g - 0.25 * col.b,
+		0.50 * col.r - 0.50 * col.b 
+		);
+	}
+	float3 ycgco2rgb(float3 col) {
+		return float3(
+		col.x - col.y + col.z,
+		col.x + col.y,
+		col.x - col.y - col.z
+		);
+	}
+\end{lstlisting}
