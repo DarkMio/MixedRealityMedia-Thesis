@@ -1,3 +1,4 @@
+% !TeX spellcheck = en_US
 % !TEX root = ../thesis-example.tex
 %
 
@@ -12,6 +13,13 @@
 	can, however, contain any form of data, including fragment vector depth, 
 	depth-normals, normals and so on.},
 	plural={framebuffers}
+}
+
+\newglossaryentry{render texture}{
+	name={RenderTexture},
+	description={Unity exposes frame buffers as render textures. It is not 
+	possible to access both dat and depth buffer on one frame buffer, which can 
+	be circumvented by seperate RenderTextures with no data or depth buffer.}
 }
 
 \newglossaryentry{fragment}{

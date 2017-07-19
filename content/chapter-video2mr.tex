@@ -8,20 +8,20 @@
 
 To achieve a real time rendering environment, as previously mentioned, there 
 are two main production cycles. The one discussed in this thesis resolves this 
-problem by staying inside on application with multiple render cycles per frame, 
-the other will be briefly mentioned in related work. 
+problem by staying inside one application with multiple render cycles per 
+frame, the other will be briefly mentioned in related work. 
 \newline
-The first and foremost render cycle is the stereoscopic output of the Vive HMD, 
-which has a set framerate of either 45 or 90 frames per second - this is a hard 
-limitation by the providing library, which stalls Unitys' rendering if a render 
-cycle is above 11ms. It is important  to have a consistent performance, 
-otherwise the experience for an actor with the HMD will be terrible. This will 
-influence a mixed reality composition, since framerate targets should be 
-evaluated early in production cycle to fit the work environment. Since the 
-render pipeline is mostly affected by GPU performance, high fidelity graphics 
-can be achieved with later iterations of graphical hardware. Also recent 
-history has shown that there are a lot of performance gains with virtual 
-reality graphic pipelines.
+The first and most important render cycle is the stereoscopic output of the 
+Vive HMD, which has a set frame rate of either 45 or 90 frames per second - 
+this is a hard limitation by the providing library, which stalls Unitys' 
+rendering if a render cycle is above $11ms$. It is important to have consistent 
+performance, otherwise the experience for an actor with the HMD will be 
+terrible. This will influence a mixed reality composition, since frame rate 
+targets should be evaluated early in production to fit the composition 
+environment. Since the render pipeline is mostly affected by GPU performance, 
+high fidelity graphics can be achieved with later iterations of graphical 
+hardware. Also recent history has shown that different instancing and render 
+methods can yield massive performance gains.
 \newline
 After rendering a stereoscopic image to the HMD another, secondary render cycle 
 has to be done on the same frame, which is an in-engine camera inside the 
@@ -42,6 +42,7 @@ techniques used to achieve a mixed reality imagery.
 
 \input{content/chapter-video2mr-chromakey}        % Chroma Key Section
 \input{content/chapter-video2mr-bufferdelay}      % Render Buffer Swapper
+\input{content/chapter-video2mr-jitter}			  % Frame Jitter Mitigation
 \input{content/chapter-video2mr-projectionparams} % Projection Parameters
 \input{content/chapter-video2mr-depth-sorting}    % Camera Z Sort
 \input{content/chapter-video2mr-stencil}		  % additional camera masking

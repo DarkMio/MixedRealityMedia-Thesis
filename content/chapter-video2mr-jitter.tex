@@ -1,0 +1,27 @@
+% !TeX spellcheck = en_US
+% !TEX root = ../thesis-example.tex
+%
+\section{Mitigating Frame Jitter}
+
+An additional step that can be handled by the same algorithm is the mitigation 
+of frame or time jittering, a term that describes a effect of different running 
+framerates of an actors captured video footage and rate of 3D environment 
+rendering. Since the native framerate of the HMD is higher than the frames 
+produced by the video feed, there will be noticeable small jitters of virtual 
+camera movement, which are not present on the source video material. The HTC 
+Vive Controller are very good at picking up minuscule changes in motion, which 
+are instantly translated to the transform of the camera rig and then result in 
+minor motion of the 3D environment. Visually this shows in a shaking virtual 
+world while the real world video stands still.
+\newline
+To minimize the effect, it is possible to overwrite framebuffers for as long as 
+one duration of a video frame and then swapping out these buffers. The headset 
+recommends to run it at 90fps - miss timings are no issue either, since it 
+results in non noticeable errors in virtual projections while the displayed 
+frame is stable visual performance is unaffected. Thus it is possible to write 
+less than three times into a framebuffer, which is mitigated again by 
+displaying the final result later - the final image is therefore unaffected 
+besides imperceptible differences between the real world camera and its virtual 
+position.
+
+\todo[inline]{needs then lstlisting when the code further up is modified}
