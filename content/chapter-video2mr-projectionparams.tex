@@ -1,8 +1,9 @@
+% !TeX spellcheck = en_US
 % !TEX root = ../thesis-example.tex
 %
 \section{Virtual projection parameters from real world camera}
 \label{sec:projection-params}
-To produce a virtual projection there are four unkowns to solve for:
+To produce a virtual projection there are four unknowns to solve for:
 
 \begin{my_list}
 	\item Position of the real world camera
@@ -12,14 +13,14 @@ To produce a virtual projection there are four unkowns to solve for:
 \end{my_list}
 
 Luckily the former two are solved by the tracking solution, thus can be used 
-directly as transform for the virtual camera - ignoring an  additional offset 
-from the actual controller to the camera, which is accounted for in the 
-software.
+directly as transformation matrix for the virtual camera - ignoring an 
+additional offset from the actual controller to the camera, which is accounted 
+for inside the software.
 \newline
-The calculation of the corresponding distance between a 
-camera and the Vive HMD to control the virtual projection parameters. Since 
-both devices are tracked, one natively and the other with a controller as 
-tracking position, it is calculated with the same euclidean distance as 
+The calculation of a corresponding distance between a camera and the Vive HMD 
+to control the virtual projection parameters can be solved, too: Since both 
+devices are tracked, one natively and the other with a controller as 
+tracking anchor, it can be calculated with the same euclidean distance as 
 discussed earlier, with $C$ as camera position and $H$ as HMD position:
 
 \eq{eq:zsort:distance}{
@@ -32,17 +33,21 @@ discussed earlier, with $C$ as camera position and $H$ as HMD position:
 	\label{fig:projection:distance}
 \end{figure}
 
-Another important projection parameter is the field of view. Most production 
+Another important projection parameter is field of view. Most production 
 cameras only declare a focal length on lenses - which makes sense in that 
 context, since field of view is a constraint between sensor size and focal 
 length. Through the specification sheet of the camera the current field of view 
-can be calculated inside Unity, with the sensor height as $S_h$ and focal 
-length as $F_l$, both in millimeter:
+can be calculated inside Unity, with the sensor height as $S_h = 17.3mm$ and 
+focal length as $F_l = 14mm$:
 
 \eq{eq:zsort:fov}{
 	FoV = 2*tan^{-1}\frac{S_h}{2 * F_l}
 }
 
+\eq{eq:zsort:fov:result}{
+	FoV = 63.42028^\circ
+}
+
 With that we have now all projection parameters for the virtual environment to 
-generate an image that is at the same position as the real wolrd camera would 
-look at.
+generate an image that matches in relative transformation parameters as the 
+real world camera would look at.

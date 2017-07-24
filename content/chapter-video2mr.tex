@@ -34,6 +34,13 @@ real world camera and adding another transform to the in-engine render camera
 to allow for an offset, which is yielded to the difference between sensor 
 location of the video capturing device and the tracking anchor of a controller.
 
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/pipeline_steps/4_0_pipeline.pdf}
+	\caption{Full mixed reality graphics pipeline}
+	\label{fig:steps:pipeline}
+\end{figure}
+
+
 The following chapter describes the techniques used to transform motion video 
 inside a greenscreen into a mixed reality image. As brief overview, the steps 
 required are performed in sequential order from the motion video feed. This is 
@@ -48,3 +55,4 @@ techniques used to achieve a mixed reality imagery.
 \input{content/chapter-video2mr-stencil}		  % additional camera masking
 \input{content/chapter-video2mr-lightning}        % Light reproduction
 \input{content/chapter-video2mr-recoloring}       % additional color operations
+\input{content/chapter-video2mr-order}			  % order of calculation

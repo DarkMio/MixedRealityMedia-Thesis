@@ -1,14 +1,23 @@
+% !TeX spellcheck = en_US
 % !TEX root = ../thesis-example.tex
 %
 \section{Additional Camera Stencil}
 
 When producing on small and / or amateur sets, there are usually constraints to 
 size and proportions of the greenscreen production, thus limiting the 
-recordable space. Since a calibrated playspace can be fetched from the SteamVR 
-API to receive a proper-sized bounding box it is possible to do a projection of 
-the greenscreens real size inside a virtual scene and use this as a stencil for 
-the incoming video feed, effectively cropping off around all edges outside of a 
-calibrated greenscreen.
+record-able space. Since a calibrated play space can be fetched from the 
+SteamVR API to receive a proper-sized bounding box, it is possible to do a 
+projection of the greenscreens real size inside a virtual scene and use this as 
+a stencil for the incoming video feed, effectively cropping off around all 
+edges outside of a calibrated greenscreen. Effectively this means that a real 
+world camera can film outside the edges of a green screen and it will not 
+degrade the visual performance of the image composition.
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/pipeline_steps/4_6_stencil.pdf}
+	\caption{After sorting the scene additional stenciling is necessary}
+	\label{fig:steps:stencil}
+\end{figure}
 
 A virtual projection can be seen in figure \ref{fig:stencil:projection} with 
 reconstructed camera parameters. With help of the engine-editor a greenscreen 
