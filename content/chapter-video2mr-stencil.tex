@@ -9,23 +9,25 @@ record-able space. Since a calibrated play space can be fetched from the
 SteamVR API to receive a proper-sized bounding box, it is possible to do a 
 projection of the greenscreens real size inside a virtual scene and use this as 
 a stencil for the incoming video feed, effectively cropping off around all 
-edges outside of a calibrated greenscreen. Effectively this means that a real 
-world camera can film outside the edges of a green screen and it will not 
-degrade the visual performance of the image composition.
+edges outside of a calibrated greenscreen. This means that a real world camera 
+can film outside the edges of a green screen, recorded pixels beyond the green 
+box are getting discarded and it will not degrade the visual performance of the 
+image composition.
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/pipeline_steps/4_6_stencil.pdf}
-	\caption{After sorting the scene additional stenciling is necessary}
+	\caption{After sorting the scene additional stenciling of the video feed is 
+	necessary}
 	\label{fig:steps:stencil}
 \end{figure}
 
 A virtual projection can be seen in figure \ref{fig:stencil:projection} with 
-reconstructed camera parameters. With help of the engine-editor a greenscreen 
-can be calibrated and should match very closely to all real world parameters, 
-allowing a real world camera to film over the edges of a greenscreen without 
-destroying the image composition. If a VR actor is outside of the chroma key 
-planes, the resulting image composition wouldn't be usable, thus this solution 
-enhances a resulting image without major drawbacks.
+reconstructed camera parameters. With help of Unitys' engine-editor a 
+greenscreen can be calibrated and should match very closely to all real world 
+parameters, allowing a real world camera to film over the edges of a 
+greenscreen without destroying the image composition. If a VR actor is outside 
+of the chroma key planes, the resulting image composition wouldn't be usable, 
+thus this solution enhances a composed image without major drawbacks.
 
 \begin{figure}[htbp]
 	\caption{Virtual projection and photo of VR actor - note: in-engine 
@@ -35,8 +37,8 @@ enhances a resulting image without major drawbacks.
 	\begin{subfigure}[t]{.45\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{gfx/StencilProjection.png}
-		\caption{Virtual reprojection of valid green screen - red colored areas 
-		will be cut off}
+		\caption{Virtual reprojection of a calibrated green screen - red 
+		colored areas will be cut off}
 	\end{subfigure}
 	\begin{subfigure}[t]{.45\textwidth}
 		\centering
@@ -47,20 +49,23 @@ enhances a resulting image without major drawbacks.
 \end{figure}
 
 In-engine this setup is a simple addition: After registering another camera to 
-the camera manager, it simply renders a green box. Taken from previous 
+the camera manager it is used to simply render a green box. Taken from previous 
 projection parameters in \ref{sec:projection-params} this virtual camera 
-receives a dedicated culling mask which only contain all green box projection 
-planes. All other cameras ignore this layer. After each drawn frame, Unity is 
-able to clear the framebuffer with a color alpha as 0 - all remaining fragments 
-from the green box write any color with an alpha as 1. This creates a lookup 
-texture where an alpha-mask is created which will be transferred to the video 
-feeds alpha.
+receives a dedicated culling mask which only contains all green box projection 
+planes. All other cameras ignore this layer and are therefore invisible for any 
+composing camera. After each drawn frame, Unity is able to clear the frame 
+buffer with an alpha color as 0 - all remaining fragments from the green box 
+write any color with an alpha as 1; the color compartment is discarded and will 
+not be used further. This creates a lookup texture where an alpha-mask is 
+created which will be transferred to the video feeds alpha.
 
-Now we achieved a green box projection inside the same scene without using 
-complex management processes with Unitys' scene manager. Due to the quick setup 
-it works well for fast calibration and allows for a broad camera angle without 
-degrading the mixed reality performance.
+We have now achieved a green box projection inside the same scene without any 
+complex management processes needed in Unity. Due to the quick setup it works 
+well for fast calibration and allows for a broad camera angle up to the green 
+screens edges without degrading the mixed reality performance. Recording beyond 
+these edges will yield into a composition of front and background renderings 
+since all camera pixels will be completely discarded.
 \newline
-Unfortunately stencil-opertions are poorly documented in Unity and add an 
-overhead which cannot be measured from builtin profiler tools - as such it adds 
-unknown performance costs and have not been used in this thesis.
+Unfortunately stencil-operations are poorly documented in Unity and add an 
+overhead which cannot be measured from built in profiler tools - as such it 
+adds unknown performance costs and have not been used in this thesis.

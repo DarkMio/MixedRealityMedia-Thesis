@@ -5,7 +5,8 @@
 
 We have now a properly keyed video feed and synchronous motion between a VR 
 actor and the 3D environment. To increase the immersion of that composition the 
-next important step is to sort the scene on a tri-graph of planes.
+next important step is to sort the scene on a tri-graph of planes with a fore- 
+and background - in between are frames from the motion video feed.
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/pipeline_steps/4_5_composition.pdf}
@@ -29,11 +30,12 @@ creators decide between two render modes:
 \begin{my_list}
 	\item Replace Masking: A front plane is displayed, after it follows a 
 	chroma-keyed video and then the background. This is the most accurate image 
-	generation, if the front image is generated correctly
+	generation, if the front image is generated correctly and not modified by 
+	post effects.
 	\item Alpha Masking: A front alpha mask of the geometry is being generated, 
-	then the actor is mixed with a full render image of the background. The 
-	resulting image has inconsistencies with alpha-blending but this method 
-	works with all rendering setups.
+	then the actor is mixed with a full render image of the sceneries 
+	background. The resulting image has inconsistencies with alpha-blending but 
+	this method works with all rendering setups.
 \end{my_list}
 
 The decision is between accuracy and presentation. Many post processing effects 
@@ -140,5 +142,5 @@ video matte is pulled already:
 
 Now we have a well mixed image composition where the actor is placed in between 
 two projections and thus can have an interactive fore- and background. The 
-initial assumption is, that the actors depth is flattened, based on the 
+initial assumption is that the actors depth is nonexistent, based on the 
 distance between a real world camera and the Vive Head Mounted Display.
