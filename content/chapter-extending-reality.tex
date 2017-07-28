@@ -182,13 +182,103 @@ motion feed.
 	\end{subfigure}
 	\begin{subfigure}[t]{.45\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{_external/media/1280px-Cones_SMJ2_E.png}
-		\caption{A magic caption, this image over it is meaningless.}
+		\includegraphics[width=\textwidth]{_raw_resources/job_simulator_vr.png}
+		\caption{A first person, single screen output is an improvement, but is 
+			hard to follow in motion.}
+	\end{subfigure}
+	\newline
+	\begin{subfigure}[t]{.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{_raw_resources/rickality_cctv.png}
+		\caption{"Rick and Morty: Virtual Rick-Ality" allows outside observers 
+			to control mounted CCTV cameras to observe the actors interaction.}
+	\end{subfigure}
+	\begin{subfigure}[t]{.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{_raw_resources/the_lab_mr.png}
+		\caption{Currently a screenshot of The Lab MR - but actually will be 
+			one of my solution. Just gotta take some screenshots.}
 	\end{subfigure}
 \end{figure}
 
+A next step was to render one eye in a full HD size and do all image 
+transformations (mainly crop and distort) after it, allowing bystanders to get 
+a clear first person image of the actors experience. As previously pointed out, 
+this works but sometimes loses interaction context, especially when no hands 
+are visible.
+
+Then there is currently only one game, Rick and Morty: Virtual Rick-ality, that 
+has an optional CCTV feature enabled, in which third persons can control a 
+variety of mounted, virtual cameras and follow the actors interaction with the 
+3D environment. This VR actor is then replaced with an avatar to visualize what 
+he is doing.
+
+\todo[inline]{Maybe I should pin down the timeline - how long it took for a 
+next step to emerge from the medium.}
+
+Finally there is mixed reality, where the VR actor gets placed in context of 
+the virtual reality scene. This has been done previously by post-production for 
+trailers and allows for a better understanding between virtual interaction and 
+real actor motion. With its help it is possible to invite third person viewers 
+into the VR experience in a natural way.
 
 \section{Mixed Reality and its use cases}
 
+\todo[inline]{There is a meeting planned to discuss A+Cs interest and use cases 
+for MR - which then probably ends up in here in a summary.}
 
+\section{Current state of Mixed Reality Production}
 
+There have been an increasing number of presentations of mixed reality setups. 
+To sort this thesis into the current scope of production environments, it is 
+necessary to look at other approaches and their differences to the proposed 
+solution.
+
+\subsection{SteamVR \& Oculus SDK plugins}
+
+Both SteamVR and Oculus SDKs supply plugins to enable mixed reality capture. 
+Both system approach the problem similarly by compositing an incoming video 
+stream directly at the current position of an registered camera tracker, thus 
+failing to accommodate for different input latencies from the motion video 
+feed. Oculus states on their manuals, that these are currently only intended 
+for "for proof-of-concept, troubleshooting, and hobby use." 
+\ref{oculus:2017:mr-setup}
+\newline
+In addition supports SteamVRs solution only video-output composition with a 4K 
+HDMI output - which in turn means that the signal has to be captured on an 
+external device and has to be composited on a secondary system. The 
+configuration parameters are barebones at best and yielding good results is a 
+matter of the best possible studio setup capture.
+
+\subsection{Fantastic Contraption}
+
+The game "Fantastic Contraption" from 2016 allows livestreamers to do a video 
+composition for mixed reality. While this approach allows to mitigate video 
+input delays it cannot have a free moving camera with an additional motion 
+tracker.
+\newline
+"Fantastic Contraptions" trailers also show another approach by replacing the 
+actor with an avatar by basically rendering a certain depth and then placing 
+real world camera footage as background. With such a system any live video 
+background removal is not necessary and an real world footage of the actor is 
+lost. The trailer composition has been achieved in post production.
+
+\subsection{Owlchemy Labs Mixed Reality}
+
+Owlchemy Labs is a VR game developer located in Austin, Texas. They're working 
+on VR experiments and use similar techniques discussed in this paper. Their key 
+difference is visual reproduction since they're using a stereoscopic camera to 
+record an actor and can reproduce the actors depth per pixel.
+\newline
+While Owlchemy Labs announced real time mixed reality compositing, there hasn't 
+been a shipped product or update for one of their products that allows for live 
+mixed reality capture.
+
+\subsection{Apple Keynote}
+
+Apple presented a mixed reality showcase done on their computer systems on 
+their annual keynote "WWDC17". It is driven by Unreal Engine and uses also 
+similar techniques as discussed in this thesis. That presentation is currently 
+the best live performance of mixed reality with a high quality chroma keying, 
+depth reconstruction and high fidelity graphics. There is no technical 
+information available yet.
