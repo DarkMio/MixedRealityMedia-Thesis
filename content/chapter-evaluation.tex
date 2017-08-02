@@ -1,21 +1,116 @@
+% !TeX spellcheck = en_GB
 % !TEX root = ../thesis-example.tex
 %
-\chapter{Evaluation}
+\chapter{Evaluation \& future work}
 
-\section{Selling VR Spaces}
-\subsection{3rd Person Impressions}
-\subsection{merging VR Interactivity with audience}
-\subsection{managing VR shyness}
+\section{Hardware setup variations}
 
-\section{Hardware Setup Variations}
+Due to the nature of this setup and fine-tweaking options inside the engine, 
+this approach discussed can have a wide variety of operational setups. By lose 
+coupling of these hardware factors there are only a few limitations that can 
+either solved by better, future hardware or a different approach that are 
+outside of the scope.
+
+As integral part of this setup is the motion tracking solution, it is possible 
+to hook up an Oculus Rift\footnote{with its room-scale setup} instead of the 
+HTC Vive and set one controller as camera-attachment point. For that there 
+would be another 3D print needed to attach the controller to a camera solution. 
+\newline
+Other third market VR-HMDs usually follow the Vives specifications closely and 
+integrate natively with SteamVR, thus no modification on the original 
+instalment has to be done.
+\newline
+Through Virtual Reality Peripheral Network or OpenVR simliar solutions can be 
+developed, since none of the software explicitly depends on SteamVR features.
+
+The other side, the video capture side, can be varied greatly too. Since the 
+software only allows a webcam-compatible device, it would be possible to remove 
+the Inogeni-Encoder and replace it with cheap and simple webcams. Similarly can 
+a camera replaced along with other recording solutions, as long as it outputs 
+an HDMI (or HDMI-convertible) video stream. This allows recording to be as 
+complex as needed but in general a DSLR camera will suffice.
+
+Finally, since the full pipeline is rather complex, a good desktop PC will be 
+needed. The CPU overhead is minimal but the graphical complexity is based on 
+limitations of the GPU. With future iteration of this hardware it will be 
+possible to create more complex scenery.
+\todo[inline]{you don't say >\_>}
+In theory a low-poly environment could be render-able on mobile, combined with 
+a low-sample rate on the camera image, to produce a "a window" into VR for 
+multiple users at the same time, thus enabling an indefinite view into virtual 
+reality. Further work could tap into a Microsoft HoloLens solution, which could 
+enable a direct contextualization of an actor into a VR scenery. With fast 
+approximate algorithms, like YCgCo-Keying, this could produce a high-framerate 
+transparent overlay, so that the virtual scene does not clip the actor.
 
 \section{Rendering Setup Variations}
 \subsection{Single Camera - 3D plane in space}
 \subsection{Deferred shading Path}
 \subsection{Composition Workstation (4 patch)}
 
+\section{Rendering operation variations}
+
+This setup can handle another operational context by leaving out 
+background-sorting and only rendering a virtual "front", by which a high 
+quality augmented camera setup can be achieved. Since time drift between camera 
+and engine is already handled, it is possible to render an augmented image. 
+Since depth information is lost, it is not possible to handle obstructions - in 
+example by an interacting user that is standing in front of the augmented 
+object. However, with some composition and choreography, AR footage can be 
+showed and captured in live production for further use.
+\newline
+This thesis assumes that the motion video feed is calibrated for a D65 white 
+and augmented reality scenarios usually do not take real world lightning into 
+account, it would give a best, natural and high quality look into augmented 
+reality showcases.
+
 \section{Edge Cases}
 \subsection{Image Clipping - incorrect Z calculation for hands}
+
+Due to the planar projection of the real world feed inside the engine, any 
+Z-information of the actor is squashed to a fixed point. This means that hands 
+are on the same plane. In cases with high z-difference between actor and actors 
+hands, it is possible that hand motion look unnatural and does not look like it 
+is supposed - in figure [MISSING!] is an actor depicted, that wraps his arms 
+around a virtual cube. The produced mixed reality image shows his arms only 
+behind the cube.
+\todo[inline]{add missing figure}
+One solution for future research could be acquiring an actors depth by either 
+using Time of Flight cameras and using a resulting point cloud or by 
+calculating each camera pixels depth with stereoscopic setups. Thus each pixel 
+could have a quantifiable depth with additional calibration parameters from the 
+virtual reality tracking solution.
+
 \subsection{Shadow Artifacts in multiple camera slices}
+
+I believe I have solved that problem, but I gotta check.
+
 \subsection{Culling Artifacts}
-\subsection{Stencil Clipping by faulty setup}
+
+I zink' this is solved, too.
+
+\subsection{Calibration problems (wrong clipping, wrong reprojection, long 
+setup times)}
+
+The biggest margin of error is calibration of all projection parameters.
+\newline
+Beginning from field of view calculation, most DSLR cameras don't have 
+specifications for their output feeds, where, for example, scaling factors 
+could change the field of view angle. If these are not given or seem to be 
+unfitting in production it is necessary to measure these parameters by hand, 
+fixing the cameras position and calculating the spanning angle.
+\todo[inline]{maybe add the ez calculation, too}
+Another factor are offset-parameters between controllers and camera sensor, 
+which have been minimized by the 3D printed attachment. However, minimal 
+differences in this transformation matrix have tremendous impact on 
+miscalculated projections, visible by wrongly placed objects and a disconnect 
+between virtual interaction and actor.
+\todo[inline]{Here comes a graphical representation of it}
+Lastly, the most time spent after adding all mixed reality components to the 
+scene is calibrating these parameters. A possible improvement could be done by 
+fixing the cameras position, showing an overlay on the camera, where the 
+secondary controller has to be placed and confirming it. This way the user can 
+calibrate all projection parameters by himself with the help of a RANSAC / 
+Lagrange Polynomial.
+\todo[inline]{find out how this calibration is called: 
+https://www.youtube.com/watch?v=c\_An0vxvPnk}
