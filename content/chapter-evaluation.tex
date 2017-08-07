@@ -42,13 +42,89 @@ reality. Further work could tap into a Microsoft HoloLens solution, which could
 enable a direct contextualization of an actor into a VR scenery. With fast 
 approximate algorithms, like YCgCo-Keying, this could produce a high-framerate 
 transparent overlay, so that the virtual scene does not clip the actor.
+<<<<<<< Updated upstream
+=======
+
+While working with this setup another possible use-case showed up: On June 2017 
+Apple presented their native Augmented Reality kit integrated in their consumer 
+devices. Thus a similar setup could be used to send all tracking parameters 
+from the HTC Vive headset to these devices and have a calibrated north-wall 
+with additional feature markers. This would potentially allow to have an 
+augmented reality view around the actors world with a fast approximated actor 
+position. It could then be possible for multiple users to use these devices as 
+window into the virtual reality experience.
+>>>>>>> Stashed changes
 
 \section{Rendering Setup Variations}
+
+There are a few approaches that work similarly, but are different in 
+complexity, their capabilities and hardware setups. They have been already 
+explored and are covered here for completeness.
+
 \subsection{Single Camera - 3D plane in space}
+
+A novel approach is rendering the camera image onto a 2D plane positioned 
+inside the 3D scene. This gives high control over projection parameters inside 
+the engine without a running software and has good visual feedback for artists. 
+All additional steps previously discussed are invalid, since this render can 
+take full advantage of all realtime rendering parameters - which in turn means 
+for lower render overhead and better graphical performance. It fails however on 
+delay mitigation, which makes time drift between engine and camera visible, 
+thus only usable with low latency video capturing devices.
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/editor_single_camera.png}
+	\caption{Demonstrative scene with a plane as camera rendering position}
+	\label{fig:alt-render:single-camera}
+\end{figure}
+
 \subsection{Deferred shading Path}
+
+Similarly to the single camera approach could be a deferred shader be used, in 
+which the plane is projected and texturized after the scene has rendered and 
+the gbuffer is still present - this way the total time taken for rendering can 
+be calculated and the chroma keying step can be chosen for a faster variant if 
+needed. This gives generally better control and could yield higher performance, 
+since all projected fragments have an assigned depth - the camera image only 
+has to be calculated where the actors depth is smaller as the sceneries depth.
+This method is also lacking a way of adjusting for time drift. Additionally 
+calculating lightning is relatively expensive, due to the reprojection of 
+lighting parameters inside the gbuffer.
+
 \subsection{Composition Workstation (4 patch)}
 
+<<<<<<< Updated upstream
 \section{Rendering operation variations}
+=======
+Lastly, for full video production setups another rendering approach has been 
+suggested, which was used for the initial promo material for the HTC Vive. It 
+includes rendering a 4K video signal, outputting it to a composition PC which 
+then takes care about managing time drift and video input from the camera.
+\newline
+The general concept involves a production of four 1920x1080 video signals of 
+the virtual environment:
+\begin{my_list}
+	\item Foreground
+	\item Video matte of foreground
+	\item Background
+	\item First person view
+\end{my_list}
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/4patch_composite.png}
+	\caption{Actual order of computation}
+	\label{fig:alt-render:4patch}
+\end{figure}
+
+Due to the system separation it is now possible to use green screen hardware 
+compositor which have a visually higher quality in pulling the green background 
+matte and then compositing it similarly into a mixed reality image. While this 
+lifts some rendering overhead from the host PC, it fails in recreating a 
+lightning environment for the VR actor and relies on two system. While engine 
+programming complexity decreases, operational setup complexity increases.
+
+\section{Rendering operational variations}
+>>>>>>> Stashed changes
 
 This setup can handle another operational context by leaving out 
 background-sorting and only rendering a virtual "front", by which a high 
@@ -65,6 +141,11 @@ account, it would give a best, natural and high quality look into augmented
 reality showcases.
 
 \section{Edge Cases}
+
+The proposed method has edge cases which could be further improved by other 
+approaches in rendering or capturing actor video. These highlight issues 
+observed with the rendering operations discussed in this thesis.
+
 \subsection{Image Clipping - incorrect Z calculation for hands}
 
 Due to the planar projection of the real world feed inside the engine, any 
@@ -81,6 +162,7 @@ calculating each camera pixels depth with stereoscopic setups. Thus each pixel
 could have a quantifiable depth with additional calibration parameters from the 
 virtual reality tracking solution.
 
+<<<<<<< Updated upstream
 \subsection{Shadow Artifacts in multiple camera slices}
 
 I believe I have solved that problem, but I gotta check.
@@ -88,6 +170,30 @@ I believe I have solved that problem, but I gotta check.
 \subsection{Culling Artifacts}
 
 I zink' this is solved, too.
+=======
+\subsection{Matting failures}
+
+There are multiple problems while green screening, which are as old as green 
+screens are used in video production. First and foremost is a partial 
+transparent actor if his clothing consists of similarly green shaded material.
+\newline
+Additional green screen spill causes artefacts while pulling the matte which 
+then clips the actor off. This can be mitigated by better production 
+environments, i. e. with higher quality cloth and a generally well lit set. 
+\todo[inline]{"Proper Lightning Setup" should still be in the appendix :<}
+Sometimes, for example in low light environments or folded green screen 
+material, the background covers a wide color range, thus making a good 
+calibration with a single color nearly impossible. This could be solved by 
+smaller selection margins inside the shader while assigning an array of colors 
+for the $\Delta E$ calculation. In turn, this would be even more taxing on the 
+GPU.
+\newline
+Lastly, real time chroma keying has problems with motion blur of the source 
+video material - causing background mixing and invalid matting. This is a 
+complex problem that is far beyond the scope of this thesis.
+\todo[inline]{Add graphics depicting each issue. Also cross reference to 
+chapter 4}
+>>>>>>> Stashed changes
 
 \subsection{Calibration problems (wrong clipping, wrong reprojection, long 
 setup times)}
