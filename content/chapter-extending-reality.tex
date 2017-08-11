@@ -13,15 +13,16 @@ overwhelmed by the moving image [...] coming directly at them that people
 screamed and ran to the back of the room". \cite{wiki:train:2017} With that a 
 new medium was born, which matured into a new art form of film and movies.
 \newline
-Most important is that with this short clip opened a door beyond still images 
-and their limited depiction of motion. Video imagery changed our imagination 
-and allowed for a new communication form, inviting into an animated, moving 
-world. There have been great achievements in the last century in motion video 
-production with a great amount of visual trickery for composing more realistic 
-and imaginative video content. With the help of Computer Generated Imagery 
-(CGI) blurs the boundaries between real acting and virtual recreation so very 
-far, that it is almost impossible to differentiate between real world video 
-capture and 3D recreated imagery.
+Most important takeaway is, that with this short clip alone, a door beyond 
+still images and their limited depiction of motion has been opened. Video 
+imagery changed our imagination and allowed for a new communication form, 
+inviting into an animated, moving world. There have been great achievements in 
+the last century in motion video production with a great amount of visual 
+trickery for composing more realistic and imaginative video content. With the 
+help of Computer Generated Imagery (CGI) blurs the boundaries between real 
+acting and virtual recreation so far, that it is almost impossible to 
+differentiate between real world video capture and 3D recreated imagery in high 
+budget productions.
 
 \section{Motion Video Production}
 
@@ -31,14 +32,12 @@ composition techniques might give an appropriate overview to range where Mixed
 Reality takes its inspiration from.
 
 Way before digital imaging processing took over production sets similar 
-problems as discussed in this thesis had to be solved, i. e. how an actor can 
-be captured without a back- or foreground and how he would then be integrated 
-into an imaginative set. Today, modern action movies don't even necessarily 
-capture the actor but his movements, which then will be artificially rendered 
-with computer generated imagery.
-
-\todo[inline]{Missing: Camera tricks, computer aided visual effects, green 
-screens}
+problems as discussed in this thesis had to be solved, in example how an actor 
+can be captured without a back- or foreground and how he would then be 
+integrated into an imaginative set. Today, modern action movies don't even 
+necessarily capture the actor but his movements, which then will be 
+artificially rendered with help of CGI. \todo{Missing: Camera tricks, computer 
+aided visual effects, green screens}
 
 \section{CGI \& Video Composition}
 
@@ -47,11 +46,15 @@ screens}
 Set theory is beyond the scope of this thesis, but green- and blue screen 
 production has first and foremost a simple reasoning: Green and blue are two of 
 the three color triplets that resemble a least amount of color found in 
-capturing of humans - and to a certain extent any flora and fauna. Since chroma 
+capturing of humans - and to a certain extent any flora or fauna. Since chroma 
 keying (see Ch. \ref{sec:chromakey}) takes color distance as general basis, 
-production environments generally use green screen keying.
+production environments use green screen keying in varying forms. Next to 
+$\Delta E$, which will be discussed further, another approach is the 
+calculation of fore- and background color spaces and separation of them. The 
+latter solution is highly computation intense and is not suitable for runtime 
+applications. \cite{disney:unmixing:2017}
 \newline
-Green boxes abuse a correlating advantage that the human eye is most 
+Green boxes also abuse a correlating advantage that the human eye is most 
 susceptible to green, allowing for a visual high color range and an ability to 
 differentiate between many shades of green. Experiments to color range have 
 been done since 1942, trying to understand gambit ranges and color 
@@ -74,25 +77,24 @@ vector space its highest perceptible range. \cite{MacAdam:1942}
 		L types after Wyszecki et. al \cite{wiki:Wyszecki:2017}}. Notice the 
 		overlap between M and L cones.
 	\end{subfigure}
-\end{figure}
-
-\todo[inline]{The layout is a bit wonky here.}
+\end{figure} \todo{The layout is a bit wonky here.}
 
 Most consumer cameras - and even most production cameras - use dot-matrix 
 sensors with a weighted ration of green (4), red (2) and blue (2) pixels, 
-called Bayer pattern \cite{kodak:bayer:1976}. Green is generally easier to 
-light, illuminate and adjust over blue screens. Small irregularities, for 
-example through uneven lightning or crinkles in the material, can be adjusted 
-easily by the user and allows for a relatively clean camera image generation.
+called Bayer pattern \cite{kodak:bayer:1976}, giving it - similar to human 
+vision - a high color vector space. Green is generally easier to light, 
+illuminate and adjust over blue screens. Small irregularities, for example 
+through uneven lightning or crinkles in the material, can be adjusted easily by 
+the user and allows for a relatively clean camera image generation.
 \newline
 The quality of input footage makes a big difference in separating back- and 
-foreground, hence is a well lit and adjusted set a good backbone for well 
+foreground, hence a well lit and adjusted set is a good backbone for well 
 working chroma keying.
 
 \section{What's VR - Differentiation of AR, VR \& MR}
 
-In search of an appropriate abbreviation for computer-enhanced realtime imagery 
-a recent addition is "XR", where \textit{X} is a letter of your choice. 
+In search of an appropriate abbreviation for computer-enhanced real time 
+imagery a recent addition is "XR", where \textit{X} is a letter of your choice. 
 Definitions are getting more diluted and generally describe a technique, rather 
 than an apparent effect by now.
 
@@ -104,30 +106,32 @@ than an apparent effect by now.
 \end{figure}
 Augmented Reality (AR) is a concept by augmenting real world imagery with 
 additional information and interactable objects. It ranges from very simple 
-devices displaying data in the field of view of a user up to full augmentation, 
-displaying 3D models overlaying on real world objects. This can be done ranging 
-from Pepper's Ghost projections, augmenting video - a famous example is the 
-rather successful "Pokémon GO" -, up to the Microsoft HoloLens, that has 
-sensors for a wide range of spatial mapping, spatial anchoring and distance 
-field calculation.
+devices displaying data in the field of view of an user up to full 
+augmentation, displaying 3D models overlaying on real world objects. This can 
+be done ranging from Pepper's Ghost projections, augmenting video - a famous 
+example is the rather successful "Pokémon GO" -, up to the Microsoft HoloLens, 
+that has sensors for a wide range of spatial mapping, spatial anchoring and 
+distant field calculation.
 
 Virtual Reality is a concept usually done by stereo projection of a 3D 
 environment inside a Head Mounted Display. It takes an user out of the current 
-room and sets him into a complete new, virtual reality - hence it's names 
+room and sets him into a complete new, virtual reality - hence its names 
 origin. HMD hardware ranges from the simplistic Google Cardboard 
-\footnote{using a smartphone as display device} to the Samsung GearVR 
-\footnote{similarly uses a smartphone as display driver} up to the Oculus Rift 
-and HTC Vive. The latter two products offer room-scale experiences where a user 
-is able to move freely in his play space (basically a tacked bounding volume) 
-and allows for six degrees of freedom (\gls{6dof}) tracking.
+\footnote{using a smart phone as display device} to the Samsung GearVR 
+\footnote{similarly uses a smart phone as display driver} up to the Oculus Rift 
+and HTC Vive\footnote{which are driven by a mid- to high range PC}. The latter 
+two products offer room-scale experiences where an user is able to move freely 
+in his play space (basically a tacked bounding volume) and allows for six 
+degrees of freedom (\gls{6dof}) tracking.
 
 Mixed Reality is an extension of Virtual Reality, allowing bystanders to get an 
-impression of the virtual reality around an actor. By reproducing virtual 
-projection parameters of a 3D environment, it is possible to place a real world 
-camera feed at the right position inside the 3D application. This yields to a 
-combined technique of Augmented and Virtual Reality. A production environment 
-can be achieved with a \gls{6DOF} HMD and additional - either user- or tracking 
-input of - positional parameters for the camera. 
+impression of the virtual 3D environment around an actor. By reproducing 
+virtual projection parameters of a 3D environment, it is possible to place a 
+real world camera feed at the right position inside the 3D scene. This 
+yields a combined application of Augmented and Virtual Reality technique. A 
+production environment can be achieved with a \gls{6DOF} HMD and additional - 
+either user or tracking input for positional and rotational parameters for the 
+real world camera. 
 
 \section{Immersion vs. Communication}
 
@@ -140,38 +144,38 @@ Additionally doesn't VR offer any ways to allow observers a similar experience
 as the VR actor.
 \newline
 A very obvious problem starts on interaction. A VR user doesn't always need to 
-see his hands to interact with a scene, due to the natural way of holding these 
+see his hands to interact with a scene due to the natural way of holding these 
 controllers in his hands and directly translating controller interaction to the
-virtual environment. An outside viewer however does not see hands and will 
-not understand actions performed by the user if he cannot see the virtual 
-hands. Any usage context that happens off-screen cannot be communicated and 
-will be therefore lost.
+virtual environment. However an outside viewer does not see the actors hands 
+and will not understand any actions performed by the user if he doesn't see the 
+virtual hands. Any usage context that happens off-screen cannot be communicated 
+and therefore will be lost.
 \newline
 A recent game example, Rick and Morty: Virtual Rick-ality, tries to mitigate 
 this issue by placing virtual CCTV cameras into the scene, which can be 
-controlled through outside viewers - giving a neutral third-person view into 
-the three-dimension scene. The VR actor is replaced as a loose avatar 
+controlled through outside observers - giving a neutral third-person view into 
+the three-dimensional scene. A VR actor is replaced as a loose avatar 
 representing a figure (Morty) from the cartoons universe.
-
-\todo[inline]{Add a screenshot of that}
+\todo{Add a screenshot of that}
 
 Mixed Reality merges the actors and virtual realities context, allowing outside 
 bystanders a comparable window into the actors experienced world. In fact, 
 initial promotional material for the HTC Vive showed mixed reality footage, 
 produced by one VR computer and a secondary composition PC 
 \cite{valve:mr-production:2016}. It's setup is comparable to the one in this 
-thesis and differs by using more than one software context, done by outputting 
-a rendered image of the virtual scene and compositing it on another system.
+thesis and differs by composition techniques and by using more than one 
+software context, done by outputting a rendered image of the virtual scene and 
+compositing it on another system.
 
 \subsection{Evolution of Virtual Reality Footage}
 
-Originally footage consisted of the output that was sent to the headset, 
+Originally VR footage consisted of the output that was sent to the headset, 
 including image transformation that needs to be done to correct the headset 
 lenses \footnote{this is referred to as "Barrel Distortion"} - this distorted 
 dual image is very hard to follow, as it adds two ambiguous images and has 
 additional a high distortion. Since the direct feed to a HMD is used, any 
-translation of the headsets position is visible, which results in a jittery 
-motion feed.
+translation of the headsets position is visible, which results in a jittery and 
+unnatural looking motion feed.
 
 \begin{figure}[htbp]
 	\label{fig:evolution:steps}
@@ -201,22 +205,22 @@ motion feed.
 	\end{subfigure}
 \end{figure}
 
-A next step was to render one eye in a full HD size and do all image 
-transformations (mainly crop and distort) after it, allowing bystanders to get 
-a clear first person image of the actors experience. As previously pointed out, 
-this works but sometimes loses interaction context, especially when no hands 
-are visible.
-
+A next step was to render one eye in fullscreen of the attached monitor and do 
+all image transformations (mainly crop and distort) after rendering it, 
+allowing bystanders to get a clear first person image of the actors experience. 
+Additionally, as a secondary camera, a dampened movement can be set to mitigate 
+jittery motion. As previously pointed out, this works but sometimes loses 
+interaction context, especially when no hands are visible. 
+\newline
 Then there is currently only one game, Rick and Morty: Virtual Rick-ality, that 
 has an optional CCTV feature enabled, in which third persons can control a 
 variety of mounted, virtual cameras and follow the actors interaction with the 
 3D environment. This VR actor is then replaced with an avatar to visualize what 
-he is doing.
-
-\todo[inline]{Maybe I should pin down the timeline - how long it took for a 
+how he is interacting with the scenery.
+\todo{Maybe I should pin down the timeline - how long it took for a 
 next step to emerge from the medium.}
-
-Finally there is mixed reality, where the VR actor gets placed in context of 
+\newline
+Finally there is mixed reality, where the VR actor is placed in context of 
 the virtual reality scene. This has been done previously by post-production for 
 trailers and allows for a better understanding between virtual interaction and 
 real actor motion. With its help it is possible to invite third person viewers 
@@ -224,30 +228,30 @@ into the VR experience in a natural way.
 
 \section{Mixed Reality and its use cases}
 
-\todo[inline]{There is a meeting planned to discuss A+Cs interest and use cases 
+\todo{There is a meeting planned to discuss A+Cs interest and use cases 
 for MR - which then probably ends up in here in a summary.}
 
 \section{Current state of Mixed Reality Production}
 
-There have been an increasing number of presentations of mixed reality setups. 
+There have been an increasing number of presentations for mixed reality setups. 
 To sort this thesis into the current scope of production environments, it is 
 necessary to look at other approaches and their differences to the proposed 
 solution.
 
 \subsection{SteamVR \& Oculus SDK plugins}
 
-Both SteamVR and Oculus SDKs supply plugins to enable mixed reality capture. 
-Both system approach the problem similarly by compositing an incoming video 
+Both SteamVR and Oculus SDKs supply plugins to enable mixed reality capturing. 
+These system approach the problem similarly by compositing an incoming video 
 stream directly at the current position of an registered camera tracker, thus 
 failing to accommodate for different input latencies from the motion video 
-feed. Oculus states on their manuals, that these are currently only intended 
-for "for proof-of-concept, troubleshooting, and hobby use." 
-\ref{oculus:2017:mr-setup}
+feed, yielding an inconsistent visual performance. Oculus states on their 
+manuals, that these are currently only intended "for proof-of-concept, 
+troubleshooting, and hobby use." \ref{oculus:mr-setup:2017}
 \newline
-In addition supports SteamVRs solution only video-output composition with a 4K 
+In addition SteamVRs solution supports only video-output composition with a 4K 
 HDMI output - which in turn means that the signal has to be captured on an 
 external device and has to be composited on a secondary system. The 
-configuration parameters are barebones at best and yielding good results is a 
+configuration parameters are "barebones" at best and yielding good results is a 
 matter of the best possible studio setup capture.
 
 \subsection{Fantastic Contraption}
@@ -260,25 +264,27 @@ tracker.
 "Fantastic Contraptions" trailers also show another approach by replacing the 
 actor with an avatar by basically rendering a certain depth and then placing 
 real world camera footage as background. With such a system any live video 
-background removal is not necessary and an real world footage of the actor is 
-lost. The trailer composition has been achieved in post production.
+background removal is not necessary and real world footage of the actor is 
+lost. The games trailer composition has been achieved in post production. 
+\cite{gartner:cinematography:2017}
 
 \subsection{Owlchemy Labs Mixed Reality}
 
 Owlchemy Labs is a VR game developer located in Austin, Texas. They're working 
 on VR experiments and use similar techniques discussed in this paper. Their key 
-difference is visual reproduction since they're using a stereoscopic camera to 
-record an actor and can reproduce the actors depth per pixel.
+difference in visual reproduction is by using a stereoscopic camera to record 
+an actor and can reproduce the actors depth per pixel, allowing for more 
+complex fore- and background separation for a more accurate visual reproduction.
 \newline
 While Owlchemy Labs announced real time mixed reality compositing, there hasn't 
-been a shipped product or update for one of their products that allows for live 
-mixed reality capture.
+been a shipped product or update for one of their games that allows for live 
+mixed reality capture. \todo{Sauce!11!}
 
 \subsection{Apple Keynote}
 
-Apple presented a mixed reality showcase done on their computer systems on 
-their annual keynote "WWDC17". It is driven by Unreal Engine and uses also 
-similar techniques as discussed in this thesis. That presentation is currently 
-the best live performance of mixed reality with a high quality chroma keying, 
-depth reconstruction and high fidelity graphics. There is no technical 
-information available yet.
+Apple presented a real time mixed reality showcase done on their computer 
+systems on their annual keynote "WWDC17". It is driven by Unreal Engine and 
+uses also similar techniques as discussed in this thesis. That presentation is 
+currently the best live performance of mixed reality with a high quality chroma 
+keying, depth reconstruction and high fidelity graphics. There is no technical 
+information available yet. \todo{Gimme that sauce, at least 'ze video!}

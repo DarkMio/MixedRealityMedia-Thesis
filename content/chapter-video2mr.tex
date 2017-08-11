@@ -4,48 +4,53 @@
 \chapter{From Video to Mixed Reality}
 \label{chap:video2mr}
 
-\todo[inline]{Needs better sourcing.}
+\todo{Needs better sourcing.}
 
 To achieve a real time rendering environment, as previously mentioned, there 
 are two main production cycles. The one discussed in this thesis resolves this 
-problem by staying inside one application with multiple render cycles per 
+problem by staying inside one application with multiple render operations per 
 frame, the other will be briefly mentioned in related work. 
 \newline
 The first and most important render cycle is the stereoscopic output of the 
 Vive HMD, which has a set frame rate of either 45 or 90 frames per second - 
 this is a hard limitation by the providing library, which stalls Unitys' 
-rendering if a render cycle is above $11ms$. It is important to have consistent 
-performance, otherwise the experience for an actor with the HMD will be 
-terrible. This will influence a mixed reality composition, since frame rate 
-targets should be evaluated early in production to fit the composition 
-environment. Since the render pipeline is mostly affected by GPU performance, 
-high fidelity graphics can be achieved with later iterations of graphical 
-hardware. Also recent history has shown that different instancing and render 
-methods can yield massive performance gains.
+rendering if a render cycle is above $11ms = 1s / 90$. It is important to have 
+consistent performance, otherwise the experience for an actor with the HMD will 
+be terribly degraded. This will influence a mixed reality composition, since 
+frame rate targets should be evaluated early in production to fit the 
+composition environment. Since the render pipeline is mostly affected by GPU 
+performance, high fidelity graphics can be achieved with later iterations of 
+graphical hardware. Also recent history has shown that different instancing and 
+render methods can yield massive performance gains and will likely improve in 
+the future of VR. \todo{source?}
 \newline
 After rendering a stereoscopic image to the HMD another, secondary render cycle 
 has to be done on the same frame, which is an in-engine camera inside the 
 virtual scene and the relative position of the real world HMD and real world 
 camera. Since the SteamVR library for the HTC Vive already exposes a 
-normalized, synchronized tracking, it is easily possible to position the 
-in-engine camera at an accurate location. This positional and rotational data 
-is achieved by strapping a HTC Vive Controller (or HTC Vive Tracker) to the 
-real world camera and adding another transform to the in-engine render camera 
-to allow for an offset, which is yielded to the difference between sensor 
-location of the video capturing device and the tracking anchor of a controller.
+normalized, synchronized device tracking, it is easily possible to position the 
+in-engine camera at an accurate location of the real world capturing device. 
+This positional and rotational data is achieved by strapping a HTC Vive 
+Controller (or HTC Vive Tracker) to the real world camera and adding another 
+transform to the in-engine render camera to allow for an offset, which is 
+yielded to the difference between sensor location of the video capturing device 
+and the tracking center of a controller / tracker.
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/pipeline_steps/4_0_pipeline.pdf}
-	\caption{Full mixed reality graphics pipeline}
+	\caption{Full mixed reality graphics pipeline in order of graphical 
+	fidelity impact}
 	\label{fig:steps:pipeline}
 \end{figure}
 
-
 The following chapter describes the techniques used to transform motion video 
-inside a greenscreen into a mixed reality image. As brief overview, the steps 
-required are performed in sequential order from the motion video feed. This is 
-different to the actual render order but gives a better understanding of the 
-techniques used to achieve a mixed reality imagery.
+inside a green screen into a mixed reality image. As brief overview, the steps 
+required are performed in order of biggest impact in graphical fidelity (Fig. 
+\ref{fig:steps:pipeline}) for the composition of a real world motion video 
+feed. This is different to the actual render order but gives a better 
+understanding of the techniques used to achieve a mixed reality imagery. A 
+closing remark with the order of calculation has been added at the end of the 
+chapter. \todo{If it doesn't stay in the appendix}
 
 \input{content/chapter-video2mr-chromakey}        % Chroma Key Section
 \input{content/chapter-video2mr-bufferdelay}      % Render Buffer Swapper

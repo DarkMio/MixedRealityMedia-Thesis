@@ -4,8 +4,8 @@
 \section{Chroma Key}
 \label{sec:chromakey}
 
-Beginning from the camera, the video signal travels through the Inogeni 
-converter and is accessible with the systems API for webcams. 
+Beginning from a real world camera, the video signal travels through the 
+Inogeni 4KUSB3 converter and is accessible with the systems API for webcams. 
 (See figure \ref{fig:system-components})
 
 \begin{figure}[htb]
@@ -15,18 +15,19 @@ converter and is accessible with the systems API for webcams.
 \end{figure}
 
 The initial step is to remove the green (or blue) background from the image, 
-which should be either a green (or blue) box, in this case it is a greenscreen. 
-Other literature usually refers to it as "pulling a video matte" or "chroma 
-keying". For a reference green, there has to be a color picked manually in the 
-material editor of Unity - this was made easy by a checkbox to show raw output 
-from the camera. Then a middle-ground green can be picked. This is an important 
-setup step, since lightning situations can vary greatly and minor differences 
-in light setups can have a great effect on the outcome of visible green 
-background captured by the camera.
+which should be live footage of a green (or blue) box. Other literature usually 
+refers to it as "pulling a video matte" or "chroma keying." For a reference 
+green, there has to be a color picked manually in the material editor of Unity 
+- this was made by a checkbox to show raw output from the camera. \todo{Image 
+of the material editor} Then an average green from the background box can be 
+picked. This is an important setup step, since lightning situations can vary 
+greatly and minor differences in light setups can have a great effect on the 
+outcome of visible green background captured by the camera, thus making a 
+recalibration necessary.
 \newline
-An extreme example case is used for comparing these chroma keying variants, 
-which shows high motion blue due to a low shutter speed and fast movement of 
-the depicted actor:
+An extreme example case is used for comparing different chroma keying variants, 
+which shows high motion blur due to a low shutter speed of the capturing 
+camera and fast movement of the depicted actor:
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/Comparison_Example.png}
@@ -36,15 +37,15 @@ the depicted actor:
 
 \subsection{Initial Assumption}
 
-Each RGB color can be represented as a discrete 3-Vector of (red, green, blue) 
-values in range of $[0, 1]$\footnote{Software RGBA color representations 
+Each RGB color can be represented as a discrete 3-Vector of (red, green and 
+blue)  values in range of $[0, 1]$\footnote{Software RGBA color representations 
 usually take 8bit per color channel and map between $[0, 255]$ - graphic 
 computing usually maps between $[0, 1]$}. An interpolation between two colors 
 can be summarized as matting equation as following, where a foreground image 
 $C_F$ and a background image $C_B$ - $\alpha_B$ is assumed to be $1$:
 
 \eq{eq:chroma:assumption:alpha:1}{
-	I(x, y) = \alpha(x,y) C_F(x, y) + (1 - \alpha(x, y)) C_B(x, y)
+	I_{x, y} = \alpha_{x, y} C_{F_{x, y}} + (1 - \alpha_{x, y}) C_{B_{x, y}}
 }
 
 This matting equation has to be generalized for a later step, where 
@@ -53,45 +54,56 @@ total Alpha of $\alpha_T$ as following:
 
 \eq{eq:chroma:assumption:alpha:weak}{
 	\alpha_T = \alpha_B * (1 - \alpha_F) \\
-}
+} \todo{This does T as "Total"}
 
 thus:
 
 \eq{eq:chroma:assumption:alpha:cont}{
-	I(x, y) = (1 - \alpha_T)F(x, y) + \alpha_T B(x, y)
+	I_{x, y} = (1 - \alpha_T) F_{x, y} + \alpha_T B{x, y}
 }
 
-\subsection{Euclidean RGB Difference}
+This equation can take $\alpha_T < 1$ into account, which is needed later when 
+fore- and background of the virtual environment are merged with a layer in 
+between that results from the real world capture.
+
+\subsection{Euclidean RGB Distance}
 Assuming a source pixel color $C_S$ and a reference color $C_R$ we can 
-calculate the euclidean distance between these colors.
+calculate the euclidean distance between these two color vectors:
 \eq{eq:euclidianrgb}{
 	\alpha = \sqrt{(C_RR - C_SR)^2 + (C_RG - C_SG)^2 + (C_RB - C_SB)^2}
 }
-
-This is computationally very low cost and works well enough for tell a 
-difference between two separate colors. It fails to accommodate for colors that 
-are perceived as different, but are tinted by the reference colors. Since the 
-greenscreen material will never achieve 0\% reflectivity, some color will spill 
-onto the filmed actor and will therefore generate unwanted chroma-keying 
-artifacts, most noticeable on semi-glossy reflection of skin or color tints on 
-white clothing.
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/Comparison_RGB_color.png}
 	\caption{Chroma Keying by using euclidean RGB distance}
 	\label{fig:chroma:euclidean:rgb}
-\end{figure}
+\end{figure} \todo{Maybe put a highlight of the image together}
 
-\subsection{Euclidean YCgCo Difference}
+This is computationally very low cost and works well enough for tell a 
+difference between two distinct colors. It fails to accommodate for coloring 
+that is perceived as different, but are tinted by the reference colors. Since 
+the green screen material will never achieve 0\% reflectivity, some color will 
+spill onto the filmed actor and will therefore generate unwanted chroma-keying 
+artifacts, most noticeable on semi-glossy reflection of skin or color tints on 
+white clothing.
+
+\subsection{Euclidean YCgCo Distance}
 
 YCgCo gets its name for Luminance (Y), chrominance green (Cg) and chrominance 
 orange (Co) and helps decorrelating color spaces by splitting color-lightness 
-from color chrominances. Since it is a fast, lossless color transformation it 
+from color chrominances, thus splicing the color model into brightness and 
+color appearance. Since it is a fast, lossless color transformation it 
 is used in example for H.264 video encoding and other image compression 
 techniques. The two chrominance channels are then split into green to magenta 
 and orange to blue color channels and allow for a more accurate distance 
 calculation between two colors.
-\newline
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/Comparison_YCgCo_color.png}
+	\caption{Chroma Keying by using euclidean YCgCo distance}
+	\label{fig:chroma:euclidean:ycgco}
+\end{figure}
+
 Transforming any RGB color to YCgCo can done with a single matrix  
 multiplication, which is - again - a very low-cost computation on a GPU:
 
@@ -124,31 +136,28 @@ channels:
 }
 
 Since the increased decorrelation, the result is more accurate and shows less 
-artifacting on target pixels, allowing for a more accurate matte pulling, less 
-green edges and a more continuous image of an actor.
-
-\begin{figure}[htb]
-	\includegraphics[width=\textwidth]{_raw_resources/Comparison_YCgCo_color.png}
-	\caption{Chroma Keying by using euclidean YCgCo distance}
-	\label{fig:chroma:euclidean:ycgco}
-\end{figure}
+artifacting on target pixels, allowing for better matte pulling, less 
+green edges and a more continuous, smooth image of an actor.
 
 \subsection{Euclidean Lab Difference}
 The International Color Consortium (ICC) defined 1976 \textit{Lab $\Delta$E} as 
-a standard model of calculating color differences with \textit{Lab} colors. The 
-final distance calculation is, too, a linear euclidean distance as with all 
-other models, but accommodates for perceived color differences. It is a more 
-expensive computation wise and needs in implementation code branches, which 
-will both be evaluated by the GPU before using either branching code path.
+a standard model of calculating color differences inside the \textit{Lab} color 
+vector volume. The final distance calculation is, too, a linear euclidean 
+scalar as with all other models, but accommodates for perceived color 
+differences. It is a more expensive computation wise and needs in 
+implementation code branching, which will evaluate all branches first by the 
+GPU before using either code path.
 
-Since any given RGB color has to be converted to  the Lab color model a 
-reference white has to be used to accommodate for different color models. 
-Luckily the given webcam signal defaults to sRGB D65 and does not need a 
-configurable reference matrix based on a given color model.
+A reference white has to be used to convert RGB to the Lab color model to 
+accommodate for different RGB color spaces. \footnote{which are usually only 
+different on stored image material like photos or video} Luckily the given 
+webcam signal defaults to sRGB D65 and does not need a configurable reference 
+matrix based on a given color model to handle different RGB color standards.
 
-\todo[inline]{this is very rough and only contains equations currently used}
-
-sRGB conversion to linear RGB in respect of energy per channel:
+sRGB conversion needs to be converted to linear RGB while respecting light 
+energy per color channel, rather than relative, perceived color brightness: 
+\todo{this is very rough and only contains equations currently used - also 
+could need a better explanation for energy leveling}
 
 \eq{chroma:inversecompanding}{
 	v \in \{r, g, b\} \land V \in \{R, G, B\}
@@ -164,7 +173,8 @@ where:
 	\end{cases}
 }
 
-from there and RGB to XYZ conversion can be done by:
+from there an linear RGB color can be converted to XYZ by the following 
+equation:
 
 \eq{chroma:conversioncalc}{
 	\begin{bmatrix}
@@ -215,7 +225,7 @@ where:
 	\end{pmatrix}
 }
 
-Where $\begin{bmatrix}M\end{bmatrix}$ for RGB D65 is:
+The needed $\begin{bmatrix}M\end{bmatrix}$ for RGB D65 is defined as:
 
 \eq{chroma:sRGBD65}{
 	\begin{bmatrix}
@@ -265,16 +275,17 @@ where:
 }
 
 With this conversion from sRGB to linear RGB to XYZ to Lab we can now calculate 
-the euclidian linear distance between two colors $C_1$ and $C_2$, which already 
+the euclidian linear distance between two colors $C_S$ and $C_R$, which already 
 have been converted to Lab:
 
 \eq{chroma:cie76:distance}{
-	\Delta E = \sqrt{(C_2L - C_1L)^2 + (C_2a - C_1a)^2 + (C_2b - C_1b)^2}
+	\Delta E = \sqrt{(C_R L - C_S L)^2 + (C_R a - C_S a)^2 + (C_R b - C_S b)^2}
 }
 
-These values are rated by their perceptive difference \cite{mokrzycki:2012}:
+The resulting values are rated by their perceptive difference (after Mkrzycki 
+et. al. \cite{mokrzycki:2012}):
 
-\begin{tabular}{l | l}
+\begin{tabular}[htb]{l | l}
 	0.0 \dots 0.5 & the difference is unnoticeable \\
 	0.5 \dots 1.0 & the difference is only noticed by an experienced observer \\
 	1.0 \dots 2.0 & the difference is also noticed by an unexperienced observer 
@@ -282,7 +293,7 @@ These values are rated by their perceptive difference \cite{mokrzycki:2012}:
 	2.0 \dots 4.0 & the difference is clearly noticeable \\
 	4.0 \dots 5.0 & fundamental color difference  \\
 	> 5.0 		  & gives the impression that these are two different 
-	colors        
+	colors
 \end{tabular}
 
 Now it's possible to map alpha values for each pixel based on $\Delta$E 

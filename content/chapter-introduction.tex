@@ -15,19 +15,21 @@ great successes in the industry, most notably in image augmentation was
 "Pokémon Go" with an estimated install base of 750 million downloads 
 worldwide in June, 2017. \cite{appannie:2017}  Just before this thesis 
 started, Apple and Google showed off their consumer-ready hard- and software 
-for augmented reality experiences.
+for augmented reality experiences. \todo{urls to these 
+devices/solutions}
 \newline
 Virtual Reality Head Mounted Displays have had a similar push in sales with an 
-approximate of 5.83 million sold devices, which range in a sales price between 
-80 - 900€ for a VR kit, ranging from the very simple Google Daydream View and 
+approximate of 5.83 million sold devices, which range in sales price between 
+80 - 900€ for a VR kit, covering from the very simple Google Daydream View and 
 the very sophisticated HTC Vive. \cite{erguerel:2017} And in these figures are 
-the sales of Google Cardboards missing, which is approximated at around 80 
-Million.
+the sales of Google Cardboards missing, which is approximated at around 80  
+Million. \todo{source?}
 \newline
 This generation of computer systems, which includes PC workstations, game 
-consoles and smartphones, is finally sophisticated enough in computation speed 
-and sensor-sensitivity to allow low latency tracking, precise to just a few 
-millimeters spanning over an area of about $35m^2$.
+consoles and smart phones, is finally sophisticated enough in computation speed 
+and sensor-accuracy to allow low latency tracking, precise to just a few 
+millimeters spanning over an area of about $35m^2$. \todo{HTC Vive Room 
+Tracking specifications}
 
 \section{Overview}
 \label{sec:intro:outline}
@@ -41,8 +43,8 @@ imaginable environment.
 VR and HMDs are now advanced enough for consumer markets - but it stumbles at 
 communicating the experience. Without having ever put on a VR-Headset it is 
 nearly impossible to understand - or even imagine - what the virtual reality 
-experience means. Any observer of VR, usually done by showing what 
-the VR actor is seeing, will not be able to get an understanding of the 
+experience means and feels like. Any observer of VR, usually done by showing 
+what the VR actor is seeing, will not be able to get an understanding of the 
 importance and shift of reality perception without wearing the headset himself.
 \newline
 Showing the video output from a HMD as marketing material is contradicting with 
@@ -51,9 +53,9 @@ the perspective of a First Person Shooter is reenacted, which was in the
 overwhelmingly negatively received Doom (2005) movie.
 
 The VR industry, including but not limited to game developers, exhibition 
-creators and creative studios is in need of better communication of their 
-products that includes more than the current headset wearer and allows for a 
-similar, immersive but adapted experience.
+creators and creative studios is in need of better communication devices for 
+their products that includes more than the current headset wearer and allows 
+for a similar immersive but adapted experience.
 \newline
 The currently next step is called "Mixed Reality" (MR) and uses an external 
 camera with the same tracking hardware of the headset to produce a video signal 
@@ -70,14 +72,16 @@ interconnectivity begun and broadband Internet became commercially available.
 Suddenly remote multiplayer games, unlimited image sharing - and yes, music
 sharing, too -, Java-Applets, Flash, HTML framesets and "Marquee" CSS emerged in
 that medium. 3D Acceleration became a de-facto standard and even simple office
-PCs got weak, but dedicated graphics processing units built in. The mass of
-pixels by increasing the resolution of displays was basically a yearly
+PCs got weak, but dedicated graphics processing units built in, allowing for 
+more complex user interfaces, animations and graphical fidelity. The mass of 
+pixels by increasing the resolution of displays was basically a yearly 
 iteration in greater, better, smaller, denser and brighter.
 
 I am personally very interested and invested in Virtual/Mixed/Augmented Reality 
 to succeed and liked the idea to merge multiple forms of media into one - which 
 is, in my personal opinion, a great summary of my studies and its contents. 
-This thesis represents my interests and the reasons why I chose these studies.
+This thesis represents my interests and the reasons why I chose this field of 
+studies.
 
 \section{Problem Statement}
 \label{sec:intro:problem}
@@ -86,17 +90,20 @@ Initially I will research motion video productions, computer generated imagery
 and color theory. This leads to the knowledge of implementing basic, 
 interactive live motion video feeds.
 \newline
-The core aspect will be integrating a multitude of Hardware in a software that 
+The core aspect will be integrating a multitude of hardware in a software that 
 allows for dynamic video compositing in 3D environments at runtime while a user 
-is interacting with the virtual reality scene. This allows that the actor 
-using the Vive HMD to be composited into the scenery from a third person view 
-and it will looking like he is surrounded by the virtual scenery. The essential 
+is interacting with the virtual reality scene. This allows for an actor using 
+the Vive HMD to be composited into the scenery from a third person view 
+and it will look like he is surrounded by the virtual scenery. The essential 
 difference between classic post production is, that this system is planned to 
 operate on runtime, allowing additional observers to get an interesting 
-composited imagery of what the VR actor is experiencing.
+composited imagery of the VR actors experience.
 \newline
 An additional extension is to dynamically track the cameras position, allowing 
-for dynamic camera movement and a freely moving actor. 
+for dynamic camera movement and a freely moving actor. Further works goes into 
+increasing the resulting composited image quality by removing artifacts from 
+the video feed and recreating the lightning environment and transferring it to 
+the actors video feed. 
 
 \section{Challenges \& Scope}
 \label{sec:intro:challenges}
@@ -105,22 +112,24 @@ This thesis discusses the development and usage of a mixed reality setup inside
 a single PC and a single application.
 \newline
 It will highlight the core motion video production for mixed reality, as it 
-differs from other MR setups, by staying inside the programs boundaries, 
+differs from other MR setups by staying inside the programs boundaries, 
 integrating natively with the engine. Initially there is a need to solve for 
 different input latencies, especially from the live video feed, which changes 
 the rendering pipeline significantly.
 \newline
-Another core aspect will be chroma keying in real time rendering, as well as 
-image reproduction from the chroma result. In detail there will be a discourse 
-of layered image composition as result of fore- and background of the VR actor.
+Another main aspect will be chroma keying in real time rendering, as well as 
+image reproduction from the chroma matting result. In detail there will be a 
+discourse of layered image composition as result of fore- and background of the 
+VR actor.
 \newline
 Lastly composition controls will be implemented, adding a color-correction 
 layer to the input video, giving a more natural look to the actor inside a 
 surrounding 3D environment.
 
 Outside of the scope of this thesis will be green screen compositing, as it is 
-used as tool - the same goes for video matting, which would require its own 
-research for accurate realtime results with little to none user guidance. 
+used as basic tool - the same goes for high fidelity video matting, which would 
+require its own research for accurate runtime results with little to none user 
+guidance. 
 \cite{gong:realtime-matting:2010}, \cite{gastal:shared-sampling:2010}
 
 \section{Results}
@@ -131,7 +140,7 @@ Result stuff
 \section{Thesis Structure}
 \label{sec:intro:structure}
 
-This thesis gets contemplated by digital material hosted on GitHub. Print is a 
+This thesis gets completed by digital material hosted on GitHub. Print is a 
 great medium, but lacks the ability for short demonstrations of video imaging 
 solutions, problems and edge cases. To visualize these issues properly, all 
 video media will have an annotation for cross referencing on the website. It is 
