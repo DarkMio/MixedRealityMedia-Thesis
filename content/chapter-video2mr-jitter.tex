@@ -2,6 +2,7 @@
 % !TEX root = ../thesis-example.tex
 %
 \section{Mitigating Frame Jitter}
+\label{sec:framejitter}
 
 An additional step that can be handled by the same algorithm is the mitigation 
 of frame or time jittering, a term describing an effect of different running 
@@ -14,14 +15,15 @@ motion, which are instantly translated to the transform of its camera rig and
 then yield minor motion of the 3D environment projection. Visually this shows 
 in a shaking virtual world while the real world video stands still.
 \newline
-To minimize the effect, it is possible to overwrite framebuffers for as long as 
-one duration of a video frame and then swapping out these buffers. The headset 
-recommends to run it at 90fps and miss timings are no issue either, since it 
-results in non noticeable errors in virtual projections while the displayed 
-frame is stable, thus visual performance is unaffected. It is possible to write 
-less than three times into a framebuffer, which is mitigated again by 
-displaying the final result later - the composed image is therefore unaffected 
-besides imperceptible differences between the real world camera and its virtual 
+To minimize the effect, it is possible to overwrite \code{Render Textures} for 
+as long as one duration of a video frame and then forward swapping out these 
+buffers. The headset recommends to run it at 90fps and miss timings are no 
+issue either, since it results in non noticeable errors in virtual projections 
+while the displayed frame is stable, thus visual performance of the 
+presentation device is unaffected. It is possible to write less than three 
+times into a \code{Render Textures}, which is mitigated again by displaying the 
+final result later - the composed image is therefore unaffected besides 
+imperceptible differences between the real world camera and its virtual 
 transformation matrix.
 
 \begin{figure}[htb]

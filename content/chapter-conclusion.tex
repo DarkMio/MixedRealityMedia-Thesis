@@ -13,7 +13,8 @@ environment can easily have obstructing meshes that clip - partially or
 completely - through the virtual camera frustum and obstruct 3D projection. 
 Minimizing this issue can be done by either disallowing a user to move the 
 SteamVR bounding box at all, only allow for certain teleporting positions or do 
-permit teleportations that potentially clip through the SteamVR bounding box.
+permit teleportations altogether that potentially clip through the SteamVR 
+bounding box.
 \newline
 A green screen is crucial for a live performance and recent papers focus only 
 on increased accuracy with unacceptable computation times in this context. Due 
@@ -35,8 +36,8 @@ additionally drags down performance. The $\Delta E$ chroma keying operation
 runs per pixel twice through an if/else case which are 
 likely\footnote{Unfortunately the Unity GPU profiler does not provide that 
 data and external GPU debuggers seem to simply crash while attaching to Unitys 
-renderer} evaluated on both cases and later one of those is used, creating 
-another layer of computation complexity on top. 
+rendering context} evaluated on both cases and later one of those is used, 
+adding another layer of computation complexity on top. 
 \newline
 The pipeline is already built in such a way to reduce the amount of cameras, 
 but needs at least 4 virtual projections. Each feature, but fore- and 
@@ -52,5 +53,5 @@ improvement.
 \newline
 This pipeline is able to render about 120.000 triangles with pre-baked 
 lightning and disabled post-fx on the set PC. This works well for small 
-room-sized experiences but likely needs way more performance improvement for 
+room-sized experiences but likely needs more performance improvement for 
 more ambitious looking scenery.

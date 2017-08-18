@@ -4,12 +4,12 @@
 \section{Additional Camera Stencil}
 
 When producing on small and / or amateur sets, there are usually constraints to 
-size and proportions of the greenscreen production, thus limiting the 
+size and proportions of the green screen production, thus limiting the 
 record-able space. Since a calibrated play space can be fetched from the 
 SteamVR API to receive a proper-sized bounding box, it is possible to do a 
-projection of the greenscreens real size inside a virtual scene and use this as 
-a stencil for the incoming video feed, effectively cropping off around all 
-edges outside of a calibrated greenscreen. This means that a real world camera 
+projection of the green screens real size inside a virtual scene and use this 
+as a stencil for the incoming video feed, effectively cropping off around all 
+edges outside of a calibrated green screen. This means that a real world camera 
 can film outside the edges of a green screen, recorded pixels beyond the green 
 box are getting discarded and it will not degrade the visual performance of the 
 image composition.
@@ -23,11 +23,12 @@ image composition.
 
 A virtual projection can be seen in figure \ref{fig:stencil:projection} with 
 reconstructed camera parameters. With help of Unitys' engine-editor a 
-greenscreen can be calibrated and should match very closely to all real world 
+green screen can be calibrated and should match very closely to all real world 
 parameters, allowing a real world camera to film over the edges of a 
-greenscreen without destroying the image composition. If a VR actor is outside 
+green screen without destroying the image composition. If a VR actor is outside 
 of the chroma key planes, the resulting image composition wouldn't be usable, 
-thus this solution enhances a composed image without major drawbacks.
+thus this solution enhances a composed image without major drawbacks. 
+\todo{Might need additional text for clarifying}
 
 \begin{figure}[htbp]
 	\caption{Virtual projection and photo of VR actor - note: in-engine 
@@ -46,18 +47,21 @@ thus this solution enhances a composed image without major drawbacks.
 		\caption{Masking what would be remaining video content - red colored 
 		areas will be cut off}
 	\end{subfigure}
+	\label{fig:virtual-proj-stencil}
 \end{figure}
 
-In-engine this setup is a simple addition: After registering another camera to 
-the camera manager it is used to simply render a green box. Taken from previous 
-projection parameters in \ref{sec:projection-params} this virtual camera 
-receives a dedicated culling mask which only contains all green box projection 
-planes. All other cameras ignore this layer and are therefore invisible for any 
-composing camera. After each drawn frame, Unity is able to clear the frame 
-buffer with an alpha color as 0 - all remaining fragments from the green box 
-write any color with an alpha as 1; the color compartment is discarded and will 
-not be used further. This creates a lookup texture where an alpha-mask is 
-created which will be transferred to the video feeds alpha.
+In-engine this setup is a simple addition: After registering another virtual 
+camera to the camera manager it is used to simply render green planes where the 
+real world green screen is placed. Taken from previous projection parameters in 
+\ref{sec:projection-params} this virtual camera receives a dedicated culling 
+mask which only contains all green box projection planes. All other cameras 
+ignore this layer and are therefore invisible for any composing camera. After 
+each drawn frame, Unity is able to clear the frame buffer with an alpha color 
+as 0 - all remaining fragments from the green box write any color with an alpha 
+as 1; the color compartment is discarded and will not be used further. This 
+creates a lookup texture where an alpha-mask is rendered which will be 
+transferred to the video feeds alpha (see figure 
+\ref{fig:virtual-proj-stencil}).
 
 We have now achieved a green box projection inside the same scene without any 
 complex management processes needed in Unity. Due to the quick setup it works 
@@ -68,4 +72,5 @@ since all camera pixels will be completely discarded.
 \newline
 Unfortunately stencil-operations are poorly documented in Unity and add an 
 overhead which cannot be measured from built in profiler tools - as such it 
-adds unknown performance costs and have not been used in this thesis.
+adds unknown performance costs and have not been used in this thesis, hence the 
+fall back of rendering an alpha map.

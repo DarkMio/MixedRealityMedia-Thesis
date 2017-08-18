@@ -49,7 +49,7 @@ given key color $C_{Key}$ for a factor weight $W \in [0, 1]$:
 	\end{bmatrix}
 }
 
-\todo[inline]{"proper lightning setup" would be something for the appendix}
+\todo{"proper lightning setup" would be something for the appendix}
 
 Since this is a linear operation, it does not consider more apparent color 
 spill around an actors edges - it slightly removes a green undertone to make 
@@ -64,7 +64,7 @@ for a maximum of 180 degrees forwards or backwards with a factor $H \in (-\pi,
 	C_F = C_I \cos(H) + (0.57735 \times C_I) \sin(H) + 0.57735 (k \cdot C_I) 
 	(1 - \cos(H))
 }
-\todo[inline]{sourcing on 0.57735 needed}
+\todo{sourcing on 0.57735 needed}
 
 With that we can achieve a more natural looking video feed that integrates well 
 into any given scene. Allowing for color-shifting degrades the signal but 
@@ -106,11 +106,11 @@ Saturation is done by calculating the color intensity $I$ and then mixing these
 both colors for a saturation factor $F_S$:
 
 \eq{eq:retouch:saturation:1}{
-	I = C_I \cdot
+	I_{R, G, B} =
 	\begin{bmatrix}
-		0.2126 \\
-		0.7152 \\
-		0.0722
+		C_{I_R} * 0.2126 \\
+		C_{I_G} * 0.7152 \\
+		C_{I_B} * 0.0722
 	\end{bmatrix}
 }
 

@@ -297,14 +297,15 @@ et. al. \cite{mokrzycki:2012}):
 \end{tabular}
 
 Now it's possible to map alpha values for each pixel based on $\Delta$E 
-distances between $m, n$ by clamping and biasing $\Delta$E:
+distances between $m, n$ by clamping and biasing $\Delta$E with a proposed 
+"smooth step" algorithm:
 
 \eq{chroma:cie76:clamp}{
 	f({\Delta E}) = x = \frac{\Delta E - n}{m - n}
 }
 
 \eq{chroma:cie76:min/max}{
-	\alpha_{\Delta E} =
+	g(f({\Delta E})) = y =
 	\begin{cases}
 		n        & \quad \text{if } x \leq n \\
 		x        & \quad \text{if } n \leq x \leq m \\
@@ -313,13 +314,15 @@ distances between $m, n$ by clamping and biasing $\Delta$E:
 }
 
 \eq{chroma:cie76:mapping}{
-	\alpha(I(x, y)) = 3\Delta E^2 - 2\Delta E^3
+	\alpha(I_{x, y}) = 3 y ^2 - 2 y ^3
 }
 
 With that we receive a more natural matte with nearly no green edges, 
-continuous actor imagery. Motion blur is hard to account for and is even with 
-professional video matting hardware, extensive post production or intrinsic 
-frame matting hard to remove without very rough image results.
+continuous actor imagery and smooth alpha transition between actor and green 
+screen. Motion blur is hard to account for and is even with professional video 
+matting hardware, extensive post production or intrinsic frame matting 
+algorithms hard to remove without rough image results. \todo{Could need an 
+example case with real matting soft/hardware}
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/Comparison_DeltaE_color.png}

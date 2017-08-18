@@ -25,7 +25,7 @@ three layers, depending on the rendering method. Deferred shading allows for
 better lightning simulation in engine but changes alpha- and depth maps of a 
 rendered scenery - this yields incorrect layer blending and results into an 
 incorrectly displayed image. This software takes account for this and lets 
-creators decide between two render modes:
+visual artists decide between two render modes:
 
 \begin{my_list}
 	\item Replace Masking: A front plane is displayed, after it follows a 
@@ -35,18 +35,20 @@ creators decide between two render modes:
 	\item Alpha Masking: A front alpha mask of the geometry is being generated, 
 	then the actor is mixed with a full render image of the sceneries 
 	background. The resulting image has inconsistencies with alpha-blending but 
-	this method works with all rendering setups.
+	this method works with all rendering setups. \todo{Needs an example of that 
+	behavior}
 \end{my_list}
 
 The decision is between accuracy and presentation. Many post processing effects 
 or deferred shading paths are not able - or simply do not respect - the alpha 
 matte, which is usually no issue, since these steps are taken after rendering 
-is complete, thus causing no unwanted side-effects in regular rendering setups. 
-Other post effects need certain projection requirements and / or get discarded 
-through culling, like in Figure \ref{fig:zsort:comparison:front} where the 
-volumetric lightning is culled out of the virtual projection and therefore gets 
-completely ignored by the attached compute shader, resulting in a black front 
-geometry.
+is complete, thus causing no unwanted side-effects in regular rendering 
+pipelines. Other post effects need certain projection requirements and / or get 
+discarded through culling, like in Figure \ref{fig:zsort:comparison:front} 
+where the volumetric lightning is culled out of the virtual projection and 
+therefore gets completely ignored by the attached compute shader, resulting in 
+a black, unlit front geometry because the light source is outside of the 
+virtual cameras frustum. \todo{Frustum - Glossary!}
 
 \begin{figure}[htbp]
 	\caption{A comparison of different composition methods in engine}
@@ -104,19 +106,19 @@ Replace Masking:
 
 
 \eq{eq:zsort:replmask:2}{
-	I(x, y) = (1 - \alpha_{C_T}) * C_F(x, y) + \alpha_{C_T} * V(x, y)
+	I_{x, y} = (1 - \alpha_{C_T}) * C_{F_{x, y}} + \alpha_{C_T} * V_{x, y}
 }
 
 \eq{eq:zsort:replmask:3}{
-	\alpha_{C_S} = \alpha_{C_B} * (1 - \alpha_{I(x, y)})
+	\alpha_{C_S} = \alpha_{C_B} * (1 - \alpha_{I_{x, y}})
 }
 
 
 \eq{eq:zsort:replmask:4}{
-	J(x, y) = (1 - \alpha_{C_S}) * I(x, y) + \alpha_{C_S} * C_B(x, y)
+	J_{x, y} = (1 - \alpha_{C_S}) * I(x, y) + \alpha_{C_S} * C_{B_{x, y}}
 }
 
-Alpha Masking is very similar by transforming the alpha-mask of the webcam 
+Alpha Masking is very similar by transferring the alpha mask on the webcam 
 footage after chroma-keying it. It is masking the video further, after the 
 video matte is pulled already:
 
@@ -135,12 +137,12 @@ video matte is pulled already:
 }
 
 \eq{eq:zsort:alphamask:3}{
-	I(x, y) = (1 - \alpha_{C_T}) * C_V(x, y) + \alpha_{C_T} * C_B(x, y)
+	I_{x, y} = (1 - \alpha_{C_T}) * C_{V_{x, y}} + \alpha_{C_T} * C_{B_{x, y}}
 }
 
 \todo[inline]{remindme: there is the depth-offset missing currently.}
 
 Now we have a well mixed image composition where the actor is placed in between 
-two projections and thus can have an interactive fore- and background. The 
-initial assumption is that the actors depth is nonexistent, based on the 
-distance between a real world camera and the Vive Head Mounted Display.
+two projection planes and thus can have an interactive fore- and background. 
+The initial assumption is that the actors depth is flattened to a plane, based 
+on the distance between a real world camera and the Vive Head Mounted Display.

@@ -56,8 +56,8 @@ of View $FoV$ in radians by assuming a 16:9 video feed:
 These parameters can directly be applied to the transformation of said white 
 plane which then captures the lightning environment inside the virtual scenes. 
 As with all other composition-renderings, this step will be stored as a 
-separate frame buffer too and can operate on lower resolutions to speed up 
-color and light sampling for performance gains.
+separate \code{RenderTexture} too and can operate on lower resolutions to speed 
+up color and light sampling for performance gains.
 \newline
 The resulting frame buffer will be multiplied later onto the camera feed with a 
 video color $C_V$ and the light plane $C_L$:
@@ -90,3 +90,5 @@ tint than a linear color operation.
 			original.}
 	\end{subfigure}
 \end{figure}
+
+\todo[inline]{margin of error of light reproduction}

@@ -5,20 +5,21 @@
 
 After rather simple integration of the keyed video signal into the scene, where 
 the 3D environment is used as background, an offset between the render image 
-from the scene and the captured footage from the camera can be observed due to 
-the pipeline from camera through video converting of the Inogeni 4KUSB3 bound 
-to the systems webcam API.
+from the scene and captured footage from the camera can be observed due to 
+the pipeline from the capturing device through video converting of the Inogeni 
+4KUSB3 bound to the systems webcam API.
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/pipeline_steps/4_2_swapper.pdf}
-	\caption{Initial step upon receiving the camera image}
+	\caption{Initial step upon receiving the camera image is to adjust the time 
+	drift between engine renderings and video capture}
 	\label{fig:steps:swapper}
 \end{figure}
 
-After consulting the specification of the Inogeni 
-4K2USB3 it states that a conversion from any HDMI video source takes two 
-intrinsic frames for encoding. The camera framerate is $F_C = 25 
-\frac{frames}{second}$. This would mean, in theory:
+After consulting the specification of the Inogeni 4K2USB3 it states that a 
+conversion from any HDMI video source takes two intrinsic frames for encoding. 
+The camera framerate is $F_C = 25 \frac{frames}{second}$. This would mean, in 
+theory:
 
 \eq{offsets:timing:1}{
 	t = \frac{2}{F_C}
@@ -49,20 +50,22 @@ noticeable in any motion video as shown in figure \ref{fig:offsets:example}.
 To mitigate this offset there are two options:
 
 \begin{my_list}
-	\item Change the camera setup - in example for a webcam, which usually has 
-	a lower input latency, ranging between 5 - 250ms. That would degrade the 
-	image quality significantly but would enable better rendering conditions 
-	inside the engine.
+	\item Change the camera setup - in example for a direct webcam, which 
+	usually has a lower input latency, ranging between 5 - 250ms. That would 
+	degrade the image quality significantly but would enable better rendering 
+	conditions inside the engine.
 	\item Capture virtual images of the 3D environment and keep them on the GPU 
-	until a real world video frame is loaded onto the GPU for usage. This keeps 
-	the image quality but needs significant effort to reproduce the rendering 
-	conditions at the engine time when a video frame was taken. 
+	until a real world video frame is loaded onto the GPU for usage - assuming 
+	that the time drift is constant. This keeps the image quality but needs 
+	significant effort to reproduce the rendering conditions at the engine time 
+	when a video frame was taken.
 \end{my_list}
 
-The proposed solution uses the second option, since it is able to minimize any 
-kind of offset between render image and a video stream, the hardware setup can 
-stay dynamic and it is little to no difference by switching to a 
-webcam-integrated solution, than an encoding box and the resulting displayed 
+The proposed solution for this thesis uses the secondary option, since it is 
+able to minimize any kind of constant offset between render image and a video 
+stream, the hardware setup can stay dynamic\footnote{as long as it is provided 
+by the systems webcam API} and it is little to no difference by switching to a 
+webcam-integrated solution than an encoding box and the resulting displayed 
 image has imperceptible differences to the former variant. It is therefore more 
 user friendly and can accommodate for a wide range of video devices.
 
@@ -86,39 +89,41 @@ important takeaways:
 	device
 	\item Frame rates between the Vive HMD and the presentation TV differ 
 	because the TVs frame rate should be matched to the input video feed from 
-	the camera
+	the camera (see Section \ref{sec:framejitter})
 \end{my_list}
 
 At time of writing Unity does not support dynamic frame rates on multiple 
-viewports\footnote{A viewport can be either a D3D, OpenGL or Metal context}.
+viewports\footnote{A viewport can be either a D3D, OpenGL or Metal 3D context}.
 \newline
-It is possible to manually initiate a render, however, this causes the render 
-loop to mistime and yields to inconsistent frame timings inside the HMD and is 
-no different between the average GPU load to display the presentation TVs 
-viewport. It makes no real difference if a scene renders 11ms twice and then 
-falls down to 22ms once - the observed stuttering is a major degradation of the 
-actors experience.
+It is possible to manually initiate a rendering, however, this causes the 
+render loop to mistime and yields to inconsistent frame timings inside the HMD 
+and is no different between the average GPU load to display the presentation 
+TVs viewport.\todo{unsure if I should elaborate} It makes no real difference if 
+a scene renders 11ms twice and then falls down to 22ms once - the observed 
+stuttering is a major degradation of the actors experience.
 \newline
 To conclude: The software has to store a set amount of \gls{framebuffer}s and 
 cycle them at the right frame to guarantee minimal delays between camera and 3D 
-environment.
+environment, thus realigning the observed time drift between the engine and 
+captured video frames.
 \newline
 Noteworthy is that the render loop can be 45 or 90 fps, depending on scene 
 complexity, overall system performance or - especially in case of Unitys 
 outdated C\# version - garbage collection, that could halt the engine for a 
 significant amount of time. To account for this a strategy is needed in which 
 Unity's \code{Time.deltaTime} property is used, which describes the time 
-between last and current frame.
+between last and current frame, allowing for accurate timing how framebuffers 
+have to be handled and swapped.
 
 \subsection{Framebuffer Swapper implementation}
 
 Unity has a well engineered engine loop, where it can perform different 
-operations in specific steps of engine execution. For more detail about Unitys 
-core loop\footnote{there is a flowchart in the Appendix \ref{app:engineloop}, 
-depicting MonoBehaviors life cycle.}. As 
+operations at specific steps of the main engine execution. For more detail 
+about Unitys core loop\footnote{there is a flowchart in the Appendix 
+\ref{app:engineloop}, depicting MonoBehaviors life cycle.}. As 
 initial data needed is \code{cameraFPS}, \code{cameraOffset} and 
-\code{Time.deltaTime}. From there it is possible to calculate the remaining 
-data for this algorithm:
+\code{Time.deltaTime}. With that data it is possible to calculate the remaining 
+variables for this algorithm:
 
 \begin{lstlisting}
 	frameWindow = 1.0 / cameraFPS;
@@ -141,6 +146,20 @@ data for this algorithm:
 	}
 \end{lstlisting}
 
+\todo{this code listing is the wrong one :( - also I am missing 
+representative material why we need to mitigate the latency mitigation}
+
+In Unitys' case a framebuffer is called \code{\gls{render texture}} and allows 
+for either data or depth buffer access, where a regular framebuffer would allow 
+for simultaneous access, thus two separate buffers are needed.
+
+\subsection{Double Access Ringbuffer}
+
+To spare memory and bandwidth overhead it is possible to reuse previously 
+allocated \code{RenderTextures} by overwriting the second oldest 
+\code{RenderTexture} and compositing a mixed reality image with the oldest 
+\code{RenderTexture}(see  Figure \ref{fig:offsets:framesquashing}).
+
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=.5\textwidth]{gfx/ringbuffer_schematics.png}
@@ -148,24 +167,10 @@ data for this algorithm:
 	\label{fig:offsets:ringbuffer}
 \end{figure}
 
-\todo[inline]{this code listing is the wrong one :( - also I am missing 
-representative material why we need to mitigate the latency mitigation}
-
-In Unitys' case a framebuffer is called \code{\gls{render texture}} and allows 
-for either data or depth buffer access, where a framebuffer would allow for 
-simultaneous access.
-
-\subsection{Double Access Ringbuffer}
-
-To spare memory overhead it is possible to reuse previously allocated 
-\code{RenderTextures} by overwriting the second oldest \code{RenderTexture} and 
-compositing a mixed reality image with the oldest \code{RenderTexture}(see 
-Figure \ref{fig:offsets:framesquashing}).
-
-To accommodate for that behavior we have to simply write frame data into the 
-current index and display the frame on its next index. After that step taken we 
-increment by one. This way we’re overwriting the oldest seen RenderTexture and 
-show the one written after it.
+To accommodate for that behavior we have to write frame data into the  current 
+index and display the frame on its next index. After that step taken we 
+increment by one. This way we’re overwriting the oldest seen 
+\code{RenderTexture} and show the one written to the next index.
 
 \begin{lstlisting}
 class DoubleAccessRingBuffer<T> {
