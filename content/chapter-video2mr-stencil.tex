@@ -27,13 +27,14 @@ green screen can be calibrated and should match very closely to all real world
 parameters, allowing a real world camera to film over the edges of a 
 green screen without destroying the image composition. If a VR actor is outside 
 of the chroma key planes, the resulting image composition wouldn't be usable, 
-thus this solution enhances a composed image without major drawbacks. 
+thus this solution enhances a composed image without major 
+drawbacks.
+
 \todo{Might need additional text for clarifying}
 
 \begin{figure}[htbp]
-	\caption{Virtual projection and photo of VR actor - note: in-engine 
-	screenshot and photos were taken shortly apart and therefore don't fit 
-	exactly}
+	\caption[Some Argument]{Virtual projection and photo of VR 
+	actor\footnotemark}
 	\label{fig:stencil:projection}
 	\begin{subfigure}[t]{.45\textwidth}
 		\centering
@@ -50,6 +51,8 @@ thus this solution enhances a composed image without major drawbacks.
 	\label{fig:virtual-proj-stencil}
 \end{figure}
 
+\footnotetext{in-engine screenshot and photos were taken shortly apart and 
+therefore don't fit exactly}
 In-engine this setup is a simple addition: After registering another virtual 
 camera to the camera manager it is used to simply render green planes where the 
 real world green screen is placed. Taken from previous projection parameters in 

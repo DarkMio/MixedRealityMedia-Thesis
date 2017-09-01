@@ -330,3 +330,64 @@ example case with real matting soft/hardware}
 	\label{fig:chroma:deltae}
 \end{figure}
 
+\subsection{Comparison between computational models}
+
+To chose the best variant, balancing runtime and efficiency, there has to be a 
+comparison between the presented methods. Again, the previous image will be 
+used, since it has complicated color mixing between background and actor. First 
+we pick scan line of the image, in this case the 301st row from top, and 
+calculate the color distance from each pixel to a reference color $[R, G, B] = 
+[0.341, 0.588, 0.42]$.
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{gfx/distances/dist-comp.png}
+	\caption{Normalized graph comparing color difference methods}
+	\label{fig:chroma:comparison_graph}
+\end{figure}
+
+As seen in figure \ref{fig:chroma:comparison_graph}, CIEDE76s performance is 
+significantly better in separating colors and has a broader margin between 
+green background and other foreground. This can be observed in figure 
+\ref{fig:chroma:image_comparison}, where the scan line is set as background and 
+the values are normalized again:
+
+\begin{figure}[htbp]
+	\caption{Comparison between different color distance methods}
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/distances/color-rgb.png}
+		\caption{RGB color distance} 
+	\end{subfigure}
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/distances/color-ycgco.png}
+		\caption{YCgCo color distance}
+	\end{subfigure}
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/distances/color-ciede76.png}
+		\caption{CIEDE76 color distance}
+	\end{subfigure}
+	\label{fig:chroma:image_comparison}
+\end{figure}
+
+Finally, comparing CIEDE76, CIEDE94 and CIEDE2000 reveals, that CIEDE76 
+performs well enough while having the lowest performance overhead. The 
+similarities between the 1976 and 2000 method are very apparent, while 
+CIEDE2000 has a significantly more complex algorithm 
+\cite{sharma:ciede2000:2005}.
+\newline
+Additionally CIEDE76 shows less variance on similar colored spaces to the 
+target color as well as high color difference peaks on all other pixels. This 
+yields an accurate upper and lower limit, in which the green screen can be 
+calibrated in.
+\newline
+Additionally, performing the same operation on the same data with different 
+CIEDE color distance revisions (figure \ref{fig:chroma:ciede_variants}), that 
+there is little difference between CIEDE76 and CIEDE2000.
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{gfx/distances/ciede-comp.png}
+	\caption{Comparison with different CIEDE $\Delta E$ variants}
+	\label{fig:chroma:ciede_variants}
+\end{figure}

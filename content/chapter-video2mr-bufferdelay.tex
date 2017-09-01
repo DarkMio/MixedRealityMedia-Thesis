@@ -39,13 +39,26 @@ The observed offset from camera to engine is far longer in reality and remains
 at about 260ms after testing this setup and observing the drift, therefore 
 noticeable in any motion video as shown in figure \ref{fig:offsets:example}.
 
-\begin{figure}[htb]
-	\includegraphics[width=\textwidth]{_raw_resources/offsets/motion-difference.png}
-	\caption{Example of the visual difference between the (left) real world 
-	capture and (right) the received imagery.}
-	\label{fig:offsets:example}
+\begin{figure}[htbp]
+	\caption[Some Argument]{Visual comparison between unaligned and aligned 
+	frames\footnotemark}
+	\label{fig:stencil:projection}
+	\begin{subfigure}[t]{.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/offsets/not_aligned.png}
+		\caption{Before video and engine frames have been aligned, there is a 
+		noticable difference in motion}
+	\end{subfigure}
+	\begin{subfigure}[t]{.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/offsets/aligned.png}
+		\caption{After aligning frames the motion in engine and video capture 
+		are in sync}
+	\end{subfigure}
+	\label{fig:virtual-proj-stencil}
 \end{figure}
 
+\footnotetext{A video example is provided on the additional storage device}
 
 To mitigate this offset there are two options:
 
@@ -98,8 +111,8 @@ viewports\footnote{A viewport can be either a D3D, OpenGL or Metal 3D context}.
 It is possible to manually initiate a rendering, however, this causes the 
 render loop to mistime and yields to inconsistent frame timings inside the HMD 
 and is no different between the average GPU load to display the presentation 
-TVs viewport.\todo{unsure if I should elaborate} It makes no real difference if 
-a scene renders 11ms twice and then falls down to 22ms once - the observed 
+TVs viewport. \todo{unsure if I should elaborate} It makes no real difference 
+if a scene renders 11ms twice and then falls down to 22ms once - the observed 
 stuttering is a major degradation of the actors experience.
 \newline
 To conclude: The software has to store a set amount of \gls{framebuffer}s and 
