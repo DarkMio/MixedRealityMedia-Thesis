@@ -24,9 +24,9 @@ Through Virtual Reality Peripheral Network or OpenVR simliar solutions can be
 developed, since none of the software explicitly depends on SteamVR features 
 and allow a wide variety of systems and sensors.
 
-On other side, the video capture side, can be varied greatly too. Since the 
-software only allows a webcam-compatible device, it would be possible to remove 
-the Inogeni-Encoder and replace it with cheap and simple webcams. Similarly can 
+The video capturing side can be varied greatly too, since the software only 
+allows for webcam-compatible devices, it would be possible to remove 
+the Inogeni encoder and replace it with cheap and simple webcams. Similarly can 
 a camera replaced along with other recording solutions, as long as it outputs 
 an HDMI (or HDMI-convertible) video stream. This allows recording to be as 
 complex as needed but in general a DSLR camera will suffice.
@@ -82,7 +82,7 @@ thus only usable with low latency video capturing devices. (Figure
 
 \subsection{Deferred shading Path}
 
-Similarly to the single camera approach could be a deferred shader be used, in 
+Similarly to the single camera approach, a deferred shader could be used, in 
 which the plane is projected and texturized after the scene has rendered and 
 the graphics buffer is still present - this way the total time taken for 
 rendering can be calculated and the chroma keying step can be chosen for a 
@@ -119,11 +119,12 @@ the virtual environment:
 \end{figure}
 
 Due to the system separation it is now possible to use green screen hardware 
-compositor which have a visually higher quality in pulling the green background 
-matte and then compositing it similarly into a mixed reality image. While this 
-lifts some rendering overhead from the host PC, it fails in recreating a 
-lightning environment for the VR actor and relies on two systems. While engine 
-programming complexity decreases, operational setup complexity increases.
+compositors which have a visually higher quality in pulling the green 
+background matte and then compositing it similarly into a mixed reality image. 
+While this lifts some rendering overhead from the host PC, it fails in 
+recreating a lightning environment for the VR actor and relies on two systems. 
+While engine programming complexity decreases, operational setup complexity 
+increases.
 
 \section{Rendering operational variations}
 
@@ -179,18 +180,19 @@ There are multiple problems while green screening, which are as old as green
 screens are used in video production. First and foremost is a partial 
 transparent actor if his clothing consists of similarly green shaded material.
 \newline
-Additional green screen spill causes artefacts while pulling the matte which 
+Additional green screen spill causes artifacts while pulling the matte which 
 then clips the actor off. This can be mitigated by better production 
-environments, i. e. with higher quality cloth and a generally well lit set. 
-\footnote{The appendix features a basic schematic of a small green screen 
-setup.}
+environments, i. e. with higher quality cloth and a generally well lit 
+set\footnote{The appendix features a basic schematic of a small green screen 
+setup.}.
 \newline
 Sometimes, for example in low light environments or folded green screen 
 material, the background covers a wide color range, thus calibrating a good 
 green with a single color value is nearly impossible. This could be solved by 
 smaller selection margins inside the shader while assigning an array of colors 
 for the $\Delta E$ calculation. In turn, this would be even more taxing on the 
-GPU, since the calculation has be done per selected color.
+GPU, since the calculation has be done per selected color, multiplying the 
+effort by the number of colors.
 \newline
 Lastly, real time chroma keying has problems with motion blur of the source 
 video material - causing background mixing and invalid matting. This is a 

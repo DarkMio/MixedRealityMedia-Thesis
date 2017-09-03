@@ -43,9 +43,9 @@ aided visual effects, green screens}
 
 \subsection{History of Green \& Blue Screen Productions}
 
-Set theory is beyond the scope of this thesis, but green- and blue screen 
-production has first and foremost a simple reasoning: Green and blue are two of 
-the three color triplets that resemble a least amount of color found in 
+Production set theory is beyond the scope of this thesis, but green- and blue 
+screen production has first and foremost a simple reasoning: Green and blue are 
+two of the three color triplets that resemble a least amount of color found in 
 capturing of humans - and to a certain extent any flora or fauna. Since chroma 
 keying (see Ch. \ref{sec:chromakey}) takes color distance as general basis, 
 production environments use green screen keying in varying forms. Next to 
@@ -55,15 +55,16 @@ latter solution is highly computation intense and is not suitable for runtime
 applications. \cite{disney:unmixing:2017}
 \newline
 Green boxes also abuse a correlating advantage that the human eye is most 
-susceptible to green, allowing for a visual high color range and an ability to 
-differentiate between many shades of green. Experiments to color range have 
-been done since 1942, trying to understand gambit ranges and color 
-differentiation of human vision. Experiments concluded that eye cone cells see 
+susceptible to green (cf. figure \ref{fig:greenscreen:stimula} b), allowing for 
+a visual high color range and an ability to differentiate between many shades of
+green. Experiments to color range have been done since 1942, trying to 
+understand gambit ranges and color differentiation of human vision (figure 
+\ref{fig:greenscreen:stimula} a). Experiments concluded that eye cone cells see 
 a blending range of wavelengths to different intensities, giving the green 
 vector space its highest perceptible range. \cite{MacAdam:1942}
 
 \begin{figure}[htbp]
-	\label{fig:greenscreen:stimula}
+	\label{fig:greenscreen:stimula}	
 	\begin{subfigure}[t]{.35\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{_external/media/CIExy1931_MacAdam.png}
@@ -77,6 +78,7 @@ vector space its highest perceptible range. \cite{MacAdam:1942}
 		L types after Wyszecki et. al \cite{wiki:Wyszecki:2017}}. Notice the 
 		overlap between M and L cones.
 	\end{subfigure}
+
 \end{figure} \todo{The layout is a bit wonky here.}
 
 Most consumer cameras - and even most production cameras - use dot-matrix 
@@ -121,10 +123,11 @@ room and sets him into a complete new, virtual reality - hence its names
 origin. HMD hardware ranges from the simplistic Google Cardboard 
 \footnote{using a smart phone as display device} to the Samsung GearVR 
 \footnote{similarly uses a smart phone as display driver} up to the Oculus Rift 
-and HTC Vive\footnote{which are driven by a mid- to high range PC}. The latter 
-two products offer room-scale experiences where an user is able to move freely 
-in his play space (basically a tacked bounding volume) and allows for six 
-degrees of freedom (\gls{6dof}) tracking.
+and HTC Vive\footnote{which are driven by a mid- to high range PC}\todo{might 
+want to remove footnotes and integrate into sentences}. The latter two products 
+offer room-scale experiences where an user is able to move freely in his play 
+space (basically a tacked bounding volume) and allows for six degrees of 
+freedom (\gls{6dof}) tracking.
 
 Mixed Reality is an extension of Virtual Reality, allowing bystanders to get an 
 impression of the virtual 3D environment around an actor. By reproducing 
@@ -142,23 +145,16 @@ across.}
 
 Virtual Reality, as previously mentioned in \ref{sec:intro:outline}, is very 
 immersive but the experience is hard to imagine without wearing a HMD yourself. 
-Additionally doesn't VR offer any ways to allow observers a similar experience 
+Additionally VR doesn't offer any way to allow observers a similar experience 
 as the VR actor.
 \newline
 A very obvious problem starts on interaction. A VR user doesn't always need to 
-see his hands to interact with a scene due to the natural way of holding these 
+see his hands to interact with a scene due to the natural way of holding VR 
 controllers in his hands and directly translating controller interaction to the
 virtual environment. However an outside viewer does not see the actors hands 
 and will not understand any actions performed by the user if he doesn't see the 
 virtual hands. Any usage context that happens off-screen cannot be communicated 
 and therefore will be lost.
-\newline
-A recent game example, Rick and Morty: Virtual Rick-ality, tries to mitigate 
-this issue by placing virtual CCTV cameras into the scene, which can be 
-controlled through outside observers - giving a neutral third-person view into 
-the three-dimensional scene. A VR actor is replaced as a loose avatar 
-representing a figure (Morty) from the cartoons universe.
-\todo{Add a screenshot of that}
 
 Mixed Reality merges the actors and virtual realities context, allowing outside 
 bystanders a comparable window into the actors experienced world. In fact, 
@@ -248,7 +244,7 @@ stream directly at the current position of an registered camera tracker, thus
 failing to accommodate for different input latencies from the motion video 
 feed, yielding an inconsistent visual performance. Oculus states on their 
 manuals, that these are currently only intended "for proof-of-concept, 
-troubleshooting, and hobby use." \ref{oculus:mr-setup:2017}
+troubleshooting, and hobby use." \cite{oculus:mr-setup:2017}
 \newline
 In addition SteamVRs solution supports only video-output composition with a 4K 
 HDMI output - which in turn means that the signal has to be captured on an 
@@ -272,7 +268,7 @@ lost. The games trailer composition has been achieved in post production.
 
 \subsection{Owlchemy Labs Mixed Reality}
 
-Owlchemy Labs is a VR game developer located in Austin, Texas. They're working 
+Owlchemy Labs is a VR game studio located in Austin, Texas. They're working 
 on VR experiments and use similar techniques discussed in this paper. Their key 
 difference in visual reproduction is by using a stereoscopic camera to record 
 an actor and can reproduce the actors depth per pixel, allowing for more 
