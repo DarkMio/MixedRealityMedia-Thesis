@@ -2,57 +2,36 @@
 % !TEX root = ../thesis-example.tex
 %
 
-\newglossaryentry{computer}{
-	name={computer},
-	description={we tricked a rock into thinking by putting lightning into it.},
-	plural={computers}}
+\begingroup
+\let\cleardoublepage\clearpage
 
-\newglossaryentry{framebuffer}{
-	name={framebuffer},
-	description={It usually contains ARGB data of each remaining fragment. It 
-	can, however, contain any form of data, including fragment vector depth, 
-	depth-normals, normals and so on.},
-	plural={framebuffers}
-}
+\chapter{Unitys' Monobehaviour Loop}
+\label{app:engineloop}
 
-\newglossaryentry{render texture}{
-	name={RenderTexture},
-	description={Unity exposes frame buffers as render textures. It is not 
-	possible to access both dat and depth buffer on one frame buffer, which can 
-	be circumvented by seperate RenderTextures with no data or depth buffer.}
-}
+The behavior of a Unity-initiated object is outlined by the following 
+flowchart in \ref{fig:appendix:monoflow}, taken from Unitys' manual.
 
-\newglossaryentry{fragment}{
-	name={Fragment},
-	description={It is a rasterized pixel of a vertex (usually a triangle).}
-	plural={fragments}
-}
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.85\textwidth]{_external/media/monobehaviour_flowchart2.pdf}
+	\caption{Monobehaviour Flowchart}
+	\label{fig:appendix:monoflow}
+\end{figure}
 
-\newglossaryentry{head mounted display}{
-	name={Head Mounted Display},
-	description={A general term for display solutions mounting on the users 
-	head. Recent examples with spatial tracking are HTC Vive, Oculus Rift and 
-	Microsoft HoloLens. Untracked examples are Google Glasses or to an extend 
-	Google Cardboard.},
-	plural={Head Mounted Displays}
-}
 
-\newglossaryentry{6dofg}{
-	name={6DOF},
-	description={Describes free movement of a rigid body in 
-		three-dimensional space - specifically forward/backward (surge), 
-		up/down (heave), left/right (sway) translations, combined with changed 
-		of rotations around all three axis. \textbf{may need wikipedia cite}
-	}
-}
+\chapter{Simple Green Screen Setup}
 
-\newglossaryentry{6dof}{
-	type=\acronymtype,
-	name={6DOF},
-	description={Six Degrees of Freedom (6DOF) \glsadd{6dofg}},
-	see=[Glossary:]{6dofg}
-}
+Building a green screen set is no easy task and takes a lot of careful 
+consideration in light setup, background coloring and material used on set. 
+\newline
+Figure \ref{fig:appendix:gs-setup} shows a very simple and low-cost green 
+screen setup after Foster et al. \cite{foster:greenscreen:2010}
 
-\newacronym{6DOF}{6DOF}{Six Degrees of Freedom}
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{gfx/appendix/gs-setup.png}
+	\caption{Basic green screen setup}
+	\label{fig:appendix:gs-setup}
+\end{figure}
 
-\newacronym[longplural={Frames per Second}]{acr:fps}{fps}{frames per second}
+\endgroup

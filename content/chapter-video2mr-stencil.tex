@@ -33,26 +33,27 @@ drawbacks.
 \todo{Might need additional text for clarifying}
 
 \begin{figure}[htbp]
-	\caption[Some Argument]{Virtual projection and photo of VR 
-	actor\footnotemark}
+	\caption[Some Argument]{Virtual projection and photo of VR actor - red 
+	colored areas will be cut off}
 	\label{fig:stencil:projection}
-	\begin{subfigure}[t]{.45\textwidth}
+	\begin{subfigure}[t]{.3\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{gfx/StencilProjection.png}
-		\caption{Virtual reprojection of a calibrated green screen - red 
-		colored areas will be cut off}
+		\includegraphics[width=\textwidth]{gfx/stencil/virtual.png}
+		\caption{Virtual reprojection of a calibrated green screen}
 	\end{subfigure}
-	\begin{subfigure}[t]{.45\textwidth}
+	\begin{subfigure}[t]{.3\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{gfx/StencilCut.png}
-		\caption{Masking what would be remaining video content - red colored 
-		areas will be cut off}
+		\includegraphics[width=\textwidth]{gfx/stencil/img.png}
+		\caption{Masking what would be remaining video content}
+	\end{subfigure}
+	\begin{subfigure}[t]{.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/stencil/scene.png}
+		\caption{Composition after stencil has been applied}
 	\end{subfigure}
 	\label{fig:virtual-proj-stencil}
 \end{figure}
 
-\footnotetext{in-engine screenshot and photos were taken shortly apart and 
-therefore don't fit exactly}
 In-engine this setup is a simple addition: After registering another virtual 
 camera to the camera manager it is used to simply render green planes where the 
 real world green screen is placed. Taken from previous projection parameters in 

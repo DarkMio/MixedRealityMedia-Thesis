@@ -155,23 +155,23 @@ Due to the planar projection of the real world feed inside the engine, any
 Z-information of the actor is squashed to a fixed depth. This means that hands 
 are on the same plane. In cases with high z-difference between actor and actors 
 hands, it is possible that hand motion look unnatural and does not seems like 
-it is to be supposed - in figure \todo{MISSING! FIGURE!} is an actor depicted, 
-that wraps his arms around a virtual cube. The produced mixed reality image 
-shows his arms only behind the cube.
+it is to be supposed - in figure \ref{fig:edge:z-clipping} is an actor 
+depicted, that wraps his arms around a virtual cube. The produced mixed reality 
+image shows his arms only behind the cube.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{gfx/issues/z-clipping.png}
+	\caption{The actors hands do not visibly reach through the blue cube and 
+	the actor shears it because of the planar projection}
+	\label{fig:edge:z-clipping}
+\end{figure}
 
 One solution for future research could be acquiring an actors depth by either 
 using Time of Flight cameras and using a resulting point cloud or by 
 calculating each camera pixels depth with a stereoscopic solution. Thus each 
 pixel could have a quantifiable depth with additional calibration parameters 
 from the virtual reality tracking solution.
-
-\subsection{Shadow Artifacts in multiple camera slices}
-
-I believe I have solved that problem, but I gotta check.
-
-\subsection{Culling Artifacts}
-
-I zink' this is solved, too.
 
 \subsection{Matting failures}
 
@@ -182,7 +182,8 @@ transparent actor if his clothing consists of similarly green shaded material.
 Additional green screen spill causes artefacts while pulling the matte which 
 then clips the actor off. This can be mitigated by better production 
 environments, i. e. with higher quality cloth and a generally well lit set. 
-\todo{"Proper Lightning Setup" should still be in the appendix :<}
+\footnote{The appendix features a basic schematic of a small green screen 
+setup.}
 \newline
 Sometimes, for example in low light environments or folded green screen 
 material, the background covers a wide color range, thus calibrating a good 
