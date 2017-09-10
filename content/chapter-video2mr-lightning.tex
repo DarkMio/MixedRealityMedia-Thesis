@@ -3,7 +3,7 @@
 %
 \section{Light Environment Reproduction}
 
-To conclude all taken rendering steps by now: We have successfully created an 
+To conclude all rendering steps taken by now: We have successfully created an 
 image composition with correct projection parameters, recalculated a planar 
 depth, synchronized in-engine frames with the camera input lag and realigned 
 the frame rate between both image generating systems and cut off all overshot 
@@ -19,7 +19,7 @@ A minor last step is light-reproduction, in which an approximate lightning
 setting will be transferred from 3D environment to the video feed of a VR 
 actor. Assuming that the video footage contains a natural lit, tint-free and 
 calibrated video signal, it is possible to approximate how a VR actor would 
-be lit like if he truly was inside a virtual environment.
+be lit like if he truly is inside the virtual environment.
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/light-reconstruction/comparison.jpg}
@@ -27,10 +27,10 @@ be lit like if he truly was inside a virtual environment.
 	\label{fig:light-reconstruction:comparison}
 \end{figure}
 
-Ambient light reproduction hinges on two assumptions: An actors recorded video 
+Ambient light reproduction hinges on two assumptions: An actor's recorded video 
 is flat for this purpose \textit{and} he receives clean and consistent light 
 from all angles that has no additional glossiness. With that we can project a 
-plane at the actors position, filling the frustum edges of another virtual 
+plane at the actor's position, filling the frustum edges of another virtual 
 camera with the same camera projection parameters from section 
 \ref{sec:projection-params}. This plane contains a simple lit material with 
 white albedo coloring, which captures the lightning situation at this given 

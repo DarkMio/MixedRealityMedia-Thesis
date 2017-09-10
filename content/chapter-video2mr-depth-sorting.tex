@@ -22,7 +22,7 @@ and background - in between are frames from the motion video feed.
 
 There are multiple ways to achieve proper segmentation and composition of all 
 three layers, depending on the rendering method. Deferred shading allows for 
-better lightning simulation in engine but changes alpha- and depth maps of a 
+better lightning simulation in-engine but changes alpha- and depth maps of a 
 rendered scenery - this yields incorrect layer blending and results into an 
 incorrectly displayed image. This software takes account for this and lets 
 visual artists decide between two render modes:
@@ -33,22 +33,22 @@ visual artists decide between two render modes:
 	generation, if the front image is generated correctly and not modified by 
 	post effects.
 	\item Alpha Masking: A front alpha mask of the geometry is being generated, 
-	then the actor is mixed with a full render image of the sceneries 
+	then the actor is mixed with a full render image of the scenery's
 	background. The resulting image has inconsistencies with alpha-blending but 
 	this method works with all rendering setups.
 \end{my_list}
 \todo{Needs an example of that behavior}
 
 The decision is between accuracy and presentation. Many post processing effects 
-or deferred shading paths are not able - or simply do not respect - the alpha 
-matte, which is usually no issue, since these steps are taken after rendering 
-is complete, thus causing no unwanted side-effects in regular rendering 
-pipelines. Other post effects need certain projection requirements and / or get 
-discarded through culling, like in Figure \ref{fig:zsort:comparison:front} 
-where the volumetric lightning is culled out of the virtual projection and 
-therefore gets completely ignored by the attached compute shader, resulting in 
-a black, unlit front geometry because the light source is outside of the 
-virtual cameras frustum. \todo{Frustum - Glossary!}
+or deferred shading paths are unable --- or simply do not respect --- the 
+alpha matte, which is usually no issue, since these steps are taken after 
+rendering is complete, thus causing no unwanted side-effects in regular 
+rendering pipelines. Other post effects need certain projection requirements 
+and / or get discarded through culling, like in Figure 
+\ref{fig:zsort:comparison}e where the volumetric lightning is culled out of the 
+virtual projection and therefore gets completely ignored by the attached 
+compute shader, resulting in a black, unlit front geometry because the light 
+source is outside of the virtual cameras frustum. \todo{Frustum - Glossary!}
 
 \begin{figure}[htbp]
 	\caption{A comparison of different composition methods in engine}
@@ -83,7 +83,6 @@ virtual cameras frustum. \todo{Frustum - Glossary!}
 		\includegraphics[width=\textwidth]{_raw_resources/composition/Composition-Front.png}
 		\caption{The virtual projection of the front camera - volumetric 
 		lightning does not work due to the short projection length}
-		\label{fig:zsort:comparison:front}
 	\end{subfigure}
 	\begin{subfigure}[t]{.45\textwidth}
 		\centering
@@ -92,7 +91,7 @@ virtual cameras frustum. \todo{Frustum - Glossary!}
 	\end{subfigure}
 \end{figure}
 
-Mixing these three layers are similarly effortless, using the previously 
+Mixing these three layers is similarly effortless, using the previously 
 established matting equation \eqref{eq:chroma:assumption:alpha:weak} and 
 \eqref{eq:chroma:assumption:alpha:cont}. Assuming an ARGB front render image 
 $C_F$, a RGB video feed  $C_V$ and the RGB background $C_B$, 
@@ -130,8 +129,6 @@ video matte is pulled already:
 	\end{cases}	
 }
 
-\todo[inline]{This is a bit incorrect as what is currently used in the shader.}
-
 \eq{eq:zsort:alphamask:2}{
 	\alpha_{C_T} =  \alpha_{C_B} * (1 - \alpha_{C_{V_T}})
 }
@@ -140,9 +137,7 @@ video matte is pulled already:
 	I_{x, y} = (1 - \alpha_{C_T}) * C_{V_{x, y}} + \alpha_{C_T} * C_{B_{x, y}}
 }
 
-\todo[inline]{remindme: there is the depth-offset missing currently.}
-
-Now we have a well mixed image composition where the actor is placed in between 
+We have a well-mixed image composition where the actor is placed in between 
 two projection planes and thus can have an interactive fore- and background. 
-The initial assumption is that the actors depth is flattened to a plane, based 
-on the distance between a real world camera and the Vive Head Mounted Display.
+The initial assumption is that the actor's depth is flattened to a plane, based 
+on the distance between a real-world camera and the Vive Head Mounted Display.

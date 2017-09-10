@@ -3,18 +3,15 @@
 %
 \chapter{Conclusion}
 
-\todo[inline]{I really, really need help here, Kristian. :<}
-
 \section{3D Environment and Composition Considerations}
 
-While working with this pipeline there have been some problematic cases 
-discovered, which generally do not work well with mixed reality. Very cluttered 
-environment can easily have obstructing meshes that clip - partially or 
-completely - through the virtual camera frustum and obstruct 3D projection. 
-Minimizing this issue can be done by either disallowing a user to move the 
-SteamVR bounding box at all, only allow for certain teleporting positions or do 
-permit teleportations altogether that potentially clip through the SteamVR 
-bounding box.
+While working with this pipeline, some problematic cases were discovered, which 
+generally do not work well with mixed reality. Very cluttered environments can 
+easily have obstructing meshes that clip - partially or completely - through 
+the virtual camera frustum and obstruct 3D projection. Minimizing this issue 
+can be done by either disallowing a user to move the SteamVR bounding box at 
+all, only allow for certain teleporting positions or do permit teleportations 
+altogether that potentially clip through the SteamVR bounding box.
 \newline
 A green screen is crucial for a live performance and recent papers focus only 
 on increased accuracy with unacceptable computation times in this context. Due 
@@ -29,27 +26,27 @@ back to himself, allowing him to have a third person perception of his actions.
 \section{Performance Considerations}
 
 Due to the nature of this rendering pipeline there is a significant performance 
-overhead caused - since multiple virtual cameras are capturing the scenery at a 
-high frame rate - and is overall very taxing on the GPU. Each camera change 
-causes, including the two VR projections, multiple context changes, which is 
-additionally drags down performance. The $\Delta E$ chroma keying operation 
-runs per pixel twice through an if/else case which are 
+overhead caused --- since multiple virtual cameras are capturing the scenery at 
+a high frame rate --- and it is overall very taxing on the GPU. Each camera 
+change causes, including the two VR projections, multiple context changes, 
+which additionally slows down performance. The $\Delta E$ chroma keying 
+operation runs twice per pixel through an if/else case which is 
 likely\footnote{Unfortunately the Unity GPU profiler does not provide that 
 data and external GPU debuggers seem to simply crash while attaching to Unitys 
 rendering context} evaluated on both cases and later one of those is used, 
 adding another layer of computation complexity on top. 
 \newline
-The pipeline is already built in such a way to reduce the amount of cameras, 
-but needs at least 4 virtual projections. Each feature, but fore- and 
-background, can be disabled to ease the performance hit. With that in place it 
-is possible to balance between accuracy and computation speed - with further 
-considerations by doing full mixed reality on mobile phones or different 
-performing devices, a dynamic rendering pipeline could be created that manages 
-composition modes on runtime. Further exploration could be done to include 
-Valves "The Lab Renderer" which also manages asset fidelity and rendering 
-operations dynamically to hit an optimal frame rate. Future work could involve 
-a reduced sampling rate on the chroma key operations for further performance 
-improvement.
+The pipeline is already built in such a way as to reduce the amount of cameras, 
+but needs at least 4 virtual projections. Each feature --- except fore- and 
+background  rendering --- can be disabled to ease the performance hit. With 
+that in place it is possible to balance between accuracy and computation speed 
+- with further considerations by doing full mixed reality on mobile phones or 
+different performing devices, a dynamic rendering pipeline could be created 
+that manages composition modes on runtime. Further exploration could be done to 
+include Valve's "The Lab Renderer" which also manages asset fidelity and 
+rendering operations dynamically to hit an optimal frame rate. Future work 
+could involve a reduced sampling rate on the chroma key operations for further 
+performance improvement.
 \newline
 This pipeline is able to render about 120.000 triangles with pre-baked 
 lightning and disabled post-fx on the set PC. This works well for small 

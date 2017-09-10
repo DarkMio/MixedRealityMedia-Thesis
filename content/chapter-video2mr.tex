@@ -6,14 +6,14 @@
 
 \todo{Needs better sourcing.}
 
-To achieve a real time rendering environment, as previously mentioned, there 
+To achieve a real-time rendering environment, as previously mentioned, there 
 are two main production cycles. The one discussed in this thesis resolves this 
 problem by staying inside one application with multiple render operations per 
-frame, the other will be briefly mentioned in related work. 
+frame, the other will be briefly mentioned in the related work section below. 
 \newline
 The first and most important render cycle is the stereoscopic output of the 
 Vive HMD, which has a set frame rate of either 45 or 90 frames per second - 
-this is a hard limitation by the providing library, which stalls Unitys' 
+this is a hard limitation by the providing library, which stalls Unity's 
 rendering if a render cycle is above $11ms = 1s / 90$. It is important to have 
 consistent performance, otherwise the experience for an actor with the HMD will 
 be terribly degraded. This will influence a mixed reality composition, since 
@@ -26,7 +26,7 @@ the future of VR\cite{oculus:improv-render:2016}.
 \newline
 After rendering a stereoscopic image to the HMD another, secondary render cycle 
 has to be done on the same frame, which is an in-engine camera inside the 
-virtual scene and the relative position of the real world HMD and real world 
+virtual scene and the relative position of the real-world HMD and real-world 
 camera. Since the SteamVR library for the HTC Vive already exposes a 
 normalized, synchronized device tracking, it is easily possible to position the 
 in-engine camera at an accurate location of the real world capturing device. 
@@ -50,7 +50,7 @@ required are performed in order of biggest impact in graphical fidelity (Fig.
 feed. This is different to the actual render order but gives a better 
 understanding of the techniques used to achieve a mixed reality imagery. A 
 closing remark with the order of calculation has been added at the end of the 
-chapter. \todo{If it doesn't stay in the appendix}
+chapter.
 
 \input{content/chapter-video2mr-chromakey}        % Chroma Key Section
 \input{content/chapter-video2mr-bufferdelay}      % Render Buffer Swapper

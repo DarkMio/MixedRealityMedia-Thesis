@@ -22,7 +22,7 @@ image composition.
 \end{figure}
 
 A virtual projection can be seen in figure \ref{fig:stencil:projection} with 
-reconstructed camera parameters. With help of Unitys' engine-editor a 
+reconstructed camera parameters. With help of Unity's engine-editor a 
 green screen can be calibrated and should match very closely to all real world 
 parameters, allowing a real world camera to film over the edges of a 
 green screen without destroying the image composition. If a VR actor is outside 
@@ -38,43 +38,42 @@ drawbacks.
 	\label{fig:stencil:projection}
 	\begin{subfigure}[t]{.3\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{gfx/stencil/virtual.png}
-		\caption{Virtual reprojection of a calibrated green screen}
+		\includegraphics[width=\textwidth]{gfx/stencil/img.png}
+		\caption{Masking what would be remaining video content}
 	\end{subfigure}
 	\begin{subfigure}[t]{.3\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{gfx/stencil/img.png}
-		\caption{Masking what would be remaining video content}
+		\includegraphics[width=\textwidth]{gfx/stencil/virtual.png}
+		\caption{Virtual reprojection of a calibrated green screen}
 	\end{subfigure}
 	\begin{subfigure}[t]{.3\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{gfx/stencil/scene.png}
 		\caption{Composition after stencil has been applied}
 	\end{subfigure}
-	\label{fig:virtual-proj-stencil}
 \end{figure}
 
-In-engine this setup is a simple addition: After registering another virtual 
-camera to the camera manager it is used to simply render green planes where the 
-real world green screen is placed. Taken from previous projection parameters in 
-\ref{sec:projection-params} this virtual camera receives a dedicated culling 
-mask which only contains all green box projection planes. All other cameras 
-ignore this layer and are therefore invisible for any composing camera. After 
-each drawn frame, Unity is able to clear the frame buffer with an alpha color 
-as 0 - all remaining fragments from the green box write any color with an alpha 
-as 1; the color compartment is discarded and will not be used further. This 
-creates a lookup texture where an alpha-mask is rendered which will be 
-transferred to the video feeds alpha (see figure 
-\ref{fig:virtual-proj-stencil}).
+Accomplishing this task in Unity is rather simple: After registering another 
+virtual camera to the camera manager it is used to simply render green planes 
+where the real world green screen is placed. Taken from previous projection 
+parameters in \ref{sec:projection-params} this virtual camera receives a 
+dedicated culling mask which only contains all green box projection planes. All 
+other cameras ignore this layer and are therefore invisible for any composing 
+camera. After each drawn frame, Unity is able to clear the frame buffer with an 
+alpha color as 0 - all remaining fragments from the green box write any color 
+with an alpha as 1; the color compartment is discarded and will not be used 
+further. This creates a lookup texture where an alpha-mask is rendered which 
+will be transferred to the video feeds alpha (see figure 
+\ref{fig:stencil:projection}).
 
 We have now achieved a green box projection inside the same scene without any 
 complex management processes needed in Unity. Due to the quick setup it works 
 well for fast calibration and allows for a broad camera angle up to the green 
-screens edges without degrading the mixed reality performance. Recording beyond 
-these edges will yield into a composition of front and background renderings 
+screen edges without degrading the mixed reality performance. Recording beyond 
+these edges will yield a composition of front and background renderings 
 since all camera pixels will be completely discarded.
 \newline
 Unfortunately stencil-operations are poorly documented in Unity and add an 
-overhead which cannot be measured from built in profiler tools - as such it 
-adds unknown performance costs and have not been used in this thesis, hence the 
-fall back of rendering an alpha map.
+overhead which cannot be measured from built-in profiler tools - as such it 
+adds unknown performance costs and has not been used in this thesis, hence the 
+fallback of rendering an alpha map.

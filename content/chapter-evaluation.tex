@@ -1,22 +1,23 @@
 % !TeX spellcheck = en_US
 % !TEX root = ../thesis-example.tex
 %
-\chapter{Evaluation \& future work}
+\chapter{Evaluation \& Future Work}
 
-\section{Hardware setup variations}
+\section{Hardware Setup Variations}
+\label{sec:eval:hardware}
 
-Due to the nature of this setup and fine-tweaking options inside the engine, 
-this approach discussed can have a wide variety of operational setups. By lose 
-coupling of these hardware factors there are only a few limitations that can 
-either solved by better, future hardware or a different approach that are 
-outside of the scope.
+Due to the nature of the setup and fine-tweaking options inside the engine, 
+this approach discussed in the previous section can have a wide variety of 
+operational setups. By lose coupling of these hardware factors there are only a 
+few limitations that can either be solved by better, future hardware or a 
+different approach that are outside of the scope.
 
-As integral part of this setup is the motion tracking solution, it is possible 
+An integral part of this setup is the motion tracking solution: it is possible 
 to hook up an Oculus Rift\footnote{with its room-scale setup} instead of the 
 HTC Vive and set one controller as camera-attachment point. For that there 
 would be another 3D print needed to attach the controller to a camera solution. 
 \newline
-Other third market VR-HMDs usually follow the Vives specifications closely and 
+Other third market VR-HMDs usually follow the Vive's specifications closely and 
 integrate natively with SteamVR, thus no modification on the original 
 instalment has to be done.
 \newline
@@ -25,11 +26,11 @@ developed, since none of the software explicitly depends on SteamVR features
 and allow a wide variety of systems and sensors.
 
 The video capturing side can be varied greatly too, since the software only 
-allows for webcam-compatible devices, it would be possible to remove 
-the Inogeni encoder and replace it with cheap and simple webcams. Similarly can 
-a camera replaced along with other recording solutions, as long as it outputs 
-an HDMI (or HDMI-convertible) video stream. This allows recording to be as 
-complex as needed but in general a DSLR camera will suffice.
+requires for webcam-compatible devices, it would be possible to remove 
+the Inogeni encoder and replace it with cheap and simple webcams. Similarly, 
+can a camera be replaced along with other recording solutions, as long as it 
+outputs an HDMI (or HDMI-convertible) video stream. This allows recording to be 
+as complex as needed but in general a DSLR camera will suffice.
 
 Finally, since the full pipeline is rather complex, a good desktop PC will be 
 needed. The CPU overhead is minimal but the graphical complexity is based on 
@@ -37,10 +38,10 @@ limitations of the GPU. With future iteration of this hardware it will be
 possible to create more complex scenery, output higher resolution video and 
 better frame rates if the video capture device allows for it.
 \newline
-In theory a low-poly environment could be render-able on mobile, combined with 
+In theory, a low-poly environment could be render-able on mobile, combined with 
 a low-sample rate on the camera image, to produce a "window" into VR for 
 multiple users at the same time, thus enabling an indefinite view into virtual 
-reality. This would remove the MR-pipeline from an actors system. Further work 
+reality. This would remove the MR-pipeline from an actor's system. Further work 
 could tap into a Microsoft HoloLens solution, which could enable a direct 
 contextualization of an actor into a VR scenery without a green screen at all. 
 With fast approximate algorithms, like YCgCo-Keying, this could produce a 
@@ -58,11 +59,11 @@ window into the virtual reality experience without a green screen at all.
 
 \section{Rendering Setup Variations}
 
-There are a few approaches that work similarly, but are different in 
+There are a few approaches that work similarly, but differ with respect to 
 complexity, their capabilities and hardware requirements. They have been 
 already explored by producing companies and are covered here for completeness.
 
-\subsection{Single Camera - 3D plane in space}
+\subsection{Single Camera - 3D Plane in Space}
 
 A novel approach is rendering the camera image onto a 2D plane positioned 
 inside the 3D scene. This gives high control over projection parameters inside 
@@ -80,7 +81,7 @@ thus only usable with low latency video capturing devices. (Figure
 	\label{fig:alt-render:single-camera}
 \end{figure}
 
-\subsection{Deferred shading Path}
+\subsection{Deferred Shading Path}
 
 Similarly to the single camera approach, a deferred shader could be used, in 
 which the plane is projected and texturized after the scene has rendered and 
@@ -88,20 +89,20 @@ the graphics buffer is still present - this way the total time taken for
 rendering can be calculated and the chroma keying step can be chosen for a 
 faster variant if needed. This gives generally better control and could yield 
 higher performance, since all projected fragments have an assigned depth - the 
-camera image only has to be calculated where the actors depth is smaller as the 
-sceneries depth. This method is also lacking a way of adjusting for time drift. 
-Additionally calculating lightning is relatively expensive, due to the 
+camera image only has to be calculated where the actor's depth is smaller than 
+the scenery's depth. This method is also lacking a way of adjusting for time 
+drift. Additionally, calculating lightning is relatively expensive, due to the 
 reprojection of lighting parameters inside the graphics buffer. A snapshot of 
-this buffer cannot be stored - which is a limitation of Unitys render pipeline 
-- and is lost after the rendering loop completed.
+this buffer cannot be stored - which is a limitation of Unity's render pipeline 
+- and is lost after the rendering loop is completed.
 
 \subsection{Composition Workstation (4 patch)}
 
 Lastly, for full video production setups another rendering approach has been 
-suggested, which was used for the initial promo material 
-\cite{valve:vive-trailer:2016} includes rendering a 4K video signal, outputting 
-it to a composition PC which then takes care about managing time drift and 
-video input from the camera.
+suggested, which has been used for the initial promo material for the HTC 
+Vive\cite{valve:vive-trailer:2016}. It includes rendering a 4K video signal, 
+outputting it to a composition PC which then takes care about managing time 
+drift and video input from the camera.
 \newline
 The general concept involves a production of four 1920x1080 video signals of 
 the virtual environment:
@@ -126,21 +127,21 @@ recreating a lightning environment for the VR actor and relies on two systems.
 While engine programming complexity decreases, operational setup complexity 
 increases.
 
-\section{Rendering operational variations}
+\section{Rendering Operational Variations}
 
 This setup can handle another operational context by leaving out 
 background-sorting and only rendering a virtual "front", by which a high 
 quality augmented camera system can be achieved. Since time drift between 
 camera and engine is already handled, it is possible to render an augmented 
 image. Since depth information is lost, it is not possible to handle 
-obstructions - in example by an interacting user that is standing in front of 
+obstructions - for example by an interacting user that is standing in front of 
 the augmented object. However, with some composition and choreography, AR 
 footage can be showed and captured in live production for further use. A 
 reference plane has to be used, either by a Vive Tracker\footnote{like a 
 controller} or with feature markers.
 \newline
 This thesis assumes that the motion video feed is calibrated for a D65 white 
-and augmented reality scenarios usually do not take real world lightning into 
+and augmented reality scenarios usually do not take real-world lightning into 
 account, it would give a good natural and high quality look into augmented 
 reality use cases.
 
@@ -150,15 +151,15 @@ The proposed method has edge cases which could be further improved by other
 approaches in rendering or capturing actor video. These highlight issues 
 observed with the rendering operations discussed in this thesis.
 
-\subsection{Image Clipping - incorrect Z calculation for hands}
+\subsection{Image Clipping - Incorrect Z Calculation for Hands}
 
 Due to the planar projection of the real world feed inside the engine, any 
 Z-information of the actor is squashed to a fixed depth. This means that hands 
-are on the same plane. In cases with high z-difference between actor and actors 
-hands, it is possible that hand motion look unnatural and does not seems like 
-it is to be supposed - in figure \ref{fig:edge:z-clipping} is an actor 
-depicted, that wraps his arms around a virtual cube. The produced mixed reality 
-image shows his arms only behind the cube.
+are on the same plane. In cases with high z-difference between actor and 
+actor's hands, it is possible that hand motion look unnatural and does not seem 
+like it is to be supposed - in figure \ref{fig:edge:z-clipping} is an actor 
+depicted, whose hands are clearly in front of a virtual cube. The produced 
+mixed reality image shows his arms only behind the cube.
 
 \begin{figure}[htb]
 	\centering
@@ -168,15 +169,15 @@ image shows his arms only behind the cube.
 	\label{fig:edge:z-clipping}
 \end{figure}
 
-One solution for future research could be acquiring an actors depth by either 
+One solution for future research could be acquiring an actor's depth by either 
 using Time of Flight cameras and using a resulting point cloud or by 
-calculating each camera pixels depth with a stereoscopic solution. Thus each 
+calculating each camera pixel's depth with a stereoscopic solution. Thus each 
 pixel could have a quantifiable depth with additional calibration parameters 
 from the virtual reality tracking solution.
 
-\subsection{Matting failures}
+\subsection{Matting Failures}
 
-There are multiple problems while green screening, which are as old as green 
+There are multiple problems with green screens, which are as old as green 
 screens are used in video production. First and foremost is a partial 
 transparent actor if his clothing consists of similarly green shaded material.
 \newline
@@ -203,8 +204,7 @@ second to propagate the local color model to the following frame, and
 approximately 3s for color unmixing." \cite{disney:unmixing:2017}
 \todo{Add graphics depicting each issue. Also cross reference to chapter 4}
 
-\subsection{Calibration problems (wrong clipping, wrong reprojection, long 
-setup times)}
+\subsection{Calibration Problems}
 
 The biggest margin of error is calibration of all projection parameters.
 \newline

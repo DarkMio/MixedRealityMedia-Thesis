@@ -4,7 +4,8 @@
 \section{Chroma Key}
 \label{sec:chromakey}
 
-Beginning from a real world camera, the video signal travels through the 
+Beginning from a real-
+world camera, the video signal travels through the 
 Inogeni 4KUSB3 converter and is accessible with the systems API for webcams. 
 (See figure \ref{fig:system-components})
 
@@ -41,7 +42,7 @@ Each RGB color can be represented as a discrete 3-Vector of (red, green and
 blue)  values in range of $[0, 1]$\footnote{Software RGBA color representations 
 usually take 8bit per color channel and map between $[0, 255]$ - graphic 
 computing usually maps between $[0, 1]$}. An interpolation between two colors 
-can be summarized as matting equation as following, where a foreground image 
+can be summarized as a matting equation as follows, where a foreground image 
 $C_F$ and a background image $C_B$ - $\alpha_B$ is assumed to be $1$:
 
 \eq{eq:chroma:assumption:alpha:1}{
@@ -79,10 +80,10 @@ calculate the euclidean distance between these two color vectors:
 	\label{fig:chroma:euclidean:rgb}
 \end{figure} \todo{Maybe put a highlight of the image together}
 
-This is computationally very low cost and works well enough for tell a 
+This is computationally very low cost and works well enough to detect a 
 difference between two distinct colors. It fails to accommodate for coloring 
-that is perceived as different, but are tinted by the reference colors. Since 
-the green screen material will never achieve 0\% reflectivity, some color will 
+that is perceived as different, but tinted by the reference colors. Since the 
+green screen material will never achieve 0\% reflectivity, some color will 
 spill onto the filmed actor and will therefore generate unwanted chroma-keying 
 artifacts, most noticeable on semi-glossy reflection of skin or color tints on 
 white clothing.
@@ -104,7 +105,7 @@ calculation between two colors.
 	\label{fig:chroma:euclidean:ycgco}
 \end{figure}
 
-Transforming any RGB color to YCgCo can done with a single matrix  
+Transforming any RGB color to YCgCo can be done with a single matrix  
 multiplication, which is - again - a very low-cost computation on a GPU:
 
 \eq{eq:ycgco:transformation}{
@@ -135,18 +136,17 @@ channels:
 	\alpha = \sqrt{(C_RCg - C_SCg)^2 + (C_RCo - C_SCo)^2}
 }
 
-Since the increased decorrelation, the result is more accurate and shows less 
-artifacting on target pixels, allowing for better matte pulling, less 
+Due to the increased decorrelation, the result is more accurate and shows less 
+artifacts on target pixels, allowing for better matte pulling, less 
 green edges and a more continuous, smooth image of an actor.
 
 \subsection{Euclidean Lab Difference}
 The International Color Consortium (ICC) defined 1976 \textit{Lab $\Delta$E} as 
 a standard model of calculating color differences inside the \textit{Lab} color 
-vector volume. The final distance calculation is, too, a linear euclidean 
-scalar as with all other models, but accommodates for perceived color 
-differences. It is a more expensive computation wise and needs in 
-implementation code branching, which will evaluate all branches first by the 
-GPU before using either code path.
+vector volume. The final distance calculation is a linear euclidean scalar as 
+with all other models, but accommodates for perceived color differences. It is 
+a more expensive computation and needs code branches, which will evaluate all 
+branches first by the GPU before using either code path.
 
 A reference white has to be used to convert RGB to the Lab color model to 
 accommodate for different RGB color spaces\footnote{which are usually only 
@@ -374,8 +374,8 @@ the values are normalized again:
 Finally, comparing CIEDE76, CIEDE94 and CIEDE2000 reveals, that CIEDE76 
 performs well enough while having the lowest performance overhead. The 
 similarities between the 1976 and 2000 method are very apparent, while 
-CIEDE2000 has a significantly more complex algorithm 
-\cite{sharma:ciede2000:2005}.
+CIEDE2000 has a significantly more complex algorithm. (cf. 
+\cite{sharma:ciede2000:2005})
 \newline
 Additionally CIEDE76 shows less variance on similar colored spaces to the 
 target color as well as high color difference peaks on all other pixels. This 

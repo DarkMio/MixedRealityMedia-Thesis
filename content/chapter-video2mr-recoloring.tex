@@ -3,7 +3,7 @@
 %
 \section{Additional Coloring Operations}
 
-Finally we have created the best possible recreation of a VR actor inside the 
+Finally, we have created the best possible recreation of a VR actor inside the 
 virtual reality scene. Now we can follow up with post effects on the video feed 
 to fit it better into the environment.
 
@@ -15,7 +15,7 @@ to fit it better into the environment.
 
 This can be done with regular coloring operations, like hue rotation, 
 brightness, contrast and saturation procedures on the video alone. It gives a 
-content producer direct enhancing tools which would be usually given by Unitys' 
+content producer direct enhancing tools which would be usually given by Unity's 
 post effects stack, which are unavailable due to the nature of this render 
 pipeline.
 
@@ -27,8 +27,8 @@ this effect but color retouching is in almost all cases a necessity.
 \textbf{YCgCo} is, again, good enough to perform this color operation, thanks 
 to its color decoupling properties and a green chrominance channel. By 
 splitting a RGB image into YCgCo $C_{Input}$ (see equation 
-\eqref{eq:ycgco:transformation}) and then shifting towards the anti-color of a 
-given key color $C_{Key}$ for a factor weight $W \in [0, 1]$:
+\eqref{eq:ycgco:transformation}) and then shifting towards the complementary 
+color of a given key color $C_{Key}$ for a factor weight $W \in [0, 1]$:
 
 \eq{eq:retouch:spill:1}{
 	R = \frac{C_{Key Cg, Co} \cdot C_{Input Cg, Co}}{C_{Key Cg, Co} \cdot 
@@ -52,10 +52,10 @@ given key color $C_{Key}$ for a factor weight $W \in [0, 1]$:
 \todo{"proper lightning setup" would be something for the appendix}
 
 Since this is a linear operation, it does not consider more apparent color 
-spill around an actors edges - it slightly removes a green undertone to make 
-the imagery look more natural and fitting into a scene.
+spill around an actor's edges - it slightly removes a green undertone to make 
+the video image look more natural and fitting into a scene.
 
-Additionally we can apply a hue color rotation by using Rodrigues' rotation 
+Additionally, we can apply a hue color rotation by using Rodrigues' rotation 
 formula to make changes to the overall tint of an image, shifting a color $C_I$ 
 for a maximum of 180 degrees forwards or backwards with a factor $H \in (-\pi, 
 \pi]$ to yield a color $C_F$:

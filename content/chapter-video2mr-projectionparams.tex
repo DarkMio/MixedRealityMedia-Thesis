@@ -4,7 +4,7 @@
 \section{Virtual projection parameters from real world camera}
 \label{sec:projection-params}
 To reproduce a virtual projection for the real world camera there are four 
-unknowns to solve for:
+initially unknown variables:
 
 \begin{my_list}
 	\item Position of the real world camera
@@ -13,7 +13,7 @@ unknowns to solve for:
 	\item Distance between the HMD and the real world camera
 \end{my_list}
 
-Luckily the former two are solved by the tracking solution, thus can be used 
+Luckily the former two are solved by the tracking solution and can be used 
 directly as transformation matrix for the virtual casmera - ignoring an 
 additional fixed offset from the actual controller to the camera, which is 
 accounted for inside the software.
