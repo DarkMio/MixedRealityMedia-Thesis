@@ -10,7 +10,8 @@ Inogeni 4KUSB3 converter and is accessible with the systems API for webcams.
 (See figure \ref{fig:system-components})
 
 \begin{figure}[htb]
-	\includegraphics[width=\textwidth]{_raw_resources/pipeline_steps/4_1_chroma.pdf}
+	\centering
+	\includegraphics[width=.7\textwidth]{_raw_resources/pipeline_steps/4_1_chroma.pdf}
 	\caption{Initial step upon receiving the camera image}
 	\label{fig:steps:chroma}
 \end{figure}
@@ -19,13 +20,20 @@ The initial step is to remove the green (or blue) background from the image,
 which should be live footage of a green (or blue) box. Other literature usually 
 refers to it as "pulling a video matte" or "chroma keying." For a reference 
 green, there has to be a color picked manually in the material editor of Unity 
-- this was made by a checkbox to show raw output from the camera. \todo{Image 
-of the material editor} Then an average green from the background box can be 
+- this was made by a checkbox to show raw output from the camera (eg. fig. 
+\ref{fig:chroma:editor}). Then an average green from the background box can be 
 picked. This is an important setup step, since lightning situations can vary 
 greatly and minor differences in light setups can have a great effect on the 
 outcome of visible green background captured by the camera, thus making a 
 recalibration necessary.
-\newline
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=.45\textwidth]{gfx/distances/material-editor.png}
+	\caption{Material Editor inside Unity}
+	\label{fig:chroma:editor}
+\end{figure}
+
 An extreme example case is used for comparing different chroma keying variants, 
 which shows high motion blur due to a low shutter speed of the capturing 
 camera and fast movement of the depicted actor:
@@ -55,7 +63,7 @@ total Alpha of $\alpha_T$ as following:
 
 \eq{eq:chroma:assumption:alpha:weak}{
 	\alpha_T = \alpha_B * (1 - \alpha_F) \\
-} \todo{This does T as "Total"}
+}
 
 thus:
 
@@ -156,8 +164,6 @@ matrix based on a given color model to handle different RGB color standards.
 
 sRGB conversion needs to be converted to linear RGB while respecting light 
 energy per color channel, rather than relative, perceived color brightness: 
-\todo{this is very rough and only contains equations currently used - also 
-could need a better explanation for energy leveling}
 
 \eq{chroma:inversecompanding}{
 	v \in \{r, g, b\} \land V \in \{R, G, B\}
@@ -321,8 +327,7 @@ With that we receive a more natural matte with nearly no green edges,
 continuous actor imagery and smooth alpha transition between actor and green 
 screen. Motion blur is hard to account for and is even with professional video 
 matting hardware, extensive post production or intrinsic frame matting 
-algorithms hard to remove without rough image results. \todo{Could need an 
-example case with real matting soft/hardware}
+algorithms hard to remove without rough image results.
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{_raw_resources/Comparison_DeltaE_color.png}
@@ -339,13 +344,7 @@ we pick scan line of the image, in this case the 301st row from top, and
 calculate the color distance from each pixel to a reference color $[R, G, B] = 
 [0.341, 0.588, 0.42]$.
 
-\begin{figure}[htb]
-	\includegraphics[width=\textwidth]{gfx/distances/dist-comp.png}
-	\caption{Normalized graph comparing color difference methods}
-	\label{fig:chroma:comparison_graph}
-\end{figure}
-
-As seen in figure \ref{fig:chroma:comparison_graph}, CIEDE76s performance is 
+As seen in figure \ref{fig:chroma:image_comparison} d, CIEDE76s performance is 
 significantly better in separating colors and has a broader margin between 
 green background and other foreground. This can be observed in figure 
 \ref{fig:chroma:image_comparison}, where the scan line is set as background and 
@@ -353,38 +352,53 @@ the values are normalized again:
 
 \begin{figure}[htbp]
 	\caption{Comparison between different color distance methods}
-	\begin{subfigure}[t]{\textwidth}
+	\begin{subfigure}[t]{.65\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{gfx/distances/color-rgb.png}
 		\caption{RGB color distance} 
 	\end{subfigure}
-	\begin{subfigure}[t]{\textwidth}
+	\begin{subfigure}[t]{.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{_raw_resources/Comparison_RGB_color.png}
+	\end{subfigure}
+	\begin{subfigure}[t]{.65\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{gfx/distances/color-ycgco.png}
 		\caption{YCgCo color distance}
 	\end{subfigure}
-	\begin{subfigure}[t]{\textwidth}
+	\begin{subfigure}[t]{.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{_raw_resources/Comparison_YCgCo_color.png}
+	\end{subfigure}
+	\begin{subfigure}[t]{.65\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{gfx/distances/color-ciede76.png}
 		\caption{CIEDE76 color distance}
 	\end{subfigure}
+	\begin{subfigure}[t]{.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{_raw_resources/Comparison_DeltaE_color.png}
+	\end{subfigure}
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/distances/dist-comp.png}
+		\caption{Normalized graph comparing color difference methods}
+	\end{subfigure}
 	\label{fig:chroma:image_comparison}
 \end{figure}
-
-Finally, comparing CIEDE76, CIEDE94 and CIEDE2000 reveals, that CIEDE76 
-performs well enough while having the lowest performance overhead. The 
-similarities between the 1976 and 2000 method are very apparent, while 
-CIEDE2000 has a significantly more complex algorithm. (cf. 
-\cite{sharma:ciede2000:2005})
-\newline
-Additionally CIEDE76 shows less variance on similar colored spaces to the 
+Additionally, CIEDE76 shows less variance on similar colored spaces to the 
 target color as well as high color difference peaks on all other pixels. This 
 yields an accurate upper and lower limit, in which the green screen can be 
 calibrated in.
 \newline
-Additionally, performing the same operation on the same data with different 
-CIEDE color distance revisions (figure \ref{fig:chroma:ciede_variants}), that 
-there is little difference between CIEDE76 and CIEDE2000.
+Finally, comparing CIEDE76, CIEDE94 and CIEDE2000 reveals, that CIEDE76 
+performs well enough while having the lowest performance overhead. The 
+similarities between the 1976 and 2000 method are very apparent, while 
+CIEDE2000 has a significantly more complex algorithm. (cf. 
+\cite{sharma:ciede2000:2005}) Performing the same operation on the same data 
+with different CIEDE color distance revisions (figure 
+\ref{fig:chroma:ciede_variants}), that there is little difference between 
+CIEDE76 and CIEDE2000.
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{gfx/distances/ciede-comp.png}

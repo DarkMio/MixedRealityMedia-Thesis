@@ -76,8 +76,8 @@ thus only usable with low latency video capturing devices. (Figure
 \ref{fig:alt-render:single-camera} for reference)
 
 \begin{figure}[htb]
-	\includegraphics[width=\textwidth]{_raw_resources/editor_single_camera.png}
-	\caption{Demonstrative scene with a plane as camera rendering position}
+	\includegraphics[width=\textwidth]{gfx/eval/plane-scene.png}
+	\caption{Demonstrative scene with a plane at camera's rendering position}
 	\label{fig:alt-render:single-camera}
 \end{figure}
 
@@ -107,15 +107,16 @@ drift and video input from the camera.
 The general concept involves a production of four 1920x1080 video signals of 
 the virtual environment:
 \begin{my_list}
-	\item Foreground
-	\item Video matte of foreground
 	\item Background
+	\item Foreground with blue matte
+	\item Composite image
 	\item First person view
 \end{my_list}
 
 \begin{figure}[htb]
-	\includegraphics[width=\textwidth]{_raw_resources/4patch_composite.png}
-	\caption{Actual order of computation}
+	\includegraphics[width=\textwidth]{_external/media/4patch.jpg}
+	\caption{4 Patch output for post / second station 
+	production\cite{gartner:mixed-reality:2017}.}
 	\label{fig:alt-render:4patch}
 \end{figure}
 
@@ -182,10 +183,11 @@ screens are used in video production. First and foremost is a partial
 transparent actor if his clothing consists of similarly green shaded material.
 \newline
 Additional green screen spill causes artifacts while pulling the matte which 
-then clips the actor off. This can be mitigated by better production 
+then clips the actor off (fig. \ref{fig:issue:blur} a). This can be mitigated 
+by better production 
 environments, i. e. with higher quality cloth and a generally well lit 
-set\footnote{The appendix features a basic schematic of a small green screen 
-setup.}.
+set\footnote{Appendix \ref{app:lightningsetup} features a basic schematic of a 
+small green screen setup.}.
 \newline
 Sometimes, for example in low light environments or folded green screen 
 material, the background covers a wide color range, thus calibrating a good 
@@ -196,13 +198,30 @@ GPU, since the calculation has be done per selected color, multiplying the
 effort by the number of colors.
 \newline
 Lastly, real time chroma keying has problems with motion blur of the source 
-video material - causing background mixing and invalid matting. This is a 
-complex problem that is far beyond the scope of this thesis. One of the best 
-solutions is a color unmixing approach researched by Disney and "typically 
-requires 10s for local color estimation (assuming 8 dominant colors), another 
-second to propagate the local color model to the following frame, and 
-approximately 3s for color unmixing." \cite{disney:unmixing:2017}
-\todo{Add graphics depicting each issue. Also cross reference to chapter 4}
+video material - causing background mixing and invalid matting (fig. 
+\ref{fig:issue:blur} b). This is a complex problem that is far beyond the scope 
+of this thesis. One of the best solutions is a color unmixing approach 
+researched by Disney and "typically requires 10s for local color estimation 
+(assuming 8 dominant colors), another second to propagate the local color model 
+to the following frame, and approximately 3s for color unmixing." 
+\cite{disney:unmixing:2017}
+
+\begin{figure}
+	\begin{subfigure}[t]{.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/issues/spill.png}
+		\subcaption{Color spill from the green screen tints the clothing of the 
+		VR actress, yielding incorrect chroma keying results}
+	\end{subfigure}
+	\begin{subfigure}[t]{.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/issues/blur.png}
+		\subcaption{Due to motion blur in the source video material, it is 
+		impossible for the software to determine between fore- and background}
+	\end{subfigure}
+	\label{fig:issue:blur}
+	\caption{Examples of matting failures inside the software}
+\end{figure}
 
 \subsection{Calibration Problems}
 

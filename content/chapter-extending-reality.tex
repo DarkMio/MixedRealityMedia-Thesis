@@ -24,7 +24,7 @@ acting and virtual recreation so far, that it is almost impossible to
 differentiate between real world video capture and 3D recreated imagery in high 
 budget productions.
 
-\section{Motion Video Production}
+\section{Motion Video Production \& Computer Generated Imagery}
 
 Producing motion video has come a long way and a sufficient history of it would 
 be far out of scope for this thesis. Concentrating on key aspects of 
@@ -36,10 +36,7 @@ problems as discussed in this thesis had to be solved, in example how an actor
 can be captured without a back- or foreground and how he would then be 
 integrated into an imaginative set. Today, modern action movies don't even 
 necessarily capture the actor but his movements, which then will be 
-artificially rendered with help of CGI. \todo{Missing: Camera tricks, computer 
-aided visual effects, green screens}
-
-\section{CGI \& Video Composition}
+artificially rendered with help of CGI.
 
 \subsection{History of Green \& Blue Screen Productions}
 
@@ -64,6 +61,7 @@ cells see a blending range of wavelengths at different intensities, giving the
 green vector space its highest perceptible range. \cite{MacAdam:1942}
 
 \begin{figure}[htbp]
+	\centering
 	\label{fig:greenscreen:stimula}	
 	\begin{subfigure}[t]{.35\textwidth}
 		\centering
@@ -78,9 +76,7 @@ green vector space its highest perceptible range. \cite{MacAdam:1942}
 		L types after Wyszecki et. al \cite{wiki:Wyszecki:2017}}. Notice the 
 		overlap between M and L cones.
 	\end{subfigure}
-
-\end{figure} \todo{The layout is a bit wonky here.}
-
+\end{figure}
 Most consumer cameras - and even most production cameras - use dot-matrix 
 sensors with a weighted ration of green (4), red (2) and blue (2) pixels, 
 called Bayer pattern \cite{kodak:bayer:1976}, giving it - similar to human 
@@ -141,9 +137,6 @@ real-world camera.
 
 \section{Immersion vs. Communication}
 
-\todo[inline]{maybe the overview does already a "good enough" job to bring this 
-across.}
-
 Virtual Reality, as previously mentioned in \ref{sec:intro:outline}, is very 
 immersive but the experience is hard to imagine without wearing an HMD 
 yourself. Additionally, VR doesn't offer any way to allow observers a similar 
@@ -180,12 +173,13 @@ and unnatural looking motion feed.
 	\label{fig:evolution:steps}
 	\begin{subfigure}[t]{.45\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{_raw_resources/lens_distortion.jpeg}
-		\caption{Distorted direct dual output to a Oculus DK2.}
+		\includegraphics[width=\textwidth]{_external/media/torque3d-bdist.jpg}
+		\caption{Distorted direct dual output to a Oculus 
+		DK1\cite{wyand:torqu3d:2013}.}
 	\end{subfigure}
 	\begin{subfigure}[t]{.45\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{_raw_resources/job_simulator_vr.png}
+		\includegraphics[width=\textwidth]{_external/media/owlch-car.jpg}
 		\caption{A first person, single screen output is an improvement, but is 
 			hard to follow in motion.}
 	\end{subfigure}
@@ -198,9 +192,10 @@ and unnatural looking motion feed.
 	\end{subfigure}
 	\begin{subfigure}[t]{.45\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{_raw_resources/the_lab_mr.png}
-		\caption{Currently a screenshot of The Lab MR - but actually will be 
-			one of my solution. Just gotta take some screenshots.}
+		\includegraphics[width=\textwidth]{gfx/mr-action.png}
+		\caption{Recontextualizing the VR actor with the virtual environment 
+		makes usage context simpler to understand and easier to follow as 
+		observer.}
 	\end{subfigure}
 \end{figure}
 
@@ -215,8 +210,7 @@ Then there is currently only one game, Rick and Morty: Virtual Rick-ality, that
 has an optional CCTV feature enabled, in which third persons can control a 
 variety of mounted, virtual cameras and follow the actors interaction with the 
 3D environment. This VR actor is then replaced with an avatar to visualize what 
-how he is interacting with the scenery. \todo{Maybe I should pin down the 
-timeline - how long it took for a next step to emerge from the medium.}
+how he is interacting with the scenery.
 \newline
 Finally, there is mixed reality, where the VR actor is placed in context of 
 the virtual reality scene. This has been done previously by post-production for 
