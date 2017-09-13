@@ -62,7 +62,6 @@ green vector space its highest perceptible range. \cite{MacAdam:1942}
 
 \begin{figure}[htbp]
 	\centering
-	\label{fig:greenscreen:stimula}	
 	\begin{subfigure}[t]{.35\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{_external/media/CIExy1931_MacAdam.png}
@@ -76,6 +75,8 @@ green vector space its highest perceptible range. \cite{MacAdam:1942}
 		L types after Wyszecki et. al \cite{wiki:Wyszecki:2017}}. Notice the 
 		overlap between M and L cones.
 	\end{subfigure}
+	\caption{Since I have no caption, I wont reference}
+	\label{fig:greenscreen:stimula}	
 \end{figure}
 Most consumer cameras - and even most production cameras - use dot-matrix 
 sensors with a weighted ration of green (4), red (2) and blue (2) pixels, 
@@ -220,8 +221,32 @@ into the VR experience in a natural way.
 
 \section{Mixed Reality and its Use Cases}
 
-\todo{There is a meeting planned to discuss A+Cs interest and use cases 
-for MR - which then probably ends up in here in a summary.}
+First and foremost, Mixed Reality allows re-contextualizing the VR actor with 
+the environment. It is far more interesting watching a user interacting with 
+the world he is surrounded by than just seeing his first person action. This 
+allows i.e. for better Trailer production, that gives a good impression of the 
+VR game.
+\newline
+This back propagation of an actor into a world gives Mixed Reality an 
+unexplored field of VR experiences, which can be driven by very classic motion 
+video production --- and this idea isn't brand new either. Motion capturing, 
+for example in game development, usually translate instantly an actors motion 
+into a live 3D rendering, in which the visual performance can be rated by the 
+director of this scene.
+\newline
+"Circle of Saviour" is currently a moving exhibition piece where a VR user can 
+slay trolls and goblins, which is viewed as a kind of live news broadcast by 
+observers. It is more attention-gathering than regular VR experiences, which 
+only allow for a single person view. 
+\newline
+Going further, without a director on set, this re-contextualizing expands the 
+possibilities for multi-user experiences - since the VR actor can be surrounded 
+by a complete fictional world, he can play a performance that is directed by a 
+crowd.
+
+These cases just highlight a very small amount of new possibilities by 
+real-time Mixed Reality productions but highlight how diverse the integration 
+of motion video theory back into Virtual Reality can be.
 
 \section{Current State of Mixed Reality Production}
 
@@ -251,8 +276,16 @@ matter of the best possible studio setup capture.
 The game "Fantastic Contraption" from 2016 allows livestreamers to do a video 
 composition for mixed reality. While this approach allows to mitigate video 
 input delays it cannot have a free moving camera with an additional motion 
-tracker.
-\newline
+tracker (see fig. \ref{fig:mrproduction:fcontraption}).
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{_external/media/fcontraption-mr.jpg}
+	\caption{Mixed Reality in Fantastic 
+	Contraption\cite{northway:fcontraption:2016}}
+	\label{fig:mrproduction:fcontraption}
+\end{figure}
+
 "Fantastic Contraptions" trailers also show another approach by replacing the 
 actor with an avatar by basically rendering a certain depth and then placing 
 real-world camera footage as background. With such a system any live video 
@@ -266,8 +299,16 @@ Owlchemy Labs is a VR game studio located in Austin, Texas. They're working
 on VR experiments and use similar techniques discussed in this paper. Their key 
 difference in visual reproduction is by using a stereoscopic camera to record 
 an actor and can reproduce the actors depth per pixel, allowing for more 
-complex fore- and background separation for a more accurate visual reproduction.
-\newline
+complex fore- and background separation for a more accurate visual 
+reproduction as seen in figure \ref{fig:mrproduction:owlchemy}.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{_external/media/owlch-mr.png}
+	\caption{Owlchemy's Mixed Reality Setup\cite{owlchemy:mr:3:2017}}
+	\label{fig:mrproduction:owlchemy}
+\end{figure}
+
 While Owlchemy Labs announced real-time mixed reality compositing, there hasn't 
 been a shipped product or update for one of their games that allows for live 
 mixed reality capture\cite{owlchemy:mr:3:2017}.
@@ -275,10 +316,17 @@ mixed reality capture\cite{owlchemy:mr:3:2017}.
 \subsection{Apple WWDC17}
 
 Apple presented a real-time mixed reality showcase done on their computer 
-systems on their annual keynote "WWDC17". It is driven by Unreal Engine and 
+systems on their annual keynote "WWDC17" (see fig. 
+\ref{fig:mrproduction:apple}). It is driven by Unreal Engine and 
 uses also similar techniques as discussed in this thesis. That presentation is 
 currently the best live performance of mixed reality with a high quality chroma 
 keying, depth reconstruction and high fidelity graphics. There is no technical 
 information available yet\cite{ilmxlab:mr-demo:2017}.
 
-\todo[inline]{Maybe a summary}
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{_external/media/apple-mr.png}
+	\caption{Screenshot from the Apple WWDC17 
+	demonstration\cite{ilmxlab:mr-demo:2017}}
+	\label{fig:mrproduction:apple}
+\end{figure}
