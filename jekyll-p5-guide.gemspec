@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["miostarkid@gmail.com"]
 
   spec.summary       = %q{A custom template for a single page.}
-  spec.homepage      = "https://github.com/darkmio/persona5-compendium"
+  spec.homepage      = "https://github.com/darkmio/MixedRealityMedia-Thesis"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").select do |f|
