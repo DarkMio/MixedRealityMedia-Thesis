@@ -1,7 +1,7 @@
 title: P5 Guide theme
 author: Mio Bambino
 description: Custom template for a persona 5 website.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/MixedRealityMedia-Thesis" # the subpath of your site, e.g. /blog
 url: "https://miosblog.de" # the base hostname & protocol for your site, e.g. http://example.com
 lang: en
 timezone: UTC
