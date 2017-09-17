@@ -56,7 +56,6 @@ seeing noticeable in any motion video as shown in figure
 		\caption{After aligning frames the motion in engine and video capture 
 		are in sync}
 	\end{subfigure}
-	\label{fig:virtual-proj-stencil}
 \end{figure}
 
 \footnotetext{a video example is provided on the additional storage device}
@@ -110,15 +109,34 @@ viewports\footnote{A viewport can be either a D3D, OpenGL or Metal 3D context}.
 It is possible to manually initiate a virtual camera's rendering, however, this 
 causes the render loop to mistime and yields inconsistent frame timings inside 
 the HMD and is no different between the average GPU load to display the 
-presentation TV's viewport. \todo{Mistiming graph!}It makes no real difference 
-if a scene renders 11ms twice and then fal ls down to 22ms once - the observed 
-stuttering is a major degradation of the actors experience.
-\newline
+presentation TV's viewport. It makes no perceptive difference if a scene 
+renders 11ms twice and then falls down to 22ms once --- however the observed 
+stuttering is a major degradation of the actors experience and often times 
+causes motion sickness (fig. \ref{fig:cameralag:mistiming}).
+
+\begin{figure}[htbp]
+	\caption{Differences in performance based on rendering strategy}
+	\label{fig:cameralag:mistiming}
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/mistiming/variable.pdf}
+		\caption{Initiating rendering when needed can cause stuttering 
+		performance inside the headset, yielding motion sickness for the VR 
+		actor}
+	\end{subfigure}
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/mistiming/stable.pdf}
+		\caption{Consistent poor performance is less irritating for the VR 
+		actor and makes no difference for a Mixed Reality composition}
+	\end{subfigure}
+\end{figure}
+
 To conclude: The software has to store a set amount of \gls{framebuffer}s and 
 cycle them at the right frame to guarantee minimal delays between camera and 3D 
 environment, thus realigning the observed time drift between the engine and 
 captured video frames.
-\newline
+
 Noteworthy is that the render loop can be 45 or 90 fps, depending on scene 
 complexity, overall system performance or - especially in case of Unitys 
 outdated C\# version - garbage collection, that could halt the engine for a 
@@ -134,43 +152,26 @@ operations at specific steps of the main engine execution\footnote{For more
 detail about Unity's core loop there is a flowchart in the Appendix 
 \ref{app:engineloop}, depicting MonoBehaviors life cycle.}. As 
 initial data needed is \code{cameraFPS}, \code{cameraOffset} and 
-\code{Time.deltaTime}. With that data it is possible to calculate the remaining 
-variables for this algorithm:
+\code{Time.deltaTime}. With that input it is possible to calculate the 
+\code{frameWindow}, which is the time of one displayed frame and 
+\code{delay}, which is the time drift in frames between camera and engine:
 
-\begin{lstlisting}
-	frameWindow = 1.0 / cameraFPS;
-	delayCnt = cameraOffset / frameWindow;
-	frameDelay = (int) delay * frameWindow;
-	fractionDelay = delay % (1 * frameWindow);
-	innerTimer = 0.0;
-	absoluteTimer = 0.0;
-	while(true) {
-		innerTime += Time.deltaTime;
-		absoluteTimer += Time.deltaTime;
-		localTime = innerTimer - fractionDelay;
-		if(localTime < frameWindow ||
-		   absoluteTimer < initialDelay) {
-			continue;
-		}
-		
-		innerTimer %= frameWindow;
-		absoluteTimer %= (1f + initialDelay);
-	}
-\end{lstlisting}
+\eq{eq:swapper:vars:1}{
+	\textnormal{frameWindow} = \frac{1}{\textnormal{cameraFPS}}
+}
 
-\todo{this code listing is the wrong one :( - also I am missing 
-representative material why we need to mitigate the latency mitigation}
-
-In Unity's case a framebuffer is called \code{\gls{render texture}} and allows 
-for either data or depth buffer access, where a regular framebuffer would allow 
-for simultaneous access, thus two separate buffers are needed.
+\eq{eq:swapper:vars:2}{
+	\textnormal{delay} =
+		\frac{\textnormal{cameraOffset}}{\textnormal{frameWindow}}
+}
 
 \subsection{Double Access Ringbuffer}
 
-To spare memory and bandwidth overhead it is possible to reuse previously 
-allocated \code{RenderTextures} by overwriting the second oldest 
-\code{RenderTexture} and compositing a mixed reality image with the oldest 
-\code{RenderTexture}(see  Figure \ref{fig:offsets:framesquashing}).
+In Unity's case a framebuffer is called \code{\gls{render texture}}. To spare 
+memory and bandwidth overhead it is possible to reuse previously allocated 
+\code{RenderTextures} by overwriting the second oldest \code{RenderTexture} and 
+compositing a mixed reality image with the oldest \code{RenderTexture}(see  
+Figure \ref{fig:offsets:framesquashing}).
 
 \begin{figure}[htb]
 	\centering
@@ -184,7 +185,7 @@ index and display the frame on its next index. After that step is taken we
 increment by one. This way we’re overwriting the oldest seen 
 \code{RenderTexture} and show the one written to the next index.
 
-\begin{lstlisting}
+\begin{lstlisting}[language={[Sharp]C}]
 class DoubleAccessRingBuffer<T> {
 	public int bufferSize;
 	private List<T> buffers;
@@ -218,5 +219,3 @@ class DoubleAccessRingBuffer<T> {
 	}
 }
 \end{lstlisting}
-
-\todo[inline]{Needs "real" pseudo code, rather than implementation}

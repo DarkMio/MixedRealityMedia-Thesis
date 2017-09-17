@@ -113,6 +113,62 @@ would require its own research for accurate runtime results with little to none
 user guidance. 
 \cite{gong:realtime-matting:2010}, \cite{gastal:shared-sampling:2010}
 
+\section{Results}
+
+The Mixed Reality pipeline is rather complex, but is structured in three 
+components: Recreating virtual camera parameters from the real world camera, 
+readjusting a time drift between real world camera and generated engine frames 
+and image composition of all media (fig. \ref{fig:intro:results}).
+
+\begin{figure}[htbp]
+	\caption{System Setup}
+	\label{fig:intro:results}
+	\centering
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/results/pano.png}
+		\caption{Current studio setup --- \circled{a} green screen; 
+		\circled{b} Panasonic Lumix GH2; \circled{c} PC Workstation}
+	\end{subfigure}
+	\begin{subfigure}[t]{.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/results/camera.png}
+		\caption{System components --- \circled{a} Panasonic Lumix GH2; 
+		\circled{b} Controller Tripod Mount; \circled{c} INOGENI 4KUSB3 HMDI 
+		converter; \circled{d} HTC Vive Controller; \circled{e} HTC Vive HMD}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/results/set.png}
+		\caption{\circled{a} Panasonic Lumix GH2; \circled{b} HTC Vive HMD; 
+		\circled{c} green screen}
+	\end{subfigure}
+	\begin{subfigure}[t]{.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/results/pc.png}
+		\caption{PC Workstation}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/results/mr-action_new.png}
+		\caption{final Mixed Reality composition}
+	\end{subfigure}
+	\begin{subfigure}[t]{.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/results/self-illu.png}
+		\caption{Self-Illumination from virtual light casted on real world 
+		camera image}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{gfx/results/mr-action_old.png}
+		\caption{another, earlier Mixed Reality composition}
+	\end{subfigure}
+\end{figure}
+
 \section{Thesis Structure}
 \label{sec:intro:structure}
 

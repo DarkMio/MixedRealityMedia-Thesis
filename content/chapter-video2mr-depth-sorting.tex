@@ -45,7 +45,7 @@ alpha matte, which is usually no issue, since these steps are taken after
 rendering is complete, thus causing no unwanted side-effects in regular 
 rendering pipelines. Other post effects need certain projection requirements 
 and / or get discarded through culling, like in Figure 
-\ref{fig:zsort:comparison}e where the volumetric lightning is culled out of the 
+\ref{fig:zsort:comparison}d where the volumetric lightning is culled out of the 
 virtual projection and therefore gets completely ignored by the attached 
 compute shader, resulting in a black, unlit front geometry because the light 
 source is outside of the virtual cameras frustum. \todo{Frustum - Glossary!}
@@ -53,18 +53,29 @@ source is outside of the virtual cameras frustum. \todo{Frustum - Glossary!}
 \begin{figure}[htbp]
 	\caption{A comparison of different composition methods in engine}
 	\label{fig:zsort:comparison}
+	\centering
 	\begin{subfigure}[t]{.45\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{_raw_resources/composition/Composition-Perfect-Realigned.png}
-		\caption{The proposed composition, simulated, with an arbitrary depth 
-		of the video feed}
+		\includegraphics[width=\textwidth]{_raw_resources/composition/Composition-Chroma-Result.png}
+		\caption{The chroma keying result}
 	\end{subfigure}
 	\begin{subfigure}[t]{.45\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{_raw_resources/composition/Composition-Full-Render.png}
 		\caption{The full length rendering}
 	\end{subfigure}
-	\newline
+	\begin{subfigure}[t]{.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{_raw_resources/composition/Composition-Perfect-Realigned.png}
+		\caption{The proposed composition, simulated, with an arbitrary depth 
+			of the video feed}
+	\end{subfigure}
+	\begin{subfigure}[t]{.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{_raw_resources/composition/Composition-Front.png}
+		\caption{The virtual projection of the front camera - volumetric 
+			lightning does not work due to the short projection length}
+		\end{subfigure}
 	\begin{subfigure}[t]{.45\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{_raw_resources/composition/Composition-Front-Replace_orso.png}
@@ -76,18 +87,6 @@ source is outside of the virtual cameras frustum. \todo{Frustum - Glossary!}
 		\includegraphics[width=\textwidth]{_raw_resources/composition/Composition-Front-Mask.png}
 		\caption{A composition with the front geometry as mask, and then a 
 		mixing of the video and a full length render}
-	\end{subfigure}
-	\newline
-	\begin{subfigure}[t]{.45\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{_raw_resources/composition/Composition-Front.png}
-		\caption{The virtual projection of the front camera - volumetric 
-		lightning does not work due to the short projection length}
-	\end{subfigure}
-	\begin{subfigure}[t]{.45\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{_raw_resources/composition/Composition-Chroma-Result.png}
-		\caption{The chroma keying result}
 	\end{subfigure}
 \end{figure}
 

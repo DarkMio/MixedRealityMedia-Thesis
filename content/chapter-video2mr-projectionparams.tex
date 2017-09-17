@@ -34,19 +34,19 @@ discussed earlier, with $C$ as camera position and $H$ as HMD position:
 	\label{fig:projection:distance}
 \end{figure}
 
-Another important projection parameter is field of view. Most production 
-cameras only declare a focal length on lenses - which makes sense in that 
-context, since field of view is a constraint between sensor size and focal 
+Another important projection parameter is horizontal field of view. Most 
+production cameras only declare a focal length on lenses - which makes sense in 
+that context, since field of view is a constraint between sensor size and focal 
 length, varying from camera object to another. Through the specification sheet 
 of the camera the current field of view can be calculated inside Unity, with 
 the sensor height as $S_h = 17.3mm$ and focal length as $F_l = 14mm$:
 
 \eq{eq:zsort:fov}{
-	FoV = 2*tan^{-1}\frac{S_h}{2 * F_l}
+	FoV_H = 2*tan^{-1}\frac{S_h}{2 * F_l}
 }
 
 \eq{eq:zsort:fov:result}{
-	FoV = 63.42028^\circ
+	FoV_H = 63.42028^\circ
 }
 
 With that we have now all projection parameters reconstructed for the virtual 
