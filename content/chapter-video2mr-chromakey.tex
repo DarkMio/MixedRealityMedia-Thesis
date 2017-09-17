@@ -174,8 +174,8 @@ where:
 \eq{chroma:inverseRGBcompanding}{
 	v = \\
 	\begin{cases}
-		V / 12.92                   & \quad \text{if } V \leq 0.0405 \\
-		((V + 0.055) / 1.055)^{2.4} & \quad \text{otherwise}
+		\frac{V}{12.92}                 & \quad \text{if } V \leq 0.0405 \\
+		(\frac{V + 0.055}{1.055})^{2.4} & \quad \text{otherwise}
 	\end{cases}
 }
 
@@ -360,7 +360,7 @@ the values are normalized again:
 	\end{subfigure}
 	\begin{subfigure}[t]{.3\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{_raw_resources/Comparison_RGB_color.png}
+		\includegraphics[width=\textwidth]{gfx/distances/zoom-rgb.png}
 	\end{subfigure}
 	\begin{subfigure}[t]{.65\textwidth}
 		\centering
@@ -369,7 +369,7 @@ the values are normalized again:
 	\end{subfigure}
 	\begin{subfigure}[t]{.3\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{_raw_resources/Comparison_YCgCo_color.png}
+		\includegraphics[width=\textwidth]{gfx/distances/zoom-ycgco.png}
 	\end{subfigure}
 	\begin{subfigure}[t]{.65\textwidth}
 		\centering
@@ -378,7 +378,7 @@ the values are normalized again:
 	\end{subfigure}
 	\begin{subfigure}[t]{.3\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{_raw_resources/Comparison_DeltaE_color.png}
+		\includegraphics[width=\textwidth]{gfx/distances/zoom-delta_e.png}
 	\end{subfigure}
 	\begin{subfigure}[t]{\textwidth}
 		\centering
