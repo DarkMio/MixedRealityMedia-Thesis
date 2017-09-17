@@ -52,15 +52,17 @@ latter solution is computationally intense and not suitable for runtime
 applications. \cite{disney:unmixing:2017}
 \newline
 Green boxes also abuse a correlating advantage that the human eye is most 
-susceptible to green (cf. figure \ref{fig:greenscreen:stimula} b), allowing for 
+susceptible to green (cf. figure \ref{fig:greenscreen:stimula}b), allowing for 
 a visual high color range and an ability to differentiate between many shades of
 green. Experiments on color range have been done since 1942, trying to 
 understand gambit ranges and color differentiation of human vision (figure 
-\ref{fig:greenscreen:stimula} a). These experiments concluded that eye cone 
+\ref{fig:greenscreen:stimula}a). These experiments concluded that eye cone 
 cells see a blending range of wavelengths at different intensities, giving the 
 green vector space its highest perceptible range. \cite{MacAdam:1942}
 
 \begin{figure}[htbp]
+	\caption{Previous color reception research}
+	\label{fig:greenscreen:stimula}	
 	\centering
 	\begin{subfigure}[t]{.35\textwidth}
 		\centering
@@ -72,11 +74,9 @@ green vector space its highest perceptible range. \cite{MacAdam:1942}
 		\centering
 		\includegraphics[width=\textwidth]{_external/media/1280px-Cones_SMJ2_E.png}
 		\caption{Normalized responsivity spectra of human cone cells, S, M, and 
-		L types after Wyszecki et. al \cite{wiki:Wyszecki:2017}}. Notice the 
-		overlap between M and L cones.
+		L types after Wyszecki et. al \cite{wiki:Wyszecki:2017}. Notice the 
+		overlap between M and L cones.}
 	\end{subfigure}
-	\caption{Since I have no caption, I wont reference}
-	\label{fig:greenscreen:stimula}	
 \end{figure}
 Most consumer cameras - and even most production cameras - use dot-matrix 
 sensors with a weighted ration of green (4), red (2) and blue (2) pixels, 
@@ -161,63 +161,62 @@ compositing it on another system.
 
 \subsection{Evolution of Virtual Reality Footage}
 
-Originally, VR footage consisted of the output that was sent to the headset, 
-including image transformation that needs to be done to correct the headset 
-lenses \footnote{this is referred to as "Barrel Distortion"} - this distorted 
-dual image is very hard to follow, as it adds two ambiguous images and also has 
-a high distortion. Since the direct feed to an HMD is used, any 
-translation of the headset's position is visible, which results in a jittery 
-and unnatural looking motion feed.
+Originally, VR footage consisted of the output that was sent to the headset 
+(fig. \ref{fig:evolution:steps}a), including image transformation that needs to 
+be done to correct the headset lenses\footnote{this is referred to as "Barrel 
+Distortion"} - this distorted dual image is very hard to follow, as it adds two 
+ambiguous images and also has a high distortion. Since the direct feed to an 
+HMD is used, any translation of the headset's position is visible, which 
+results in a jittery and unnatural looking motion feed.
 
 \begin{figure}[htbp]
+	\caption{Evolution of VR presentations over the recent years}
+	\label{fig:evolution:steps}
+	\centering
 	\begin{subfigure}[t]{.45\textwidth}
-		\centering
 		\includegraphics[width=\textwidth]{gfx/evolution/torque3d-bdist.png}
 		\caption{Distorted direct dual output to a Oculus 
 		DK1\cite{wyand:torqu3d:2013}.}
 	\end{subfigure}
 	\begin{subfigure}[t]{.45\textwidth}
-		\centering
 		\includegraphics[width=\textwidth]{gfx/evolution/owlch-car.png}
 		\caption{A first person, single screen output is an improvement, but is 
 			hard to follow in motion.}
 	\end{subfigure}
-	\newline
 	\begin{subfigure}[t]{.45\textwidth}
-		\centering
 		\includegraphics[width=\textwidth]{gfx/evolution/cctv.png}
 		\caption{"Rick and Morty: Virtual Rick-Ality" allows outside observers 
 			to control mounted CCTV cameras to observe the actors interaction.}
 	\end{subfigure}
 	\begin{subfigure}[t]{.45\textwidth}
-		\centering
 		\includegraphics[width=\textwidth]{gfx/evolution/mr-action.png}
 		\caption{Recontextualizing the VR actor with the virtual environment 
 		makes usage context simpler to understand and easier to follow as 
 		observer.}
 	\end{subfigure}
-	\caption{Evolution of VR presentations over the recent years}
-	\label{fig:evolution:steps}
 \end{figure}
 
 A next step was to render one eye in fullscreen of the attached monitor and do 
-all image transformations (mainly crop and distort) after rendering it, 
-allowing bystanders to get a clear first-person image of the actor's 
-experience. Additionally, as a secondary camera, a dampened movement can be set 
-to mitigate jittery motion. As previously pointed out, this works but sometimes 
-loses interaction context, especially when no hands are visible. 
+all image transformations (mainly crop and distort) after rendering it (fig. 
+\ref{fig:evolution:steps}b), allowing bystanders to get a clear first-person 
+image of the actor's experience. Additionally, as a secondary camera, a 
+dampened movement can be set to mitigate jittery motion. As previously pointed 
+out, this works but sometimes loses interaction context, especially when no 
+hands are visible. 
 \newline
 Then there is currently only one game, Rick and Morty: Virtual Rick-ality, that 
-has an optional CCTV feature enabled, in which third persons can control a 
-variety of mounted, virtual cameras and follow the actors interaction with the 
-3D environment. This VR actor is then replaced with an avatar to visualize what 
-how he is interacting with the scenery.
+has an optional CCTV feature enabled (fig. \ref{fig:evolution:steps}c), in 
+which third persons can control a variety of mounted, virtual cameras and 
+follow the actors interaction with the 3D environment. This VR actor is then 
+replaced with an avatar to visualize what how he is interacting with the 
+scenery.
 \newline
 Finally, there is mixed reality, where the VR actor is placed in context of 
-the virtual reality scene. This has been done previously by post-production for 
-trailers and allows for a better understanding between virtual interaction and 
-real-actor motion. With its help it is possible to invite third-person viewers 
-into the VR experience in a natural way.
+the virtual reality scene (fig. \ref{fig:evolution:steps}d). This has been done 
+previously by post-production for trailers and allows for a better 
+understanding between virtual interaction and real-actor motion. With its help 
+it is possible to invite third-person viewers into the VR experience in a 
+natural way.
 
 \section{Mixed Reality and its Use Cases}
 

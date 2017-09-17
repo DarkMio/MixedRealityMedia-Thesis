@@ -3,12 +3,16 @@
 %
 \chapter{Evaluation \& Conclusion}
 
-Tar tar ta taaaa - this is the results section.
-
-\todo{No, really, this needs actual text.}
+This mixed reality pipeline is capable of not only integrating the VR actor 
+into the environment, but enhancing the motion video feed with additional 
+parameters gathered from the engine, like lightning informations and stencils 
+for the camera image (fig. \ref{fig:eval:results}). With that it is now 
+possible to have an immersive view into a virtual environment and recording 
+footage with a broad amount of hardware. Following section with empathize some 
+considerations and possible variations with this system.
 
 \begin{figure}[htbp]
-	\caption{System Setup}
+	\caption{Results}
 	\label{fig:eval:results}
 	\centering
 	\begin{subfigure}[t]{\textwidth}
@@ -190,7 +194,7 @@ screens are used in video production. First and foremost is a partial
 transparent actor if his clothing consists of similarly green shaded material.
 \newline
 Additional green screen spill causes artifacts while pulling the matte which 
-then clips the actor off (fig. \ref{fig:issue:blur} a). This can be mitigated 
+then clips the actor off (fig. \ref{fig:issue:blur}a). This can be mitigated 
 by better production 
 environments, i. e. with higher quality cloth and a generally well lit 
 set\footnote{Appendix \ref{app:lightningsetup} features a basic schematic of a 
@@ -206,7 +210,7 @@ effort by the number of colors.
 \newline
 Lastly, real time chroma keying has problems with motion blur of the source 
 video material - causing background mixing and invalid matting (fig. 
-\ref{fig:issue:blur} b). This is a complex problem that is far beyond the scope 
+\ref{fig:issue:blur}b). This is a complex problem that is far beyond the scope 
 of this thesis. One of the best solutions is a color unmixing approach 
 researched by Disney and "typically requires 10s for local color estimation 
 (assuming 8 dominant colors), another second to propagate the local color model 
@@ -239,18 +243,14 @@ specifications for their output feeds, where, for example, scaling factors
 could change the field of view angle. If these are not given or seem to be 
 unfitting in production it is necessary to measure these parameters by hand, 
 fixing the cameras position and calculating the spanning angle.
-\todo{maybe add the ez calculation, too}
+
 Another factor are offset-parameters between controllers and camera sensor, 
 which have been minimized by the 3D printed attachment. However, minimal 
 differences in this transformation matrix have tremendous impact on 
 miscalculated projections, visible by wrongly placed objects and a disconnect 
 between virtual interaction and actor.
-\todo{Here comes a graphical representation of it}
+
 Lastly, the most time spent after adding all mixed reality components to the 
-scene is calibrating these parameters. A possible improvement could be done by 
-fixing the cameras position, showing an overlay on the camera, where the 
-secondary controller has to be placed and confirming it. This way the user can 
-calibrate all projection parameters by himself with the help of a RANSAC / 
-Lagrange Polynomial.
-\todo[inline]{find out how this calibration is called: 
-https://www.youtube.com/watch?v=c\_An0vxvPnk}
+scene is calibrating these parameters. There is a possible room of improvement 
+by researching different calibration methods, since one controller can be 
+guided by the user inside the frustum of the real world camera.

@@ -1,6 +1,7 @@
 % !TeX spellcheck = en_US
 % !TEX root = ../thesis-example.tex
 %
+\newpage
 \section{Mitigating Frame Jitter}
 \label{sec:framejitter}
 
@@ -15,7 +16,7 @@ motion, which are instantly translated to the transform matrix on the virtual
 camera rig and then yield minor motion of the 3D environment projection. 
 Visually this shows in a shaking virtual world while the real world video 
 stands still.
-\newline
+
 To minimize the effect, it is possible to overwrite \code{Render Textures} for 
 as long as one duration of a video frame and then forward swapping out these 
 buffers. The headset recommends to run it at 90fps and mistiming is no 
@@ -36,5 +37,3 @@ transformation matrix.
 		written into.}
 	\label{fig:offsets:framesquashing}
 \end{figure}
-
-\todo[inline]{needs then lstlisting when the code further up is modified}

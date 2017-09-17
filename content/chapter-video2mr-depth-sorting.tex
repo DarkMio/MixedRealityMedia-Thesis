@@ -8,16 +8,10 @@ actor and the 3D environment. To increase the immersion of that composition the
 next important step is to sort the scene on a tri-graph of planes with a fore- 
 and background - in between are frames from the motion video feed.
 
-\begin{figure}[htb]
+\begin{figure}[h]
 	\includegraphics[width=\textwidth]{_raw_resources/pipeline_steps/4_5_composition.pdf}
 	\caption{Current steps taken through the graphics pipeline}
 	\label{fig:steps:composition}
-\end{figure}
-
-\begin{figure}[htb]
-	\includegraphics[width=\textwidth]{gfx/tri-graph.png}
-	\caption{A sketch of the video composition with three layers of projection}
-	\label{fig:zsort:sketch}
 \end{figure}
 
 There are multiple ways to achieve proper segmentation and composition of all 
@@ -37,7 +31,12 @@ visual artists decide between two render modes:
 	background. The resulting image has inconsistencies with alpha-blending but 
 	this method works with all rendering setups.
 \end{my_list}
-\todo{Needs an example of that behavior}
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{gfx/tri-graph.png}
+	\caption{A sketch of the video composition with three layers of projection}
+	\label{fig:zsort:sketch}
+\end{figure}
 
 The decision is between accuracy and presentation. Many post processing effects 
 or deferred shading paths are unable --- or simply do not respect --- the 
@@ -48,7 +47,7 @@ and / or get discarded through culling, like in Figure
 \ref{fig:zsort:comparison}d where the volumetric lightning is culled out of the 
 virtual projection and therefore gets completely ignored by the attached 
 compute shader, resulting in a black, unlit front geometry because the light 
-source is outside of the virtual cameras frustum. \todo{Frustum - Glossary!}
+source is outside of the virtual cameras frustum.
 
 \begin{figure}[htbp]
 	\caption{A comparison of different composition methods in engine}

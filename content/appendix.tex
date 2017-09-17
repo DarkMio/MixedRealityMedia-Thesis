@@ -35,4 +35,43 @@ screen setup after Foster et al. \cite{foster:greenscreen:2010}
 	\label{fig:appendix:gs-setup}
 \end{figure}
 
+\chapter{Double Access Ring Buffer Implementation}
+\label{app:darbi}
+
+The implementation for an efficient double access ring buffer can seen in the 
+following listing:
+
+\begin{lstlisting}[language={[Sharp]C}]
+class DoubleAccessRingBuffer<T> {
+	public int bufferSize;
+	private List<T> buffers;
+	private int index;
+	
+	public DelayedRingBuffer(int bufferSize) {
+		this.bufferSize = bufferSize;
+		index = 0;
+		buffers = new List<long>();
+		RebuildBuffers();
+	}
+		
+	public T[] Next(T writeTo, T display) {
+		index %= buffers.Count;
+		T writeTo = buffers[index];
+		T display = buffers[(index + 1) % buffers.Count];
+		if(bufferSize != buffers.Count) {
+			RebuildBuffers();
+		}
+		index++;
+		return new T[]{writeTo, display};
+	}
+	
+	void RebuildBuffers() {
+		buffers.RemoveAll(_ => true);
+		for(int i = 0; i < bufferSize; i++) {
+			buffers.Add(new T());
+		}
+	}
+}
+\end{lstlisting}
+
 \endgroup

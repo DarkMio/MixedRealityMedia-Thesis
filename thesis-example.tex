@@ -13,7 +13,7 @@
 	listof=totoc,				% include listof entries in toc
 	titlepage=on,				% own page for each title page
 	captions=tableabove,		% display table captions above the float env
-	draft=true, 				% value for draft version
+	draft=false,				% value for draft version
 ]{scrreprt}%
 
 % **************************************************
@@ -160,8 +160,7 @@
 \cleardoublepage
 
 \begin{appendices}
-	\printglossary
-	\cleardoublepage
+	% \printglossary
 	\input{content/appendix}
 \end{appendices}
 
@@ -169,13 +168,13 @@
 % --------------------------
 % Back matter
 % --------------------------
-{%
-\setstretch{1.1}
-\renewcommand{\bibfont}{\normalfont\small}
-\setlength{\biblabelsep}{0pt}
-\setlength{\bibitemsep}{0.5\baselineskip plus 0.5\baselineskip}
-\printbibliography[nottype=online]
-\printbibliography[heading=subbibliography,title={Websites},type=online]
+{
+	\setstretch{1.1}
+	\renewcommand{\bibfont}{\normalfont\small}
+	\setlength{\biblabelsep}{0pt}
+	\setlength{\bibitemsep}{0.5\baselineskip plus 0.5\baselineskip}
+	\printbibliography[nottype=online]
+	\printbibliography[heading=subbibliography,title={Websites},type=online]
 }
 \cleardoublepage
 
@@ -183,9 +182,6 @@
 \cleardoublepage
 
 \input{content/declaration}
-\clearpage
-\newpage
-\mbox{}
 
 % **************************************************
 % End of Document CONTENT

@@ -9,10 +9,10 @@ depth, synchronized in-engine frames with the camera input lag and realigned
 the frame rate between both image generating systems and cut off all overshot 
 pixels that were recorded outside of the green screen.
 
-\begin{figure}[htbp]
-	\includegraphics[width=\textwidth]{gfx/recoloring/self-illu.png}
-	\caption{VR actor illuminates herself with a virtual flashlight}
-	\label{fig:light-reconstruction:actor}
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/pipeline_steps/4_7_lights.pdf}
+	\caption{Following in this pipeline is lights reproduction}
+	\label{fig:steps:lights}
 \end{figure}
 
 A minor last step is light-reproduction, in which an approximate lightning 
@@ -22,10 +22,10 @@ calibrated video signal, it is possible to approximate how a VR actor would
 be lit like if he truly is inside the virtual environment (eg. fig. 
 \ref{fig:light-reconstruction:actor}).
 
-\begin{figure}[htb]
-	\includegraphics[width=\textwidth]{_raw_resources/light-reconstruction/comparison.jpg}
-	\caption{Left: original, Right: reconstruction}
-	\label{fig:light-reconstruction:diff-capture}
+\begin{figure}[htbp]
+	\includegraphics[width=\textwidth]{gfx/recoloring/self-illu.png}
+	\caption{VR actress illuminates herself with a virtual flashlight}
+	\label{fig:light-reconstruction:actor}
 \end{figure}
 
 Ambient light reproduction hinges on two assumptions: An actor's recorded video 
@@ -36,6 +36,12 @@ camera with the same camera projection parameters from section
 \ref{sec:projection-params}. This plane contains a simple lit material with 
 white albedo coloring, which captures the lightning situation at this given 
 point.
+
+\begin{figure}[htb]
+	\includegraphics[width=\textwidth]{_raw_resources/light-reconstruction/comparison.jpg}
+	\caption{Left: original, Right: reconstruction}
+	\label{fig:light-reconstruction:diff-capture}
+\end{figure}
 
 To calculate the position $P_{pos}$ and size $\vec{P_{x, y}}$ with a 
 given forward vector $\vec{C_{forward}}$ and position $C_{pos}$ of the 
@@ -75,9 +81,3 @@ video color $C_V$ and the light plane $C_L$:
 Lastly, a directional light with the same culling mask can be applied, to 
 improve the overall brightness of this light mask to allow for more natural 
 tint than a linear color operation.
-
-\begin{figure}[htb]
-	\includegraphics[width=\textwidth]{_raw_resources/pipeline_steps/4_7_lights.pdf}
-	\caption{Following in this pipeline is lights reproduction}
-	\label{fig:steps:lights}
-\end{figure}
