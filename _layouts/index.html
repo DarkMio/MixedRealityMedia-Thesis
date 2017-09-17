@@ -1,0 +1,34 @@
+<!-- 
+    Thanks for checking out my source. It's chaotic and not maintained. Anyway, have an owl:
+
+         ,_, 
+        (o,o)
+        {`"'}
+        -"-"-
+
+-->
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+{% include head.html %}
+
+<body>
+<div class="layout-transparent mdl-layout mdl-js-layout layout-transparent">
+    <div class="mdl-layout__content">
+        <div class="page-content">
+            <div class="preview-card-wide mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title home" id="card-back">
+                    {% include header.html %}
+                </div>
+
+                <main class="mdl-layout__content mdl-tabs is-upgraded" id="main">
+                    {{ content }}
+
+                    {% include pages.html %}
+                </main>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
