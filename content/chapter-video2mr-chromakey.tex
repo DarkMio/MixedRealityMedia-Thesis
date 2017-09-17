@@ -11,7 +11,7 @@ Inogeni 4KUSB3 converter and is accessible with the systems API for webcams.
 
 \begin{figure}[htb]
 	\centering
-	\includegraphics[width=.7\textwidth]{_raw_resources/pipeline_steps/4_1_chroma.pdf}
+	\includegraphics[width=.7\textwidth]{gfx/pipeline/4_1_chroma.pdf}
 	\caption{Initial step upon receiving the camera image}
 	\label{fig:steps:chroma}
 \end{figure}
@@ -39,7 +39,7 @@ which shows high motion blur due to a low shutter speed of the capturing
 camera and fast movement of the depicted actor:
 
 \begin{figure}[htb]
-	\includegraphics[width=\textwidth]{_raw_resources/Comparison_Example.png}
+	\includegraphics[width=\textwidth]{gfx/distances/example.png}
 	\caption{Comparison Image \cite{vimeo:shia:2015} - sRGB Output}
 	\label{fig:chroma:color}
 \end{figure}
@@ -83,7 +83,7 @@ calculate the euclidean distance between these two color vectors:
 }
 
 \begin{figure}[htb]
-	\includegraphics[width=\textwidth]{_raw_resources/Comparison_RGB_color.png}
+	\includegraphics[width=\textwidth]{gfx/distances/chroma-rgb.png}
 	\caption{Chroma Keying by using euclidean RGB distance}
 	\label{fig:chroma:euclidean:rgb}
 \end{figure}
@@ -108,7 +108,7 @@ and orange to blue color channels and allow for a more accurate distance
 calculation between two colors.
 
 \begin{figure}[htb]
-	\includegraphics[width=\textwidth]{_raw_resources/Comparison_YCgCo_color.png}
+	\includegraphics[width=\textwidth]{gfx/distances/chroma-ycgco.png}
 	\caption{Chroma Keying by using euclidean YCgCo distance}
 	\label{fig:chroma:euclidean:ycgco}
 \end{figure}
@@ -330,12 +330,12 @@ matting hardware, extensive post production or intrinsic frame matting
 algorithms hard to remove without rough image results.
 
 \begin{figure}[htb]
-	\includegraphics[width=\textwidth]{_raw_resources/Comparison_DeltaE_color.png}
+	\includegraphics[width=\textwidth]{gfx/distances/chroma-deltae.png}
 	\caption{Chroma Keying by using $\protect\Delta $E distance}
 	\label{fig:chroma:deltae}
 \end{figure}
 
-\subsection{Comparison between computational models}
+\subsection{Comparison between Computational Models}
 
 To chose the best variant, balancing runtime and efficiency, there has to be a 
 comparison between the presented methods. Again, the previous image will be 

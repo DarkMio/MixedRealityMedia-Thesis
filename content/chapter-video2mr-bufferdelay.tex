@@ -10,7 +10,7 @@ to the pipeline from the capturing device through video converting of the
 Inogeni 4KUSB3 bound to the systems webcam API.
 
 \begin{figure}[htb]
-	\includegraphics[width=\textwidth]{_raw_resources/pipeline_steps/4_2_swapper.pdf}
+	\includegraphics[width=\textwidth]{gfx/pipeline/4_2_swapper.pdf}
 	\caption{The initial step upon receiving the camera image is to adjust the 
 	time drift between engine renderings and video capture}
 	\label{fig:steps:swapper}
@@ -171,7 +171,7 @@ In Unity's case a framebuffer is called \code{\gls{render texture}}. To spare
 memory and bandwidth overhead it is possible to reuse previously allocated 
 \code{RenderTextures} by overwriting the second oldest \code{RenderTexture} and 
 compositing a mixed reality image with the oldest \code{RenderTexture}(see  
-Figure \ref{fig:offsets:framesquashing}).
+figure \ref{fig:offsets:framesquashing}).
 
 \begin{figure}[ht]
 	\centering

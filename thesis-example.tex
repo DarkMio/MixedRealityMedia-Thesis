@@ -92,12 +92,15 @@
 % Glossaries needs to be after hyperref to enable linking.
 \usepackage[toc,acronym]{glossaries} 
 
-\newcommand{\circled}[1]{%
-	\tikz[inner sep=.15ex,baseline=-.55ex] \node[circle,draw] {#1};
-}
-\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
-\definecolor{greencomments}{rgb}{0,0.5,0}
-\definecolor{redstrings}{rgb}{0.9,0,0}
+\makeglossaries
+\input{content/glossary}
+
+% **************************************************
+% Document CONTENT
+% **************************************************
+\begin{document}
+
+% lstlisting setup
 \lstset{language=[Sharp]C,
 	showspaces=false,
 	showtabs=false,
@@ -108,16 +111,9 @@
 	commentstyle=\color{greencomments},
 	keywordstyle=\color{bluekeywords}\bfseries,
 	stringstyle=\color{redstrings},
-	basicstyle=\ttfamily
+	basicstyle=\ttfamily,
+	tabsize=2
 }
-
-\makeglossaries
-\input{content/glossary}
-
-% **************************************************
-% Document CONTENT
-% **************************************************
-\begin{document}
 
 % --------------------------
 % rename document parts
@@ -182,8 +178,4 @@
 \cleardoublepage
 
 \input{content/declaration}
-
-% **************************************************
-% End of Document CONTENT
-% **************************************************
 \end{document}

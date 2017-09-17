@@ -28,8 +28,8 @@ All additional steps previously discussed are invalid, since this render can
 take full advantage of all runtime rendering parameters - which in turn means 
 for lower render overhead and better graphical performance. It fails however on 
 delay mitigation, which makes time drift between engine and camera visible, 
-thus only usable with low latency video capturing devices. (Figure 
-\ref{fig:alt-render:single-camera} for reference)
+thus only usable with low latency video capturing devices (figure 
+\ref{fig:alt-render:single-camera}).
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{gfx/eval/plane-scene.png}
@@ -52,7 +52,7 @@ reprojection of lighting parameters inside the graphics buffer. A snapshot of
 this buffer cannot be stored - which is a limitation of Unity's render pipeline 
 - and is lost after the rendering loop is completed.
 
-\subsection{Composition Workstation (4 patch)}
+\subsection{Composition Workstation}
 
 Lastly, for full video production setups another rendering approach has been 
 suggested, which has been used for the initial promo material for the HTC 
