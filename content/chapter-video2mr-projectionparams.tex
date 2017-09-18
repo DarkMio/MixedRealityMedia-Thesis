@@ -14,7 +14,7 @@ initially unknown variables:
 \end{my_list}
 
 Luckily the former two are solved by the tracking solution and can be used 
-directly as transformation matrix for the virtual casmera - ignoring an 
+directly as transformation matrix for the virtual casmera --- ignoring an 
 additional fixed offset from the actual controller to the camera, which is 
 accounted for inside the software.
 \newline
@@ -35,11 +35,11 @@ discussed earlier, with $C$ as camera position and $H$ as HMD position:
 \end{figure}
 
 Another important projection parameter is horizontal field of view. Most 
-production cameras only declare a focal length on lenses - which makes sense in 
-that context, since field of view is a constraint between sensor size and focal 
-length, varying from camera object to another. Through the specification sheet 
-of the camera the current field of view can be calculated inside Unity, with 
-the sensor height as $S_h = 17.3mm$ and focal length as $F_l = 14mm$:
+production cameras only declare a focal length on lenses ---- which makes sense 
+in that context, since field of view is a constraint between sensor size and 
+focal length, varying from camera object to another. Through the specification 
+sheet of the camera the current field of view can be calculated inside Unity, 
+with the sensor height as $S_h = 17.3mm$ and focal length as $F_l = 14mm$:
 
 \eq{eq:zsort:fov}{
 	FoV_H = 2*tan^{-1}\frac{S_h}{2 * F_l}

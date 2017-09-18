@@ -95,11 +95,12 @@ as complex as needed but in general a DSLR camera will suffice.
 
 While working with this pipeline, some problematic cases were discovered, which 
 generally do not work well with mixed reality. Very cluttered environments can 
-easily have obstructing meshes that clip - partially or completely - through 
-the virtual camera frustum and obstruct 3D projection. Minimizing this issue 
-can be done by either disallowing a user to move the SteamVR bounding box at 
-all, only allow for certain teleporting positions or do permit teleportations 
-altogether that potentially clip through the SteamVR bounding box.
+easily have obstructing meshes that clip --- partially or completely --- 
+through the virtual camera frustum and obstruct 3D projection. Minimizing this 
+issue can be done by either disallowing a user to move the SteamVR bounding box 
+at all, only allow for certain teleporting positions or do permit 
+teleportations altogether that potentially clip through the SteamVR bounding 
+box.
 \newline
 A green screen is crucial for a live performance and recent papers focus only 
 on increased accuracy with unacceptable computation times in this context. Due 
@@ -148,12 +149,12 @@ possible to create more complex scenery, output higher resolution video and
 better frame rates if the video capture device allows for it.
 \newline
 In theory, a low-poly environment could be render-able on mobile, combined with 
-a low-sample rate on the camera image, to produce a "window" into VR for 
+a low sample rate on the camera image, to produce a "window" into VR for 
 multiple users at the same time, thus enabling an indefinite view into virtual 
 reality. This would remove the MR-pipeline from an actor's system. Further work 
 could tap into a Microsoft HoloLens solution, which could enable a direct 
 contextualization of an actor into a VR scenery without a green screen at all. 
-With fast approximate algorithms, like YCgCo-Keying, this could produce a 
+With fast approximate algorithms, like YCgCo-keying, this could produce a 
 high-framerate transparent overlay, so that the virtual scene does not clip the 
 actor.
 
@@ -163,13 +164,13 @@ The proposed method has edge cases which could be further improved by other
 approaches in rendering or capturing actor video. These highlight issues 
 observed with the rendering operations discussed in this thesis.
 
-\subsection{Image Clipping - Incorrect Z Calculation for Hands}
+\subsection{Image Clipping --- Incorrect Z Calculation for Hands}
 
 Due to the planar projection of the real world feed inside the engine, any 
 Z-information of the actor is squashed to a fixed depth. This means that hands 
 are on the same plane. In cases with high z-difference between actor and 
 actor's hands, it is possible that hand motion look unnatural and does not seem 
-like it is to be supposed - in figure \ref{fig:edge:z-clipping} is an actor 
+like it is to be supposed --- in figure \ref{fig:edge:z-clipping} is an actor 
 depicted, whose hands are clearly in front of a virtual cube. The produced 
 mixed reality image shows his arms only behind the cube.
 
@@ -209,7 +210,7 @@ GPU, since the calculation has be done per selected color, multiplying the
 effort by the number of colors.
 \newline
 Lastly, real time chroma keying has problems with motion blur of the source 
-video material - causing background mixing and invalid matting (fig. 
+video material --- causing background mixing and invalid matting (fig. 
 \ref{fig:issue:blur}b). This is a complex problem that is far beyond the scope 
 of this thesis. One of the best solutions is a color unmixing approach 
 researched by Disney and "typically requires 10s for local color estimation 

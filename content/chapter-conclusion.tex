@@ -3,15 +3,15 @@
 %
 \chapter{Outlook}
 
-Motion capturing solution usually support a live preview of the actors motion 
-inside a 3D environment - integrating an actor into a virtual world is not only 
-in interest of VR developers, but motion video productions, too. Mixed Reality 
-is an increasingly important topic for VR experiences. The number of MR-enabled 
-or MR-captured software is increasing, likely due to the natural way of 
-producing video material and easily understandable usage context of that 
+Motion capturing solutions usually support a live preview of the actors motion 
+inside a 3D environment --- integrating an actor into a virtual world is not 
+only in interest of VR developers, but motion video productions, too. Mixed 
+Reality is an increasingly important topic for VR experiences. The number of 
+MR-enabled or MR-captured software is increasing, likely due to the natural way 
+of producing video material and easily understandable usage context of that 
 software. Since stereo-rendering already requires the GPU to do multiple 
 context switches per frame, future hardware will probably improve on that 
-matter, enabling better performance for a complex Mixed Reality pipelines.
+matter, enabling better performance for complex Mixed Reality pipelines.
 
 \section{Rendering Setup Variations}
 
@@ -19,13 +19,13 @@ There are a few approaches that work similarly, but differ with respect to
 complexity, their capabilities and hardware requirements. They have been 
 already explored by producing companies and are covered here for completeness.
 
-\subsection{Single Camera - 3D Plane in Space}
+\subsection{Single Camera --- 3D Plane in Space}
 
 A novel approach is rendering the camera image onto a 2D plane positioned 
 inside the 3D scene. This gives high control over projection parameters inside 
 the engine without a running software and has good visual feedback for artists. 
 All additional steps previously discussed are invalid, since this render can 
-take full advantage of all runtime rendering parameters - which in turn means 
+take full advantage of all runtime rendering parameters --- which in turn means 
 for lower render overhead and better graphical performance. It fails however on 
 delay mitigation, which makes time drift between engine and camera visible, 
 thus only usable with low latency video capturing devices (figure 
@@ -41,7 +41,7 @@ thus only usable with low latency video capturing devices (figure
 
 Similarly to the single camera approach, a deferred shader could be used, in 
 which the plane is projected and texturized after the scene has rendered and 
-the graphics buffer is still present - this way the total time taken for 
+the graphics buffer is still present --- this way the total time taken for 
 rendering can be calculated and the chroma keying step can be chosen for a 
 faster variant if needed. This gives generally better control and could yield 
 higher performance, since all projected fragments have an assigned depth - the 
@@ -49,8 +49,8 @@ camera image only has to be calculated where the actor's depth is smaller than
 the scenery's depth. This method is also lacking a way of adjusting for time 
 drift. Additionally, calculating lightning is relatively expensive, due to the 
 reprojection of lighting parameters inside the graphics buffer. A snapshot of 
-this buffer cannot be stored - which is a limitation of Unity's render pipeline 
-- and is lost after the rendering loop is completed.
+this buffer cannot be stored --- which is a limitation of Unity's render 
+pipeline -- and is lost after the rendering loop is completed.
 
 \subsection{Composition Workstation}
 
@@ -91,8 +91,8 @@ background-sorting and only rendering a virtual "front", by which a high
 quality augmented camera system can be achieved. Since time drift between 
 camera and engine is already handled, it is possible to render an augmented 
 image. Since depth information is lost, it is not possible to handle 
-obstructions - for example by an interacting user that is standing in front of 
-the augmented object. However, with some composition and choreography, AR 
+obstructions --- for example by an interacting user that is standing in front 
+of the augmented object. However, with some composition and choreography, AR 
 footage can be showed and captured in live production for further use. A 
 reference plane has to be used, either by a Vive Tracker\footnote{like a 
 controller} or with feature markers.

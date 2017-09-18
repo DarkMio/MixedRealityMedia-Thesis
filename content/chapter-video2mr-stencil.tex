@@ -58,7 +58,7 @@ parameters in \ref{sec:projection-params} this virtual camera receives a
 dedicated culling mask which only contains all green box projection planes. All 
 other cameras ignore this layer and are therefore invisible for any composing 
 camera. After each drawn frame, Unity is able to clear the frame buffer with an 
-alpha color as 0 - all remaining fragments from the green box write any color 
+alpha color as 0 --- all remaining fragments from the green box write any color 
 with an alpha as 1; the color compartment is discarded and will not be used 
 further. This creates a lookup texture where an alpha-mask is rendered which 
 will be transferred to the video feeds alpha (see figure 

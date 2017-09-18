@@ -63,15 +63,15 @@ seeing noticeable in any motion video as shown in figure
 To mitigate this offset there are two options:
 
 \begin{my_list}
-	\item Change the camera setup - for example a direct webcam, which 
-	usually has a lower input latency, ranging between 5 - 250ms. That would 
+	\item Change the camera setup --- for example a direct webcam, which 
+	usually has a lower input latency, ranging between 5 -- 250ms. That would 
 	degrade the image quality significantly but would enable better rendering 
 	conditions inside the engine.
 	\item Capture virtual images of the 3D environment and keep them on the GPU 
-	until a real world video frame is loaded onto the GPU for usage - assuming 
-	that the time drift is constant. This keeps the image quality but needs 
-	significant effort to reproduce the rendering conditions at the engine time 
-	when a video frame was taken.
+	until a real world video frame is loaded onto the GPU for usage --- 
+	assuming that the time drift is constant. This keeps the image quality but 
+	needs significant effort to reproduce the rendering conditions at the 
+	engine time when a video frame was taken.
 \end{my_list}
 
 The proposed solution for this thesis uses the secondary option, since it is 
@@ -138,8 +138,8 @@ environment, thus realigning the observed time drift between the engine and
 captured video frames.
 
 Noteworthy is that the render loop can be 45 or 90 fps, depending on scene 
-complexity, overall system performance or - especially in case of Unitys 
-outdated C\# version - garbage collection, that could halt the engine for a 
+complexity, overall system performance or --- especially in case of Unitys 
+outdated C\# version --- garbage collection, that could halt the engine for a 
 significant amount of time. To account for this, a strategy is needed in which 
 Unity's \code{Time.deltaTime} property is used, which describes the time 
 between last and current frame, allowing for accurate timing how framebuffers 

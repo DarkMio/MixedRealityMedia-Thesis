@@ -4,8 +4,7 @@
 \section{Chroma Key}
 \label{sec:chromakey}
 
-Beginning from a real-
-world camera, the video signal travels through the 
+Beginning from a real-world camera, the video signal travels through the 
 Inogeni 4KUSB3 converter and is accessible with the systems API for webcams. 
 (See figure \ref{fig:system-components})
 
@@ -20,7 +19,7 @@ The initial step is to remove the green (or blue) background from the image,
 which should be live footage of a green (or blue) box. Other literature usually 
 refers to it as "pulling a video matte" or "chroma keying." For a reference 
 green, there has to be a color picked manually in the material editor of Unity 
-- this was made by a checkbox to show raw output from the camera (eg. fig. 
+--- this was made by a checkbox to show raw output from the camera (eg. fig. 
 \ref{fig:chroma:editor}). Then an average green from the background box can be 
 picked. This is an important setup step, since lightning situations can vary 
 greatly and minor differences in light setups can have a great effect on the 
@@ -40,7 +39,7 @@ camera and fast movement of the depicted actor:
 
 \begin{figure}[htb]
 	\includegraphics[width=\textwidth]{gfx/distances/example.png}
-	\caption{Comparison Image \cite{vimeo:shia:2015} - sRGB Output}
+	\caption{Comparison Image \cite{vimeo:shia:2015} --- sRGB Output}
 	\label{fig:chroma:color}
 \end{figure}
 
@@ -48,10 +47,10 @@ camera and fast movement of the depicted actor:
 
 Each RGB color can be represented as a discrete 3-Vector of (red, green and 
 blue)  values in range of $[0, 1]$\footnote{Software RGBA color representations 
-usually take 8bit per color channel and map between $[0, 255]$ - graphic 
+usually take 8bit per color channel and map between $[0, 255]$ --- graphic 
 computing usually maps between $[0, 1]$}. An interpolation between two colors 
 can be summarized as a matting equation as follows, where a foreground image 
-$C_F$ and a background image $C_B$ - $\alpha_B$ is assumed to be $1$:
+$C_F$ and a background image $C_B - \alpha_B$ is assumed to be $1$:
 
 \eq{eq:chroma:assumption:alpha:1}{
 	I_{x, y} = \alpha_{x, y} C_{F_{x, y}} + (1 - \alpha_{x, y}) C_{B_{x, y}}
@@ -114,7 +113,7 @@ calculation between two colors.
 \end{figure}
 
 Transforming any RGB color to YCgCo can be done with a single matrix  
-multiplication, which is - again - a very low-cost computation on a GPU:
+multiplication, which is --- again --- a very low-cost computation on a GPU:
 
 \eq{eq:ycgco:transformation}{
 	\begin{bmatrix}

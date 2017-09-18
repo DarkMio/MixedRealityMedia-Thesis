@@ -24,7 +24,7 @@ issue either, since it results in non-noticeable errors in virtual projections
 while the displayed frame is stable, thus visual performance of the 
 presentation device is unaffected. It is possible to write less than three 
 times into a \code{Render Textures}, which is mitigated again by displaying the 
-final result later - the composed image is therefore unaffected besides 
+final result later --- the composed image is therefore unaffected besides 
 imperceptible differences between the real world camera and its virtual 
 transformation matrix.
 
@@ -33,7 +33,6 @@ transformation matrix.
 	\includegraphics[width=\textwidth]{gfx/Delay_Mitigation.pdf}
 	\caption{Workflow of the render swapper, in which rendered frames will be 
 		overwritten as long as it is needed - and then another frame buffer 
-		will be 
-		written into.}
+		will be written into.}
 	\label{fig:offsets:framesquashing}
 \end{figure}

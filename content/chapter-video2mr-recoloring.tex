@@ -21,10 +21,10 @@ pipeline.
 
 \subsection{Color Spill Removal \& Recoloring}
 
-The green box as background spills - so to say - its green color on the actor 
-to a certain degree. With proper lightning setups\footnote{A example setup can 
-be found in the Appendix \ref{app:lightningsetup}} it is possible to mitigate 
-this effect but color retouching is in almost all cases a necessity. 
+The green box as background spills --- so to say --- its green color on the 
+actor to a certain degree. With proper lightning setups\footnote{A example 
+setup can be found in the Appendix \ref{app:lightningsetup}} it is possible to 
+mitigate this effect but color retouching is in almost all cases a necessity. 
 \textbf{YCgCo} is, again, good enough to perform this color operation, thanks 
 to its color decoupling properties and a green chrominance channel. By 
 splitting a RGB image into YCgCo $C_{Input}$ (see equation 
@@ -51,15 +51,16 @@ color of a given key color $C_{Key}$ for a factor weight $W \in [0, 1]$:
 }
 
 Since this is a linear operation, it does not consider more apparent color 
-spill around an actor's edges - it slightly removes a green undertone to make 
+spill around an actor's edges --- it slightly removes a green undertone to make 
 the video image look more natural and fitting into a scene.
 
 Additionally, we can apply a hue color rotation by using Rodrigues' rotation 
 formula to make changes to the overall tint of an 
 image\cite{shagam:hsv-rotation}. With that we can achieve a more natural 
 looking video feed that integrates well into any given scene. Allowing for 
-color-shifting degrades the signal but allows - if needed - for a more fitting 
-composition between an actor and his surrounding virtual reality scenery.
+color-shifting degrades the signal but allows --- if needed --- for a more 
+fitting composition between an actor and his surrounding virtual reality 
+scenery.
 
 \subsection{Brightness, Contrast and Saturation}
 
