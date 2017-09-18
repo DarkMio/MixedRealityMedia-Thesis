@@ -16,6 +16,11 @@ th, td {
     text-align: left !important;
 }
 
+video {
+    width: 100%;
+    margin: 10px 0;
+}
+
 .link-like {
     color: #ff4081;
     font-weight: 500;

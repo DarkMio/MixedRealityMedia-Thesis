@@ -1,8 +1,8 @@
-title: P5 Guide theme
-author: Mio Bambino
-description: Custom template for a persona 5 website.
-baseurl: "/MixedRealityMedia-Thesis" # the subpath of your site, e.g. /blog
-url: "https://miosblog.de" # the base hostname & protocol for your site, e.g. http://example.com
+title: Mixed Reality Media Thesis
+author: Martin Zier
+description: This is the website to the Mixed Reality Media Thesis written by Martin Zier
+baseurl: "/MixedRealityMedia-Thesis"
+url: "https://miosblog.de"
 lang: en
 timezone: UTC
 exclude:

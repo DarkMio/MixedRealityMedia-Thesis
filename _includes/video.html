@@ -1,0 +1,6 @@
+{% if include.video != null %}
+{% assign vid = include.video %}
+<video preload="metadata" controls>
+    <source src="assets/videos/{{ vid }}" type="video/mp4">
+</video>
+{% endif %}
