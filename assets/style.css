@@ -16,9 +16,17 @@ th, td {
     text-align: left !important;
 }
 
+hr {
+    margin: 1px 10px;
+}
+
 video {
     width: 100%;
-    margin: 10px 0;
+}
+
+.full-width {
+    width: 95%;
+    margin: 10px;
 }
 
 .link-like {
@@ -133,6 +141,22 @@ video {
 
 .mdl-card__supporting-text {
     width: auto;
+}
+
+.video > .mdl-card__supporting-text {
+    padding: 0 16px;
+}
+
+.video > .mdl-card__title {
+    padding: 10px;
+}
+
+.video * .mdl-card__title-text {
+    text-shadow: none;
+}
+
+.video > .description {
+    padding: 20px;
 }
 
 .mdl-layout__header {

@@ -12,4 +12,6 @@ multiple video techniques and parameters from the virtual environment.
 This allows for example the recreation of light conditions from the virtual 
 scenery and creates an immersive and inviting view into the virtual scenery.
 
-{% include video.html video='action_new.mp4' %}
+- PDF Version: [MixedRealityMedia-Thesis.pdf (75.4mb)](./assets/mmr-thesis.pdf)
+
+{% include video.html video='action_new.mp4' title="Preview" %}

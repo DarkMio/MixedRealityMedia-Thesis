@@ -1,6 +1,21 @@
 {% if include.video != null %}
 {% assign vid = include.video %}
-<video preload="metadata" controls>
-    <source src="assets/videos/{{ vid }}" type="video/mp4">
-</video>
+<div class="demo-card-image mdl-card mdl-shadow--2dp full-width video">
+    {% if include.title != null %}
+    <div class="mdl-card__title mdl-card--expand">
+            <h2 class="mdl-card__title-text noshadow">
+                {{ include.title }}
+            </h2>
+    </div>
+    {% endif %}
+    {% if include.title != null and include.description != null %}
+    <hr />
+    {% endif %}
+    {% if include.description != null %}
+    <div class="mdl-card__supporting-text description">
+        {{ include.description }}        
+    </div>
+    {% endif %}
+    <video preload="metadata" controls src="./assets/videos/{{ vid }}" type="video/mp4"></video>
+</div>
 {% endif %}
